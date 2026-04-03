@@ -1,91 +1,40 @@
 # Company Skills
 
-A plugin that gives Claude Code a "mini team of agents" for your daily, weekly, and as-needed workflows. Works for any company — tech, CPG, services, creative, you name it.
+A Claude Code plugin that gives you a "mini team of agents" for daily, weekly, and as-needed workflows. Works for any company — tech, CPG, services, creative, you name it.
 
-## Quick Start
+## Installation
 
-**Option 1: Clone and install (recommended)**
 ```bash
-# Clone to your Claude skills directory
-git clone https://github.com/opensesh/company-skills.git ~/.claude/skills/company-skills
+# 1. Clone the repo
+git clone https://github.com/opensesh/company-skills.git ~/company-skills
 
-# Start Claude Code and run the onboarding
+# 2. Add it as a Claude plugin
+claude plugin add ~/company-skills
+
+# 3. Run the onboarding (takes ~2 minutes)
 /install-skills
 ```
 
-**Option 2: If you already have it cloned**
-```bash
-# Just run the onboarding command
-/install-skills
-```
-
-The onboarding interview takes about 2 minutes and sets up your personalized config.
+The onboarding interview personalizes everything based on your tools and workflow preferences.
 
 ---
 
 ## What You Get
 
-### Commands (User-Invoked Workflows)
+### Commands (User-Invoked)
 
-| Category | Command | What It Does |
-|----------|---------|--------------|
-| **Daily** | `/daily-brief` | Morning overview of calendar, tasks, and priorities |
-| **Daily** | `/weekly-recap` | End-of-week reflection and next-week planning |
-| **Meetings** | `/meeting-brief` | Create focused agendas through guided questions |
-| **Meetings** | `/meeting-recap` | Document meetings with action items and owners |
-| **Thinking** | `/devils-advocate` | Challenge assumptions, red-team your thinking |
-| **Thinking** | `/pre-mortem` | "Imagine this failed—why?" analysis |
-| **Content** | `/social-post` | Guided content for LinkedIn, Instagram, Substack |
-| **Content** | `/case-study` | Generate case study drafts from project data |
-| **Research** | `/site-analysis` | Analyze websites for architecture, design, SEO |
-
-### Skills (Auto-Activating Expertise)
-
-| Category | Skill | When It Activates |
-|----------|-------|-------------------|
-| **Brand** | `brand-voice` | When writing content that needs brand tone |
-| **Design** | `design-feedback` | When reviewing visual designs |
-| **Design** | `frontend-design` | When building UI components |
-| **Development** | `verification-before-completion` | Before claiming work is done |
-| **Development** | `systematic-debugging` | When diagnosing issues |
-
----
-
-## Repository Structure
-
-```
-company-skills/
-├── installer/                     # Onboarding system
-│   ├── install-skills.md          # Main /install-skills command
-│   ├── interview-flow.md          # Question orchestration
-│   └── mcp-setup/                 # MCP education & guides
-│       ├── mcp-education.md       # "What is MCP?" explained simply
-│       ├── recommended-mcps.md    # Curated starter list
-│       └── add-mcp-guide.md       # How to add any MCP
-├── commands/
-│   ├── daily/                     # Daily productivity
-│   ├── thinking/                  # Critical thinking tools
-│   ├── meetings/                  # Meeting workflows
-│   ├── content/                   # Content creation
-│   ├── creative/                  # Creative research
-│   └── maintenance/               # Help & config commands
-├── skills/                        # Auto-activating expertise
-│   ├── brand/
-│   ├── design/
-│   ├── development/
-│   └── operations/
-└── templates/                     # Templates for new skills
-```
-
----
-
-## After Installation
-
-Your personalized config is stored at `~/.claude/skills-config.yaml`. It contains:
-
-- **Tools you use** — Calendar, Notion, Slack, etc.
-- **Connected MCPs** — What's integrated and what it can do
-- **Workflow preferences** — Daily, weekly, or as-needed cadence
+| Command | What It Does |
+|---------|--------------|
+| `/daily-brief` | Morning overview of calendar, tasks, and priorities |
+| `/weekly-recap` | End-of-week reflection and next-week planning |
+| `/meeting-brief` | Create focused agendas through guided questions |
+| `/meeting-recap` | Document meetings with action items and owners |
+| `/devils-advocate` | Challenge assumptions, red-team your thinking |
+| `/pre-mortem` | "Imagine this failed—why?" analysis |
+| `/social-post` | Guided content for LinkedIn, Instagram, Substack |
+| `/case-study` | Generate case study drafts from project data |
+| `/site-analysis` | Analyze websites for architecture, design, SEO |
+| `/kickoff-prep` | Generate project kickoff materials |
 
 ### Maintenance Commands
 
@@ -94,6 +43,19 @@ Your personalized config is stored at `~/.claude/skills-config.yaml`. It contain
 | `/skills-help` | See all available commands and skills |
 | `/add-tool` | Connect a new MCP with guided setup |
 | `/customize` | Update your preferences |
+
+### Skills (Auto-Activating)
+
+Skills activate automatically when relevant:
+
+| Skill | When It Activates |
+|-------|-------------------|
+| `brand-voice` | Writing content that needs brand tone |
+| `design-feedback` | Reviewing visual designs |
+| `frontend-design` | Building UI components |
+| `verification-before-completion` | Before claiming work is done |
+| `systematic-debugging` | Diagnosing issues |
+| `component-system` | Working with UI component libraries |
 
 ---
 
@@ -120,9 +82,54 @@ No hard failures. Commands work at any integration level.
 
 ---
 
+## Repository Structure
+
+```
+company-skills/
+├── .claude-plugin/
+│   └── plugin.json           # Plugin manifest
+├── commands/                  # Slash commands (flat)
+│   ├── install-skills.md     # Onboarding command
+│   ├── daily-brief.md
+│   ├── weekly-recap.md
+│   ├── meeting-brief.md
+│   ├── meeting-recap.md
+│   ├── devils-advocate.md
+│   ├── pre-mortem.md
+│   ├── social-post.md
+│   ├── case-study.md
+│   ├── site-analysis.md
+│   ├── kickoff-prep.md
+│   ├── skills-help.md
+│   ├── add-tool.md
+│   └── customize.md
+├── skills/                    # Auto-activating expertise (flat)
+│   ├── brand-voice.md
+│   ├── frontend-design.md
+│   ├── design-feedback.md
+│   ├── component-system.md
+│   └── ...
+├── references/                # Supporting documentation
+│   ├── interview-flow.md
+│   └── mcp-setup/
+└── templates/                 # Templates for new skills
+```
+
+---
+
+## After Installation
+
+Your personalized config is stored at `~/.claude/skills-config.yaml`. It contains:
+
+- **Tools you use** — Calendar, Notion, Slack, etc.
+- **Connected MCPs** — What's integrated and what it enables
+- **Workflow preferences** — Which commands you want active
+
+---
+
 ## MCP Integration
 
-MCPs (Model Context Protocol servers) let Claude connect to your tools. Common ones:
+MCPs (Model Context Protocol servers) let Claude connect to your tools:
 
 | MCP | What It Enables |
 |-----|-----------------|
@@ -132,38 +139,13 @@ MCPs (Model Context Protocol servers) let Claude connect to your tools. Common o
 | Firecrawl | Deep website analysis |
 | Gmail | Email summaries and drafts |
 
-See [`installer/mcp-setup/`](installer/mcp-setup/) for setup guides.
+See [`references/mcp-setup/`](references/mcp-setup/) for setup guides.
 
 ---
 
 ## Creating New Skills
 
-Use the template at [`templates/skill-template.md`](templates/skill-template.md) or see the [skill-creator](skills/operations/skill-creator.md) guide.
-
-### Skill Anatomy
-
-```markdown
-# Skill Name
-
-Brief description of what this skill does.
-
-## Purpose
-
-Why this skill exists.
-
-## When to Activate
-
-- Trigger condition 1
-- Trigger condition 2
-
-## Instructions
-
-Detailed instructions for Claude to follow...
-
-## Examples
-
-Show input/output examples...
-```
+Use the template at [`templates/skill-template.md`](templates/skill-template.md) or see the [skill-creator](skills/skill-creator.md) guide.
 
 ---
 

@@ -1,0 +1,10 @@
+{
+  "name": "company-skills",
+  "description": "A mini team of agents for daily, weekly, and as-needed workflows. Works for any company.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Open Session",
+    "url": "https://opensesh.com"
+  },
+  "repository": "https://github.com/opensesh/company-skills"
+}
