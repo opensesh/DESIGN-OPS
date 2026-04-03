@@ -20,6 +20,38 @@ design-company-skills/
 └── .github/                   # GitHub configuration
 ```
 
+## Available Skills
+
+### Brand (`skills/brand/`)
+| Skill | Description |
+|-------|-------------|
+| [brand-voice](skills/brand/brand-voice.md) | Write content matching defined brand voice and tone |
+| [open-session-brand](skills/brand/open-session-brand.md) | Open Session official brand colors, typography, and style |
+
+### Design (`skills/design/`)
+| Skill | Description |
+|-------|-------------|
+| [design-feedback](skills/design/design-feedback.md) | Structured, actionable feedback on visual designs |
+| [frontend-design](skills/design/frontend-design.md) | Production-grade frontend interfaces with intentional aesthetics |
+
+### Client (`skills/client/`)
+| Skill | Description |
+|-------|-------------|
+| [proposal-writer](skills/client/proposal-writer.md) | Compelling project proposals for client work |
+
+### Operations (`skills/operations/`)
+| Skill | Description |
+|-------|-------------|
+| [skill-creator](skills/operations/skill-creator.md) | Guide for creating effective Claude skills |
+| [website-intelligence](skills/operations/website-intelligence.md) | Analyze websites for architecture, SEO, and design patterns |
+
+### Development (`skills/development/`)
+| Skill | Description |
+|-------|-------------|
+| [systematic-debugging](skills/development/systematic-debugging.md) | Four-phase methodology for diagnosing and resolving issues |
+| [verification-before-completion](skills/development/verification-before-completion.md) | Evidence-based completion claims with fresh verification |
+| [design-system-quality](skills/development/design-system-quality.md) | Quality gates for design system compliance and accessibility |
+
 ## Using Skills in Claude Desktop
 
 ### Manual Import
@@ -48,7 +80,7 @@ design-company-skills/
 
 ## Creating New Skills
 
-Use the template at `templates/skill-template.md` as a starting point.
+Use the template at `templates/skill-template.md` as a starting point, or see [skill-creator](skills/operations/skill-creator.md) for comprehensive guidance.
 
 ### Skill Anatomy
 
