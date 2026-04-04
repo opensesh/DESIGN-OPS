@@ -1,21 +1,77 @@
 # Company Skills
 
-A Claude Code plugin that gives you a "mini team of agents" for daily, weekly, and as-needed workflows. Works for any company — tech, CPG, services, creative, you name it.
+A Claude Code plugin that gives you a "mini team of agents" for daily, weekly, and as-needed workflows.
+
+**Works in:**
+- **Claude Desktop** (Code tab)
+- **Claude Code CLI** (terminal)
+
+Works for any company — tech, CPG, services, creative, you name it.
+
+---
 
 ## Installation
 
+Choose your preferred method:
+
+### Option A: Claude Desktop (Recommended for beginners)
+
+1. **Download the plugin:** [Download ZIP](https://github.com/opensesh/company-skills/archive/refs/heads/main.zip)
+2. **Extract the ZIP** to a folder you'll remember (e.g., `Documents/company-skills`)
+3. **Open Claude Desktop** and click the **Code** tab
+4. Click the **+** button next to the prompt box
+5. Select **Plugins** → **Add plugin**
+6. Navigate to your extracted folder and select it
+7. Run `/install-skills` to personalize your setup
+
+### Option B: Terminal (For developers)
+
+**macOS / Linux:**
 ```bash
-# 1. Clone the repo
 git clone https://github.com/opensesh/company-skills.git ~/company-skills
-
-# 2. Add it as a Claude plugin
 claude plugin add ~/company-skills
-
-# 3. Run the onboarding (takes ~2 minutes)
-/install-skills
 ```
 
-The onboarding interview personalizes everything based on your tools and workflow preferences.
+**Windows:**
+```powershell
+git clone https://github.com/opensesh/company-skills.git %USERPROFILE%\company-skills
+claude plugin add %USERPROFILE%\company-skills
+```
+
+Then run `/install-skills` to personalize your setup.
+
+---
+
+## Verify Installation
+
+After installation, verify it worked:
+
+**In Claude Desktop (Code tab):**
+1. Type `/skills-help` in the prompt box
+2. You should see a list of available commands
+
+**In Terminal:**
+```bash
+claude
+> /skills-help
+```
+
+**Expected output:** A list of commands including `/daily-brief`, `/meeting-brief`, `/devils-advocate`, etc.
+
+**Something wrong?** See [Troubleshooting](references/troubleshooting.md) for common issues.
+
+---
+
+## Where to Use Company Skills
+
+Company Skills runs in the **Code tab** of Claude Desktop (or Claude Code CLI).
+
+**Why Code tab?**
+- Access to your local files and config
+- Can read/write the skills-config.yaml
+- Can run shell commands for MCP setup
+
+The Cowork tab is great for knowledge work, but Company Skills needs the Code tab's capabilities.
 
 ---
 
@@ -82,6 +138,35 @@ No hard failures. Commands work at any integration level.
 
 ---
 
+## Connecting Your Tools (Optional)
+
+Company Skills works out of the box — just tell Claude what's on your plate.
+
+To unlock automation, connect your tools:
+
+| Tool | What It Enables | How to Connect |
+|------|-----------------|----------------|
+| Google Calendar | Auto-fetch meetings for daily briefs | Click **+** → **Connectors** → Google Calendar |
+| Notion | Pull tasks and docs | Click **+** → **Connectors** → Notion |
+| Gmail | Email summaries | Click **+** → **Connectors** → Gmail |
+| GitHub | Code search, PR reviews | Click **+** → **Connectors** → GitHub |
+
+Or run `/add-tool` for guided setup.
+
+See [`references/mcp-setup/`](references/mcp-setup/) for detailed setup guides.
+
+---
+
+## After Installation
+
+Your personalized config is stored at `~/.claude/skills-config.yaml`. It contains:
+
+- **Tools you use** — Calendar, Notion, Slack, etc.
+- **Connected MCPs** — What's integrated and what it enables
+- **Workflow preferences** — Which commands you want active
+
+---
+
 ## Repository Structure
 
 ```
@@ -110,36 +195,11 @@ company-skills/
 │   ├── component-system.md
 │   └── ...
 ├── references/                # Supporting documentation
+│   ├── troubleshooting.md
 │   ├── interview-flow.md
 │   └── mcp-setup/
 └── templates/                 # Templates for new skills
 ```
-
----
-
-## After Installation
-
-Your personalized config is stored at `~/.claude/skills-config.yaml`. It contains:
-
-- **Tools you use** — Calendar, Notion, Slack, etc.
-- **Connected MCPs** — What's integrated and what it enables
-- **Workflow preferences** — Which commands you want active
-
----
-
-## MCP Integration
-
-MCPs (Model Context Protocol servers) let Claude connect to your tools:
-
-| MCP | What It Enables |
-|-----|-----------------|
-| Google Calendar | Auto-fetch events for daily briefs |
-| Notion | Tasks, docs, project management |
-| GitHub | Code search, PR reviews |
-| Firecrawl | Deep website analysis |
-| Gmail | Email summaries and drafts |
-
-See [`references/mcp-setup/`](references/mcp-setup/) for setup guides.
 
 ---
 
