@@ -119,7 +119,7 @@ Generate both reports with **confidence caveats** noting:
 - "Section detection inferred from content, not DOM structure"
 - "URL list is partial based on search indexing"
 
-Refer to `references/output-templates.md` for report structure.
+Refer to `site-analysis-refs/output-templates.md` for report structure.
 
 ---
 
@@ -148,7 +148,7 @@ If map returns empty:
 
 ### Phase 2: URL Clustering (Deterministic)
 
-Group URLs by regex path patterns. Reference `references/section-patterns.md` for patterns.
+Group URLs by regex path patterns. Reference `site-analysis-refs/section-patterns.md` for patterns.
 
 ```
 Clusters:
@@ -214,12 +214,12 @@ For each scraped page:
    - Map to section types
 
 2. **Class Name Pattern Matching (Tier 2)**
-   - Apply regex patterns from `references/section-patterns.md`
+   - Apply regex patterns from `site-analysis-refs/section-patterns.md`
    - Match against known section types
 
 3. **LLM Classification (Tier 3 - Fallback only)**
    - Only for sections not classified by Tier 1 or 2
-   - Use prompts from `references/analysis-prompts.md`
+   - Use prompts from `site-analysis-refs/analysis-prompts.md`
 
 4. **Compute Structural Fingerprint**
    - Semantic tags present
@@ -259,7 +259,7 @@ For enhanced output, extract implementation details:
    - Typography scale
    - Spacing values
 
-Reference `references/section-patterns.md` for detection patterns.
+Reference `site-analysis-refs/section-patterns.md` for detection patterns.
 
 ### Phase 6: Template Classification
 
@@ -285,7 +285,7 @@ Compile across all analyzed pages:
 
 ### Phase 8: Generate Reports
 
-Generate both reports using templates from `references/output-templates.md`.
+Generate both reports using templates from `site-analysis-refs/output-templates.md`.
 
 ---
 
@@ -349,7 +349,7 @@ Each YAML file includes:
 - Motion pattern definitions
 - Design tokens (colors, typography, spacing)
 
-Reference `references/component-schema.md` for full schema documentation.
+Reference `site-analysis-refs/component-schema.md` for full schema documentation.
 
 ### 5. agent-handoff.md (V2)
 
@@ -395,11 +395,11 @@ Always include methodology and confidence in reports:
 
 ## Reference Files
 
-- `references/section-patterns.md` - Regex patterns for section detection, layout/motion detection (V2)
-- `references/analysis-prompts.md` - Analysis heuristics and LLM prompts
-- `references/output-templates.md` - Complete Markdown scaffolds for outputs (including V2 tree-style)
-- `references/component-schema.md` - YAML schema for machine-readable component specs (V2)
-- `examples/sample-output-excerpt.md` - Quality bar reference with V2 formats
+- `site-analysis-refs/section-patterns.md` - Regex patterns for section detection, layout/motion detection (V2)
+- `site-analysis-refs/analysis-prompts.md` - Analysis heuristics and LLM prompts
+- `site-analysis-refs/output-templates.md` - Complete Markdown scaffolds for outputs (including V2 tree-style)
+- `site-analysis-refs/component-schema.md` - YAML schema for machine-readable component specs (V2)
+- `site-analysis-refs/sample-output-excerpt.md` - Quality bar reference with V2 formats
 
 ---
 
