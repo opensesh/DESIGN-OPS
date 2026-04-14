@@ -1,5 +1,7 @@
 # Company Skills
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 A Claude Code plugin that gives you a "mini team of agents" for daily, weekly, and as-needed workflows.
 
 **Works in:**
@@ -216,4 +218,4 @@ Use the template at [`templates/skill-template.md`](templates/skill-template.md)
 
 ## License
 
-MIT License — See [LICENSE](LICENSE) for details.
+[Apache 2.0](LICENSE)
