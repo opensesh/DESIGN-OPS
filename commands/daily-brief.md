@@ -1,10 +1,10 @@
-# /dcs:daily-brief
+# /do:daily-brief
 
-**Legacy alias** for `/dcs:dashboard daily`
+**Legacy alias** for `/do:dashboard daily`
 
 ## Trigger
 
-User invokes `/dcs:daily-brief` to start their day with a consolidated view.
+User invokes `/do:daily-brief` to start their day with a consolidated view.
 
 ---
 
@@ -13,37 +13,37 @@ User invokes `/dcs:daily-brief` to start their day with a consolidated view.
 This command is a backwards-compatible alias. It delegates to the unified dashboard command:
 
 ```
-/dcs:daily-brief  →  /dcs:dashboard daily
+/do:daily-brief  →  /do:dashboard daily
 ```
 
 ### Execution
 
-1. **Invoke** `/dcs:dashboard daily`
+1. **Invoke** `/do:dashboard daily`
 2. **Return** the daily dashboard output (all enabled pillars)
 
 ---
 
 ## Migration Notice
 
-`/dcs:daily-brief` continues to work for backwards compatibility, but the recommended command is now:
+`/do:daily-brief` continues to work for backwards compatibility, but the recommended command is now:
 
 ```bash
-/dcs:dashboard              # All pillars, daily (default)
-/dcs:dashboard daily        # Explicit daily timeframe
-/dcs:dashboard ops daily    # Operations only, daily
+/do:dashboard              # All pillars, daily (default)
+/do:dashboard daily        # Explicit daily timeframe
+/do:dashboard ops daily    # Operations only, daily
 ```
 
-See `/dcs:dashboard` for full documentation on pillar and timeframe options.
+See `/do:dashboard` for full documentation on pillar and timeframe options.
 
 ---
 
 ## Why This Alias Exists
 
-- **Muscle memory** — Existing users know `/dcs:daily-brief`
+- **Muscle memory** — Existing users know `/do:daily-brief`
 - **Documentation links** — Prevents broken references
 - **Gradual migration** — Users can adopt new syntax at their own pace
 
 ---
 
 *Version: 2.0 (alias wrapper)*
-*Delegates to: /dcs:dashboard daily*
+*Delegates to: /do:dashboard daily*

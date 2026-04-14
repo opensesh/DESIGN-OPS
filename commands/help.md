@@ -1,10 +1,10 @@
-# /dcs:help
+# /do:help
 
 Complete command reference for DESIGN-OPS.
 
 ## Trigger
 
-User runs `/dcs:help` to see all available commands and skills.
+User runs `/do:help` to see all available commands and skills.
 
 ---
 
@@ -17,13 +17,13 @@ User runs `/dcs:help` to see all available commands and skills.
 
 | Command | Description |
 |---------|-------------|
-| `/dcs:setup` | Initial onboarding wizard — configure integrations and preferences |
-| `/dcs:configure` | Update specific settings without full setup |
-| `/dcs:status` | Show current config status and integration health |
-| `/dcs:test` | Run diagnostics to verify everything works |
-| `/dcs:add-tool` | Connect a new MCP or API with guided setup |
-| `/dcs:help` | This command reference |
-| `/dcs:library` | Browse utility commands by category |
+| `/do:setup` | Initial onboarding wizard — configure integrations and preferences |
+| `/do:configure` | Update specific settings without full setup |
+| `/do:status` | Show current config status and integration health |
+| `/do:test` | Run diagnostics to verify everything works |
+| `/do:add-tool` | Connect a new MCP or API with guided setup |
+| `/do:help` | This command reference |
+| `/do:library` | Browse utility commands by category |
 
 ---
 
@@ -32,7 +32,7 @@ User runs `/dcs:help` to see all available commands and skills.
 The unified dashboard command generates reports across pillars and timeframes:
 
 ```bash
-/dcs:dashboard [pillar] [timeframe]
+/do:dashboard [pillar] [timeframe]
 ```
 
 | Pillars | Timeframes |
@@ -44,11 +44,11 @@ The unified dashboard command generates reports across pillars and timeframes:
 
 **Examples:**
 ```bash
-/dcs:dashboard                    # All pillars, daily (default)
-/dcs:dashboard ops weekly         # Operations, weekly
-/dcs:dashboard design quarterly   # Design, quarterly
-/dcs:dashboard analytics ytd      # Analytics, year-to-date
-/dcs:dashboard weekly             # All pillars, weekly
+/do:dashboard                    # All pillars, daily (default)
+/do:dashboard ops weekly         # Operations, weekly
+/do:dashboard design quarterly   # Design, quarterly
+/do:dashboard analytics ytd      # Analytics, year-to-date
+/do:dashboard weekly             # All pillars, weekly
 ```
 
 ---
@@ -59,39 +59,39 @@ These commands remain for backwards compatibility:
 
 | Command | Maps To |
 |---------|---------|
-| `/dcs:daily-brief` | `/dcs:dashboard daily` |
-| `/dcs:weekly-recap` | `/dcs:dashboard weekly` |
-| `/dcs:team-pulse` | `/dcs:dashboard design daily --team` |
+| `/do:daily-brief` | `/do:dashboard daily` |
+| `/do:weekly-recap` | `/do:dashboard weekly` |
+| `/do:team-pulse` | `/do:dashboard design daily --team` |
 
 ---
 
 ## Utility Library
 
-Browse with `/dcs:library` or `/dcs:library [category]`.
+Browse with `/do:library` or `/do:library [category]`.
 
 ### Logistics
 *Meeting prep, kickoffs, and project coordination*
 
 | Command | Description |
 |---------|-------------|
-| `/dcs:meeting-brief` | Create focused meeting agendas |
-| `/dcs:meeting-recap` | Document meetings with action items |
-| `/dcs:kickoff-prep` | Generate project kickoff materials |
+| `/do:meeting-brief` | Create focused meeting agendas |
+| `/do:meeting-recap` | Document meetings with action items |
+| `/do:kickoff-prep` | Generate project kickoff materials |
 
 ### Content
 *Content creation for social and marketing*
 
 | Command | Description |
 |---------|-------------|
-| `/dcs:social-post` | Create platform-optimized social content |
+| `/do:social-post` | Create platform-optimized social content |
 
 ### Development
 *Research, analysis, and ideation tools*
 
 | Command | Description |
 |---------|-------------|
-| `/dcs:site-analysis` | Deep website analysis |
-| `/dcs:devils-advocate` | Challenge assumptions |
+| `/do:site-analysis` | Deep website analysis |
+| `/do:devils-advocate` | Challenge assumptions |
 
 ---
 
@@ -114,12 +114,12 @@ These activate automatically based on context — no command needed:
 
 ## Quick Start
 
-1. **First time?** Run `/dcs:setup` to configure integrations
-2. **Morning routine?** Run `/dcs:dashboard` (or `/dcs:daily-brief`)
-3. **Weekly review?** Run `/dcs:dashboard weekly`
-4. **Check team activity?** Run `/dcs:dashboard design`
-5. **Something broken?** Run `/dcs:test`
-6. **Find a utility?** Run `/dcs:library`
+1. **First time?** Run `/do:setup` to configure integrations
+2. **Morning routine?** Run `/do:dashboard` (or `/do:daily-brief`)
+3. **Weekly review?** Run `/do:dashboard weekly`
+4. **Check team activity?** Run `/do:dashboard design`
+5. **Something broken?** Run `/do:test`
+6. **Find a utility?** Run `/do:library`
 
 ---
 
@@ -127,8 +127,8 @@ These activate automatically based on context — no command needed:
 
 Config file: `~/.claude/dcs-config.yaml`
 
-View current config: `/dcs:status`
-Update config: `/dcs:configure`
+View current config: `/do:status`
+Update config: `/do:configure`
 
 ---
 
@@ -143,15 +143,15 @@ Update config: `/dcs:configure`
 
 ## Contextual Help
 
-If user runs `/dcs:help {topic}`:
+If user runs `/do:help {topic}`:
 
-**`/dcs:help dashboard`**
+**`/do:help dashboard`**
 ```markdown
 ## Dashboard Command Help
 
 ### Usage
 ```bash
-/dcs:dashboard [pillar] [timeframe]
+/do:dashboard [pillar] [timeframe]
 ```
 
 ### Pillars
@@ -168,10 +168,10 @@ If user runs `/dcs:help {topic}`:
 
 ### Examples
 ```bash
-/dcs:dashboard                    # All pillars, daily
-/dcs:dashboard ops                # Operations, daily
-/dcs:dashboard weekly             # All pillars, weekly
-/dcs:dashboard design quarterly   # Design, quarterly
+/do:dashboard                    # All pillars, daily
+/do:dashboard ops                # Operations, daily
+/do:dashboard weekly             # All pillars, weekly
+/do:dashboard design quarterly   # Design, quarterly
 ```
 
 ### Configuration
@@ -180,17 +180,17 @@ Dashboard reads from `~/.claude/dcs-config.yaml`:
 - Which tools are connected
 - Which outcomes to include
 
-Run `/dcs:configure` to adjust.
+Run `/do:configure` to adjust.
 ```
 
-**`/dcs:help library`**
+**`/do:help library`**
 ```markdown
 ## Library Command Help
 
 ### Usage
 ```bash
-/dcs:library              # List all utility commands
-/dcs:library [category]   # Filter by category
+/do:library              # List all utility commands
+/do:library [category]   # Filter by category
 ```
 
 ### Categories
@@ -201,27 +201,27 @@ Run `/dcs:configure` to adjust.
 ### Available Commands
 
 **Logistics:**
-- `/dcs:meeting-brief` — Create meeting agendas
-- `/dcs:meeting-recap` — Document meetings
-- `/dcs:kickoff-prep` — Project kickoff materials
+- `/do:meeting-brief` — Create meeting agendas
+- `/do:meeting-recap` — Document meetings
+- `/do:kickoff-prep` — Project kickoff materials
 
 **Content:**
-- `/dcs:social-post` — Social media content
+- `/do:social-post` — Social media content
 
 **Development:**
-- `/dcs:site-analysis` — Website analysis
-- `/dcs:devils-advocate` — Challenge assumptions
+- `/do:site-analysis` — Website analysis
+- `/do:devils-advocate` — Challenge assumptions
 
 ### Adding Commands
 See `commands/library/_registry.yaml` for the registry format.
 ```
 
-**`/dcs:help figma`**
+**`/do:help figma`**
 ```markdown
 ## Figma Integration Help
 
 ### Setup
-Run `/dcs:setup` and select Figma integration, or run `/dcs:configure` → Figma.
+Run `/do:setup` and select Figma integration, or run `/do:configure` → Figma.
 
 ### Token Generation
 1. Go to https://www.figma.com/developers/api#access-tokens
@@ -233,14 +233,14 @@ Run `/dcs:setup` and select Figma integration, or run `/dcs:configure` → Figma
 - Or track specific files by key
 
 ### Troubleshooting
-- Token expired? Regenerate and update via `/dcs:configure`
+- Token expired? Regenerate and update via `/do:configure`
 - Can't see projects? Check token has correct scope
 - 403 errors? Token may have been revoked
 
 See: /references/troubleshooting.md
 ```
 
-**`/dcs:help github`**
+**`/do:help github`**
 ```markdown
 ## GitHub Integration Help
 
@@ -251,7 +251,7 @@ If GitHub MCP isn't connected:
 1. Go to claude.ai/mcps
 2. Install GitHub MCP
 3. Authorize with your account
-4. Re-run `/dcs:setup`
+4. Re-run `/do:setup`
 
 ### Tracking
 Add repos in owner/repo format (e.g., opensesh/webapp)
@@ -268,16 +268,16 @@ See: /references/mcp-setup/add-mcp-guide.md
 
 ## Command Not Found
 
-If user runs `/dcs:help {unknown}`:
+If user runs `/do:help {unknown}`:
 
 ```markdown
 I don't have specific help for "{topic}".
 
 Try:
-- `/dcs:help dashboard` — Dashboard command usage
-- `/dcs:help library` — Utility command browser
-- `/dcs:help figma` — Figma integration
-- `/dcs:help github` — GitHub integration
+- `/do:help dashboard` — Dashboard command usage
+- `/do:help library` — Utility command browser
+- `/do:help figma` — Figma integration
+- `/do:help github` — GitHub integration
 
 Or search the documentation in /references/
 ```

@@ -41,7 +41,7 @@ git clone https://github.com/opensesh/DESIGN-OPS.git ~/DESIGN-OPS
 claude plugin add ~/DESIGN-OPS
 
 # Run setup wizard
-/dcs:setup
+/do:setup
 ```
 
 *Works in Claude Code CLI, desktop app, or IDE extensions.*
@@ -49,10 +49,10 @@ claude plugin add ~/DESIGN-OPS
 ### Your First Dashboard
 
 ```bash
-/dcs:setup              # Connect your tools (~5 min)
-/dcs:dashboard          # Get your daily overview
-/dcs:dashboard weekly   # Weekly summary
-/dcs:library            # Browse utility commands
+/do:setup              # Connect your tools (~5 min)
+/do:dashboard          # Get your daily overview
+/do:dashboard weekly   # Weekly summary
+/do:library            # Browse utility commands
 ```
 
 **Prerequisites:** [Claude Code](https://claude.ai/code), Git
@@ -61,26 +61,26 @@ claude plugin add ~/DESIGN-OPS
 
 ## Commands
 
-All commands use the `/dcs:` prefix (Design Company Skills).
+All commands use the `/do:` prefix (Design Company Skills).
 
 ### System Commands
 
 | Command | Purpose |
 |---------|---------|
-| `/dcs:setup` | Interactive onboarding wizard |
-| `/dcs:configure` | Update settings by pillar |
-| `/dcs:status` | Show current config and health |
-| `/dcs:test` | Run diagnostics |
-| `/dcs:add-tool` | Connect new MCP or API |
-| `/dcs:help` | Command reference |
-| `/dcs:library` | Browse utility commands |
+| `/do:setup` | Interactive onboarding wizard |
+| `/do:configure` | Update settings by pillar |
+| `/do:status` | Show current config and health |
+| `/do:test` | Run diagnostics |
+| `/do:add-tool` | Connect new MCP or API |
+| `/do:help` | Command reference |
+| `/do:library` | Browse utility commands |
 
 ### Dashboard Command
 
 The unified dashboard generates reports across pillars and timeframes:
 
 ```bash
-/dcs:dashboard [pillar] [timeframe]
+/do:dashboard [pillar] [timeframe]
 ```
 
 | Pillars | Timeframes |
@@ -92,41 +92,41 @@ The unified dashboard generates reports across pillars and timeframes:
 
 **Examples:**
 ```bash
-/dcs:dashboard                    # All pillars, daily (default)
-/dcs:dashboard ops weekly         # Operations, weekly
-/dcs:dashboard design quarterly   # Design, quarterly
-/dcs:dashboard analytics ytd      # Analytics, year-to-date
+/do:dashboard                    # All pillars, daily (default)
+/do:dashboard ops weekly         # Operations, weekly
+/do:dashboard design quarterly   # Design, quarterly
+/do:dashboard analytics ytd      # Analytics, year-to-date
 ```
 
 ### Legacy Aliases
 
 | Command | Maps To |
 |---------|---------|
-| `/dcs:daily-brief` | `/dcs:dashboard daily` |
-| `/dcs:weekly-recap` | `/dcs:dashboard weekly` |
-| `/dcs:team-pulse` | `/dcs:dashboard design daily` |
+| `/do:daily-brief` | `/do:dashboard daily` |
+| `/do:weekly-recap` | `/do:dashboard weekly` |
+| `/do:team-pulse` | `/do:dashboard design daily` |
 
 ### Utility Library
 
-Browse with `/dcs:library`. Organized by category:
+Browse with `/do:library`. Organized by category:
 
 **Logistics** — Meeting prep, kickoffs, project coordination
 | Command | Purpose |
 |---------|---------|
-| `/dcs:meeting-brief` | Create focused meeting agendas |
-| `/dcs:meeting-recap` | Document meetings with action items |
-| `/dcs:kickoff-prep` | Generate project kickoff materials |
+| `/do:meeting-brief` | Create focused meeting agendas |
+| `/do:meeting-recap` | Document meetings with action items |
+| `/do:kickoff-prep` | Generate project kickoff materials |
 
 **Content** — Content creation for social and marketing
 | Command | Purpose |
 |---------|---------|
-| `/dcs:social-post` | Create platform-optimized social content |
+| `/do:social-post` | Create platform-optimized social content |
 
 **Development** — Research, analysis, and ideation tools
 | Command | Purpose |
 |---------|---------|
-| `/dcs:site-analysis` | Deep website analysis |
-| `/dcs:devils-advocate` | Challenge assumptions |
+| `/do:site-analysis` | Deep website analysis |
+| `/do:devils-advocate` | Challenge assumptions |
 
 ---
 
@@ -174,7 +174,7 @@ pillars:
       ytd: [annual_traffic, yoy_comparison]
 ```
 
-Run `/dcs:setup` for guided configuration.
+Run `/do:setup` for guided configuration.
 
 ---
 
@@ -197,7 +197,7 @@ Run `/dcs:setup` for guided configuration.
 For tools without native MCP support, DESIGN-OPS guides you through API wrapper creation:
 
 ```bash
-/dcs:add-tool substack    # Guided setup for any tool
+/do:add-tool substack    # Guided setup for any tool
 ```
 
 ---
@@ -218,7 +218,7 @@ For tools without native MCP support, DESIGN-OPS guides you through API wrapper 
 Yes. Enable only what you need. The plugin adapts to your connected tools.
 
 **Having issues?**
-Run `/dcs:test` to diagnose. Still stuck? [hello@opensession.co](mailto:hello@opensession.co)
+Run `/do:test` to diagnose. Still stuck? [hello@opensession.co](mailto:hello@opensession.co)
 
 ---
 

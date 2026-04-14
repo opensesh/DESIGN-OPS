@@ -1,11 +1,11 @@
-# /dcs:dashboard
+# /do:dashboard
 
 Unified dashboard command that generates pillar × timeframe reports from connected tools.
 
 ## Trigger
 
 ```bash
-/dcs:dashboard [pillar] [timeframe]
+/do:dashboard [pillar] [timeframe]
 ```
 
 ## Parameters
@@ -33,12 +33,12 @@ Unified dashboard command that generates pillar × timeframe reports from connec
 ## Argument Parsing Logic
 
 ```
-/dcs:dashboard                    → all pillars, daily
-/dcs:dashboard ops                → operations, daily
-/dcs:dashboard weekly             → all pillars, weekly
-/dcs:dashboard ops weekly         → operations, weekly
-/dcs:dashboard design quarterly   → design, quarterly
-/dcs:dashboard analytics ytd      → analytics, year-to-date
+/do:dashboard                    → all pillars, daily
+/do:dashboard ops                → operations, daily
+/do:dashboard weekly             → all pillars, weekly
+/do:dashboard ops weekly         → operations, weekly
+/do:dashboard design quarterly   → design, quarterly
+/do:dashboard analytics ytd      → analytics, year-to-date
 ```
 
 **Detection rules:**
@@ -375,9 +375,9 @@ If requested pillar is disabled:
 ```markdown
 The {pillar} pillar is not enabled in your config.
 
-Run `/dcs:configure` to enable it, or try:
-- `/dcs:dashboard` (all enabled pillars)
-- `/dcs:dashboard {other_pillar}`
+Run `/do:configure` to enable it, or try:
+- `/do:dashboard` (all enabled pillars)
+- `/do:dashboard {other_pillar}`
 ```
 
 ### No Data for Timeframe
@@ -389,7 +389,7 @@ No {timeframe} outcomes configured for {pillar}.
 
 Your current config has outcomes for: {available_timeframes}
 
-To add {timeframe} outcomes, run `/dcs:configure`.
+To add {timeframe} outcomes, run `/do:configure`.
 ```
 
 ### No Config
@@ -397,7 +397,7 @@ To add {timeframe} outcomes, run `/dcs:configure`.
 ```markdown
 DESIGN-OPS isn't configured yet.
 
-Run `/dcs:setup` to connect your tools and start getting automated dashboards.
+Run `/do:setup` to connect your tools and start getting automated dashboards.
 
 Or tell me what you'd like to review, and I'll help manually.
 ```
@@ -474,7 +474,7 @@ After presenting any dashboard:
 ### Example: Default (All Pillars, Daily)
 
 ```bash
-/dcs:dashboard
+/do:dashboard
 ```
 
 Shows combined daily dashboard across all enabled pillars.
@@ -482,7 +482,7 @@ Shows combined daily dashboard across all enabled pillars.
 ### Example: Operations Weekly
 
 ```bash
-/dcs:dashboard ops weekly
+/do:dashboard ops weekly
 ```
 
 Shows operations-only weekly summary with meeting count, tasks completed, and communication volume.
@@ -490,7 +490,7 @@ Shows operations-only weekly summary with meeting count, tasks completed, and co
 ### Example: Design Quarterly
 
 ```bash
-/dcs:dashboard design quarterly
+/do:dashboard design quarterly
 ```
 
 Shows design-only quarterly summary with shipped projects, design velocity, and system coverage metrics.
@@ -498,7 +498,7 @@ Shows design-only quarterly summary with shipped projects, design velocity, and 
 ### Example: Analytics YTD
 
 ```bash
-/dcs:dashboard analytics ytd
+/do:dashboard analytics ytd
 ```
 
 Shows analytics-only year-to-date summary with annual traffic totals and YoY comparisons.
@@ -506,7 +506,7 @@ Shows analytics-only year-to-date summary with annual traffic totals and YoY com
 ### Example: Just Timeframe
 
 ```bash
-/dcs:dashboard weekly
+/do:dashboard weekly
 ```
 
 Shows all enabled pillars with weekly timeframe.

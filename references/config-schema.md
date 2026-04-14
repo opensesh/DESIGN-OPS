@@ -384,7 +384,7 @@ enabled_commands:
 
 ### Dashboard Timeframes
 
-The `/dcs:dashboard` command supports multiple timeframes:
+The `/do:dashboard` command supports multiple timeframes:
 
 | Timeframe | Aliases | Data Scope |
 |-----------|---------|------------|
@@ -541,7 +541,7 @@ enabled_commands:
 
 ## Migration from v1.0
 
-If you have an existing v1.0 config, `/dcs:setup` will offer to migrate it.
+If you have an existing v1.0 config, `/do:setup` will offer to migrate it.
 
 ### v1.0 Structure (deprecated)
 
@@ -580,7 +580,7 @@ workflows:
 
 ### Required Fields
 
-For `/dcs:test` to pass:
+For `/do:test` to pass:
 - `version` must be "2.0"
 - At least one pillar must be enabled
 - Enabled pillars must have at least one connected tool
@@ -603,13 +603,13 @@ Check that MCP server responds to basic queries.
 
 1. Check file exists: `ls ~/.claude/dcs-config.yaml`
 2. Check YAML syntax: `python -c "import yaml; yaml.safe_load(open(...))" `
-3. Run `/dcs:test` for diagnostics
+3. Run `/do:test` for diagnostics
 
 ### Version Mismatch
 
 If you see "Config version mismatch":
 1. Back up current config
-2. Run `/dcs:setup` to migrate
+2. Run `/do:setup` to migrate
 3. Or manually update to v2.0 structure
 
 ### Tool Connection Issues
@@ -617,10 +617,10 @@ If you see "Config version mismatch":
 1. Check `status` field in config
 2. Verify MCP is in `~/.claude/settings.json`
 3. Test API token manually
-4. Run `/dcs:test` for specific tool tests
+4. Run `/do:test` for specific tool tests
 
 ---
 
-*See also: `/dcs:configure`, `/dcs:test`, `/dcs:status`*
+*See also: `/do:configure`, `/do:test`, `/do:status`*
 
 *Version: 2.0*

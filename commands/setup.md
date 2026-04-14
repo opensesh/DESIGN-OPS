@@ -1,10 +1,10 @@
-# /dcs:setup
+# /do:setup
 
 Main onboarding wizard for Design Company Skills. Guides users through connecting data sources across three business pillars: Operations, Design, and Analytics.
 
 ## Trigger
 
-User runs `/dcs:setup` to configure the plugin. Works in:
+User runs `/do:setup` to configure the plugin. Works in:
 - Claude Code CLI (terminal) — full interactive setup
 - Claude Desktop (Code tab) — full interactive setup
 - Claude Co-work (web) — read-only mode, directs to terminal
@@ -30,7 +30,7 @@ Before starting, detect the environment and existing setup:
 ```
 if (web/co-work environment detected):
   Show current config status
-  Display: "For full setup, run /dcs:setup in Claude Code CLI"
+  Display: "For full setup, run /do:setup in Claude Code CLI"
   Exit early
 ```
 
@@ -428,7 +428,7 @@ If user chooses to create wrapper:
 ☐ Social engagement (requires Instagram setup)
 
 Note: Some options are disabled because those tools aren't connected.
-You can add them later with `/dcs:configure analytics`
+You can add them later with `/do:configure analytics`
 
 [Confirm selections]
 ```
@@ -507,10 +507,10 @@ Generate personalized configuration:
 - Top performing content
 
 ### Commands enabled:
-- `/dcs:daily-brief` — Morning overview
-- `/dcs:weekly-recap` — End of week summary
-- `/dcs:team-pulse` — Team activity dashboard
-- `/dcs:analytics` — Metrics summary
+- `/do:daily-brief` — Morning overview
+- `/do:weekly-recap` — End of week summary
+- `/do:team-pulse` — Team activity dashboard
+- `/do:analytics` — Metrics summary
 
 [Save Configuration]
 ```
@@ -638,7 +638,7 @@ preferences:
 
 ## Verification Tests
 
-Run `/dcs:test` automatically:
+Run `/do:test` automatically:
 
 ```markdown
 ## Verifying Setup
@@ -680,10 +680,10 @@ Display checklist as tests complete:
 Design Company Skills is configured and ready.
 
 ### Try These Commands
-- `/dcs:daily-brief` — Morning overview
-- `/dcs:team-pulse` — Team activity dashboard
-- `/dcs:weekly-recap` — End of week summary
-- `/dcs:help` — Full command reference
+- `/do:daily-brief` — Morning overview
+- `/do:team-pulse` — Team activity dashboard
+- `/do:weekly-recap` — End of week summary
+- `/do:help` — Full command reference
 
 ### Auto-Activating Skills
 These work automatically when relevant:
@@ -692,11 +692,11 @@ These work automatically when relevant:
 - **design-system-quality** — Triggers on design system reviews
 
 ### Next Steps
-1. Run `/dcs:daily-brief` tomorrow morning
-2. Run `/dcs:team-pulse` to see today's activity
-3. Run `/dcs:configure` anytime to update settings
+1. Run `/do:daily-brief` tomorrow morning
+2. Run `/do:team-pulse` to see today's activity
+3. Run `/do:configure` anytime to update settings
 
-Something not working? Run `/dcs:test` to diagnose.
+Something not working? Run `/do:test` to diagnose.
 ```
 
 ---
@@ -783,7 +783,7 @@ Couldn't write config file. Check permissions for ~/.claude/
 Manual fix:
 1. Run: mkdir -p ~/.claude
 2. Run: chmod 755 ~/.claude
-3. Re-run /dcs:setup
+3. Re-run /do:setup
 
 Still stuck? See: references/troubleshooting.md
 ```
@@ -797,14 +797,14 @@ This might be:
 - Invalid credentials (re-enter)
 - Service outage (check status page)
 
-Continue setup without {service}? You can add it later with /dcs:configure.
+Continue setup without {service}? You can add it later with /do:configure.
 ```
 
 ---
 
 ## Re-Running Setup
 
-If user runs `/dcs:setup` with existing config:
+If user runs `/do:setup` with existing config:
 
 1. Show current config summary with pillar breakdown
 2. Ask what to change:
@@ -823,7 +823,7 @@ If user runs `/dcs:setup` with existing config:
 2. **Always backup** before changes: `*.yaml.bak`
 3. **Show diff** of proposed config changes before writing
 4. **Merge** new settings with existing (don't replace wholesale)
-5. **Namespace** all commands with `dcs:` to avoid conflicts
+5. **Namespace** all commands with `do:` to avoid conflicts
 
 ---
 

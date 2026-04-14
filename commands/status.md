@@ -1,10 +1,10 @@
-# /dcs:status
+# /do:status
 
 Show current configuration status organized by pillars, integration health, and available commands.
 
 ## Trigger
 
-User runs `/dcs:status` to see what's configured and working.
+User runs `/do:status` to see what's configured and working.
 
 ---
 
@@ -19,12 +19,12 @@ User runs `/dcs:status` to see what's configured and working.
 
    No configuration found at ~/.claude/dcs-config.yaml
 
-   Run `/dcs:setup` to get started, or see `/dcs:help` for available commands.
+   Run `/do:setup` to get started, or see `/do:help` for available commands.
    ```
    Exit early.
 
 3. **Check version**
-   - If v1.x: "Found legacy v1 config. Run `/dcs:setup` to migrate to v2."
+   - If v1.x: "Found legacy v1 config. Run `/do:setup` to migrate to v2."
    - If v2.x: Continue
 
 4. **Parse** config and note any issues
@@ -107,10 +107,10 @@ For each pillar, check connected tools:
 ### Enabled Commands
 
 Based on your connected tools:
-- `/dcs:daily-brief` — Operations + Design + Analytics
-- `/dcs:weekly-recap` — Operations + Design + Analytics
-- `/dcs:team-pulse` — Design (GitHub + Figma)
-- `/dcs:analytics` — Analytics
+- `/do:daily-brief` — Operations + Design + Analytics
+- `/do:weekly-recap` — Operations + Design + Analytics
+- `/do:team-pulse` — Design (GitHub + Figma)
+- `/do:analytics` — Analytics
 
 ---
 
@@ -122,10 +122,10 @@ Based on your connected tools:
 
 ### Quick Actions
 
-- `/dcs:configure` — Update settings
-- `/dcs:test` — Run diagnostics
-- `/dcs:add-tool` — Connect new tools
-- `/dcs:help` — Command reference
+- `/do:configure` — Update settings
+- `/do:test` — Run diagnostics
+- `/do:add-tool` — Connect new tools
+- `/do:help` — Command reference
 ```
 
 ---
@@ -164,8 +164,8 @@ If config doesn't exist:
 The plugin is installed but not configured.
 
 **What you can still use:**
-- `/dcs:help` — See all commands
-- `/dcs:setup` — Configure integrations
+- `/do:help` — See all commands
+- `/do:setup` — Configure integrations
 
 **Auto-activating skills** (work without config):
 - brand-guidelines
@@ -187,7 +187,7 @@ For quick checks, show condensed view:
 **Design:** ✓ GitHub, Figma
 **Analytics:** ✓ GA4, Dub.co | ○ Substack (skipped)
 
-All systems operational. Run `/dcs:test` for detailed diagnostics.
+All systems operational. Run `/do:test` for detailed diagnostics.
 ```
 
 ---
@@ -203,15 +203,15 @@ If issues detected, append:
 
 **Figma token expired:**
 Your Figma token is no longer valid.
-Fix: `/dcs:configure` → Design → Figma → Update token
+Fix: `/do:configure` → Design → Figma → Update token
 
 **GitHub repo not found:**
 Repository `opensesh/old-repo` no longer exists.
-Fix: `/dcs:configure` → Design → GitHub → Remove repo
+Fix: `/do:configure` → Design → GitHub → Remove repo
 
 **Substack not connected:**
 You skipped Substack during setup. To add it:
-Run: `/dcs:add-tool substack`
+Run: `/do:add-tool substack`
 ```
 
 ---
@@ -221,9 +221,9 @@ Run: `/dcs:add-tool substack`
 User can check specific pillar:
 
 ```
-/dcs:status operations
-/dcs:status design
-/dcs:status analytics
+/do:status operations
+/do:status design
+/do:status analytics
 ```
 
 Shows detailed status for just that pillar:
@@ -255,7 +255,7 @@ Shows detailed status for just that pillar:
 ### Slack
 - Status: Not configured
 - MCP available but not installed
-- To add: `/dcs:add-tool slack`
+- To add: `/do:add-tool slack`
 ```
 
 ---

@@ -1,27 +1,27 @@
-# /dcs:configure
+# /do:configure
 
 Update specific settings without running full setup. Pillar-based configuration with re-evaluation options.
 
 ## Trigger
 
-User runs `/dcs:configure` to modify existing configuration.
+User runs `/do:configure` to modify existing configuration.
 
 Can also target specific pillars:
-- `/dcs:configure operations`
-- `/dcs:configure design`
-- `/dcs:configure analytics`
-- `/dcs:configure team`
+- `/do:configure operations`
+- `/do:configure design`
+- `/do:configure analytics`
+- `/do:configure team`
 
 ---
 
 ## Pre-Flight Check
 
 1. **Check for config** at `~/.claude/dcs-config.yaml`
-   - If not found: "No config found. Run `/dcs:setup` first to get started."
+   - If not found: "No config found. Run `/do:setup` first to get started."
    - Exit early
 
 2. **Check version**
-   - If v1.x: "Found v1 config. Run `/dcs:setup` to migrate to v2 first."
+   - If v1.x: "Found v1 config. Run `/do:setup` to migrate to v2 first."
    - If v2.x: Continue
 
 3. **Load current config** and validate structure
@@ -47,7 +47,7 @@ Options:
 - `Analytics pillar` — Modify analytics tools and outcomes
 - `Team members` — Add/edit/remove team mappings
 - `Display preferences` — Time windows, output options
-- `Add new tool` — Trigger `/dcs:add-tool`
+- `Add new tool` — Trigger `/do:add-tool`
 - `Re-evaluate all tools` — Re-run tool evaluation
 - `View full config` — Show complete YAML
 
@@ -371,7 +371,7 @@ Configuration updated!
 **Changed:**
 - Added GitHub repository: opensesh/marketing-site
 
-Run `/dcs:test` to verify, or `/dcs:status` to review.
+Run `/do:test` to verify, or `/do:status` to review.
 ```
 
 ---
@@ -384,7 +384,7 @@ Your config file has syntax errors and couldn't be parsed.
 
 Options:
 - Restore from backup (if available)
-- Start fresh with /dcs:setup
+- Start fresh with /do:setup
 - Show raw file for manual fix
 ```
 
@@ -405,9 +405,9 @@ Save anyway? (It may not work until fixed)
 For common operations, support inline commands:
 
 ```
-/dcs:configure add-repo opensesh/new-repo
-/dcs:configure add-figma-project 123456789 "New Project"
-/dcs:configure update-token figma
+/do:configure add-repo opensesh/new-repo
+/do:configure add-figma-project 123456789 "New Project"
+/do:configure update-token figma
 ```
 
 ---

@@ -1,10 +1,10 @@
-# /dcs:weekly-recap
+# /do:weekly-recap
 
-**Legacy alias** for `/dcs:dashboard weekly`
+**Legacy alias** for `/do:dashboard weekly`
 
 ## Trigger
 
-User invokes `/dcs:weekly-recap` at the end of a week to review accomplishments and plan ahead.
+User invokes `/do:weekly-recap` at the end of a week to review accomplishments and plan ahead.
 
 ---
 
@@ -13,37 +13,37 @@ User invokes `/dcs:weekly-recap` at the end of a week to review accomplishments 
 This command is a backwards-compatible alias. It delegates to the unified dashboard command:
 
 ```
-/dcs:weekly-recap  →  /dcs:dashboard weekly
+/do:weekly-recap  →  /do:dashboard weekly
 ```
 
 ### Execution
 
-1. **Invoke** `/dcs:dashboard weekly`
+1. **Invoke** `/do:dashboard weekly`
 2. **Return** the weekly dashboard output (all enabled pillars)
 
 ---
 
 ## Migration Notice
 
-`/dcs:weekly-recap` continues to work for backwards compatibility, but the recommended command is now:
+`/do:weekly-recap` continues to work for backwards compatibility, but the recommended command is now:
 
 ```bash
-/dcs:dashboard weekly           # All pillars, weekly
-/dcs:dashboard ops weekly       # Operations only, weekly
-/dcs:dashboard design weekly    # Design only, weekly
+/do:dashboard weekly           # All pillars, weekly
+/do:dashboard ops weekly       # Operations only, weekly
+/do:dashboard design weekly    # Design only, weekly
 ```
 
-See `/dcs:dashboard` for full documentation on pillar and timeframe options.
+See `/do:dashboard` for full documentation on pillar and timeframe options.
 
 ---
 
 ## Why This Alias Exists
 
-- **Muscle memory** — Existing users know `/dcs:weekly-recap`
+- **Muscle memory** — Existing users know `/do:weekly-recap`
 - **Documentation links** — Prevents broken references
 - **Gradual migration** — Users can adopt new syntax at their own pace
 
 ---
 
 *Version: 2.0 (alias wrapper)*
-*Delegates to: /dcs:dashboard weekly*
+*Delegates to: /do:dashboard weekly*

@@ -1,12 +1,12 @@
-# /dcs:library
+# /do:library
 
 Browse and discover utility commands organized by category.
 
 ## Trigger
 
 ```bash
-/dcs:library              # List all utility commands by category
-/dcs:library [category]   # Filter to specific category
+/do:library              # List all utility commands by category
+/do:library [category]   # Filter to specific category
 ```
 
 ## Parameters
@@ -44,9 +44,9 @@ Ad-hoc commands organized by purpose. Use any command directly.
 
 | Command | Description |
 |---------|-------------|
-| `/dcs:meeting-brief` | Create focused meeting agendas through guided questions |
-| `/dcs:meeting-recap` | Document meetings with summaries, decisions, and action items |
-| `/dcs:kickoff-prep` | Generate project kickoff materials (agenda, brief, questions) |
+| `/do:meeting-brief` | Create focused meeting agendas through guided questions |
+| `/do:meeting-recap` | Document meetings with summaries, decisions, and action items |
+| `/do:kickoff-prep` | Generate project kickoff materials (agenda, brief, questions) |
 
 ---
 
@@ -55,7 +55,7 @@ Ad-hoc commands organized by purpose. Use any command directly.
 
 | Command | Description |
 |---------|-------------|
-| `/dcs:social-post` | Create platform-optimized social content (LinkedIn, Instagram, Substack) |
+| `/do:social-post` | Create platform-optimized social content (LinkedIn, Instagram, Substack) |
 
 ---
 
@@ -64,15 +64,15 @@ Ad-hoc commands organized by purpose. Use any command directly.
 
 | Command | Description |
 |---------|-------------|
-| `/dcs:site-analysis` | Deep website analysis with structure mapping and component detection |
-| `/dcs:devils-advocate` | Challenge assumptions and stress-test your thinking |
+| `/do:site-analysis` | Deep website analysis with structure mapping and component detection |
+| `/do:devils-advocate` | Challenge assumptions and stress-test your thinking |
 
 ---
 
 Run any command by name, or browse a specific category:
-- `/dcs:library logistics`
-- `/dcs:library content`
-- `/dcs:library development`
+- `/do:library logistics`
+- `/do:library content`
+- `/do:library development`
 ```
 
 ---
@@ -82,7 +82,7 @@ Run any command by name, or browse a specific category:
 When user specifies a category:
 
 ```bash
-/dcs:library logistics
+/do:library logistics
 ```
 
 Show only that category:
@@ -94,15 +94,15 @@ Show only that category:
 
 | Command | Description |
 |---------|-------------|
-| `/dcs:meeting-brief` | Create focused meeting agendas through guided questions |
-| `/dcs:meeting-recap` | Document meetings with summaries, decisions, and action items |
-| `/dcs:kickoff-prep` | Generate project kickoff materials (agenda, brief, questions) |
+| `/do:meeting-brief` | Create focused meeting agendas through guided questions |
+| `/do:meeting-recap` | Document meetings with summaries, decisions, and action items |
+| `/do:kickoff-prep` | Generate project kickoff materials (agenda, brief, questions) |
 
 ---
 
 **Other categories:** content, development
 
-Run `/dcs:library` to see all categories.
+Run `/do:library` to see all categories.
 ```
 
 ---
@@ -119,7 +119,7 @@ Available categories:
 - **content** — Content creation for social and marketing
 - **development** — Research, analysis, and ideation tools
 
-Run `/dcs:library` to see all commands.
+Run `/do:library` to see all commands.
 ```
 
 ---
@@ -141,7 +141,7 @@ commands:
     path: logistics/meeting-brief.md
     category: logistics
     description: "Create focused meeting agendas"
-    trigger: "/dcs:meeting-brief"
+    trigger: "/do:meeting-brief"
     tags: [meetings, planning, preparation]
   # ... more commands
 ```
@@ -163,11 +163,11 @@ To add a command to the library:
      path: {category}/command-name.md
      category: {category}
      description: "Brief description of what it does"
-     trigger: "/dcs:command-name"
+     trigger: "/do:command-name"
      tags: [relevant, tags]
    ```
 
-3. The command will appear in `/dcs:library` output
+3. The command will appear in `/do:library` output
 
 ---
 
@@ -185,8 +185,8 @@ To add a command to the library:
 
 ## Related Commands
 
-- `/dcs:help` — Full command reference (includes system commands and dashboard)
-- `/dcs:dashboard` — Core pillar × timeframe reporting
+- `/do:help` — Full command reference (includes system commands and dashboard)
+- `/do:dashboard` — Core pillar × timeframe reporting
 
 ---
 

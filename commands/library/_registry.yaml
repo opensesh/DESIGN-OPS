@@ -1,8 +1,8 @@
 # DESIGN-OPS Utility Library Registry
 # Manifest of ad-hoc commands organized by category
 #
-# Use /dcs:library to browse available commands
-# Use /dcs:library [category] to filter by category
+# Use /do:library to browse available commands
+# Use /do:library [category] to filter by category
 
 version: "1.0"
 
@@ -20,21 +20,21 @@ commands:
     path: logistics/meeting-brief.md
     category: logistics
     description: "Create focused meeting agendas through guided questions"
-    trigger: "/dcs:meeting-brief"
+    trigger: "/do:meeting-brief"
     tags: [meetings, planning, preparation]
 
   - id: meeting-recap
     path: logistics/meeting-recap.md
     category: logistics
     description: "Document meetings with summaries, decisions, and action items"
-    trigger: "/dcs:meeting-recap"
+    trigger: "/do:meeting-recap"
     tags: [meetings, documentation, follow-up]
 
   - id: kickoff-prep
     path: logistics/kickoff-prep.md
     category: logistics
     description: "Generate project kickoff materials (agenda, brief, questions)"
-    trigger: "/dcs:kickoff-prep"
+    trigger: "/do:kickoff-prep"
     tags: [projects, kickoff, planning]
 
   # ───────────────────────────────────────────────────────────────────────────
@@ -45,7 +45,7 @@ commands:
     path: content/social-post.md
     category: content
     description: "Create platform-optimized social content (LinkedIn, Instagram, Substack)"
-    trigger: "/dcs:social-post"
+    trigger: "/do:social-post"
     tags: [social-media, content, marketing]
 
   # ───────────────────────────────────────────────────────────────────────────
@@ -56,12 +56,12 @@ commands:
     path: development/site-analysis.md
     category: development
     description: "Deep website analysis with structure mapping and component detection"
-    trigger: "/dcs:site-analysis"
+    trigger: "/do:site-analysis"
     tags: [research, websites, analysis, architecture]
 
   - id: devils-advocate
     path: development/devils-advocate.md
     category: development
     description: "Challenge assumptions and stress-test your thinking"
-    trigger: "/dcs:devils-advocate"
+    trigger: "/do:devils-advocate"
     tags: [ideation, critique, decision-making]

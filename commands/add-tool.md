@@ -1,10 +1,10 @@
-# /dcs:add-tool
+# /do:add-tool
 
 Guided setup for adding a new tool to Design Company Skills. Uses the evaluation cascade to determine the best connection method.
 
 ## Trigger
 
-User runs `/dcs:add-tool` or `/dcs:add-tool {toolname}` to connect a new tool.
+User runs `/do:add-tool` or `/do:add-tool {toolname}` to connect a new tool.
 
 ---
 
@@ -41,7 +41,7 @@ User wants to add a tool
 ### If tool specified in command
 
 ```
-/dcs:add-tool substack
+/do:add-tool substack
 ```
 
 Parse the tool name and proceed to evaluation.
@@ -304,8 +304,8 @@ Testing {Tool}...
 - {capability 2} in weekly recaps
 
 **Commands affected:**
-- `/dcs:daily-brief` — now includes {tool} data
-- `/dcs:weekly-recap` — now includes {tool} data
+- `/do:daily-brief` — now includes {tool} data
+- `/do:weekly-recap` — now includes {tool} data
 ```
 
 ---
@@ -408,18 +408,18 @@ Would you like to:
 
 ---
 
-## Integration with /dcs:configure
+## Integration with /do:configure
 
-This command can also be triggered from `/dcs:configure`:
+This command can also be triggered from `/do:configure`:
 
 ```
-/dcs:configure → "Add new tools" → /dcs:add-tool flow
+/do:configure → "Add new tools" → /do:add-tool flow
 ```
 
 Or for a specific pillar:
 
 ```
-/dcs:configure analytics → "Add new tool" → /dcs:add-tool (filtered to analytics tools)
+/do:configure analytics → "Add new tool" → /do:add-tool (filtered to analytics tools)
 ```
 
 ---
