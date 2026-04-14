@@ -35,7 +35,8 @@ pillars:
     outcomes:
       daily: [...]
       weekly: [...]
-      monthly: [...]
+      quarterly: [...]
+      ytd: [...]
 
   design:
     enabled: true/false
@@ -43,7 +44,8 @@ pillars:
     outcomes:
       daily: [...]
       weekly: [...]
-      monthly: [...]
+      quarterly: [...]
+      ytd: [...]
 
   analytics:
     enabled: true/false
@@ -51,7 +53,8 @@ pillars:
     outcomes:
       daily: [...]
       weekly: [...]
-      monthly: [...]
+      quarterly: [...]
+      ytd: [...]
 
 team:
   members: [...]
@@ -235,7 +238,7 @@ tools:
 
 ## Outcomes Configuration
 
-Outcomes define what data to include in daily briefs, weekly recaps, and monthly reports.
+Outcomes define what data to include in daily, weekly, quarterly, and year-to-date reports.
 
 ```yaml
 outcomes:
@@ -244,29 +247,81 @@ outcomes:
     - tasks_due            # From notion/linear
     - recent_commits       # From github
     - design_updates       # From figma
+    - pageviews            # From google_analytics
+    - link_clicks          # From dubco
 
   weekly:
     - week_overview        # From google_workspace
     - tasks_completed      # From notion/linear
     - team_contributions   # From github
+    - design_versions      # From figma
     - traffic_trends       # From google_analytics
+    - top_links            # From dubco
 
-  monthly:
-    - project_status       # From notion/linear
-    - month_comparison     # From google_analytics
+  quarterly:
+    - quarter_goals        # From notion/linear
+    - budget_status        # From notion
+    - project_completions  # From notion/linear
+    - shipped_projects     # From github/figma
+    - design_velocity      # From github
+    - quarter_trends       # From google_analytics
+    - campaign_performance # From google_analytics
+
+  ytd:
+    - annual_goals         # From notion/linear
+    - revenue_tracking     # From notion
+    - client_retention     # From notion
+    - projects_shipped     # From github/figma
+    - design_maturity      # From figma
+    - annual_traffic       # From google_analytics
+    - yoy_comparison       # From google_analytics
 ```
 
 ### Outcome to Tool Mapping
 
 Each outcome references a capability from a connected tool:
 
+**Daily Outcomes:**
 | Outcome | Source Tool | Capability |
 |---------|-------------|------------|
 | `calendar_events` | google_workspace | `todays_events` |
 | `tasks_due` | notion, linear | `task_counts` |
 | `recent_commits` | github | `recent_commits` |
 | `design_updates` | figma | `files_edited` |
+| `pageviews` | google_analytics | `session_count` |
+| `link_clicks` | dubco | `click_counts` |
+
+**Weekly Outcomes:**
+| Outcome | Source Tool | Capability |
+|---------|-------------|------------|
+| `week_overview` | google_workspace | `event_count` |
+| `tasks_completed` | notion, linear | `task_completion` |
+| `team_contributions` | github | `team_contributions` |
+| `design_versions` | figma | `design_versions` |
 | `traffic_trends` | google_analytics | `traffic_trends` |
+| `top_links` | dubco | `top_links` |
+
+**Quarterly Outcomes:**
+| Outcome | Source Tool | Capability |
+|---------|-------------|------------|
+| `quarter_goals` | notion, linear | `goal_tracking` |
+| `budget_status` | notion | `budget_tracking` |
+| `project_completions` | notion, linear | `project_status` |
+| `shipped_projects` | github, figma | `release_history` |
+| `design_velocity` | github | `pr_velocity` |
+| `quarter_trends` | google_analytics | `quarter_comparison` |
+| `campaign_performance` | google_analytics | `campaign_metrics` |
+
+**Year-to-Date Outcomes:**
+| Outcome | Source Tool | Capability |
+|---------|-------------|------------|
+| `annual_goals` | notion, linear | `annual_tracking` |
+| `revenue_tracking` | notion | `revenue_metrics` |
+| `client_retention` | notion | `client_metrics` |
+| `projects_shipped` | github, figma | `annual_releases` |
+| `design_maturity` | figma | `system_coverage` |
+| `annual_traffic` | google_analytics | `annual_totals` |
+| `yoy_comparison` | google_analytics | `year_comparison` |
 
 Commands read the outcomes list and fetch data from the corresponding tool's capabilities.
 
@@ -312,20 +367,31 @@ Auto-computed based on connected tools:
 
 ```yaml
 enabled_commands:
-  - daily_brief      # Requires: any operations tool
-  - weekly_recap     # Requires: any operations tool
-  - team_pulse       # Requires: figma OR github
-  - analytics        # Requires: any analytics tool
+  - dashboard        # Core command - requires any pillar enabled
+  - daily_brief      # Legacy alias - requires any operations/design tool
+  - weekly_recap     # Legacy alias - requires any operations/design tool
+  - team_pulse       # Legacy alias - requires figma OR github
 ```
 
 ### Command Requirements
 
 | Command | Required Tools |
 |---------|----------------|
+| `dashboard` | At least one pillar with connected tools |
 | `daily_brief` | At least one operations or design tool |
 | `weekly_recap` | At least one operations or design tool |
 | `team_pulse` | Figma OR GitHub with team tracking |
-| `analytics` | At least one analytics tool |
+
+### Dashboard Timeframes
+
+The `/dcs:dashboard` command supports multiple timeframes:
+
+| Timeframe | Aliases | Data Scope |
+|-----------|---------|------------|
+| `daily` | `today`, `d` | Last 24 hours |
+| `weekly` | `week`, `w` | Current week |
+| `quarterly` | `quarter`, `q` | Current quarter |
+| `ytd` | `year`, `y` | Year-to-date |
 
 ---
 
@@ -363,7 +429,8 @@ pillars:
     outcomes:
       daily: [calendar_events, tasks_due, unread_emails]
       weekly: [week_overview, tasks_completed]
-      monthly: []
+      quarterly: [quarter_goals, budget_status]
+      ytd: [annual_goals, revenue_tracking]
 
   design:
     enabled: true
@@ -377,6 +444,8 @@ pillars:
           reporting:
             daily: [recent_commits, open_prs]
             weekly: [team_contributions, pr_activity]
+            quarterly: [release_history, pr_velocity]
+            ytd: [annual_releases]
         tracked_repos:
           - owner: "opensesh"
             repo: "webapp"
@@ -393,6 +462,8 @@ pillars:
           reporting:
             daily: [files_edited, active_users]
             weekly: [design_versions]
+            quarterly: [project_completions]
+            ytd: [system_coverage]
         tracked_projects:
           - id: "123456789"
             name: "Design System"
@@ -400,7 +471,8 @@ pillars:
     outcomes:
       daily: [recent_commits, open_prs, design_updates]
       weekly: [team_contributions, design_versions, pr_activity]
-      monthly: []
+      quarterly: [shipped_projects, design_velocity]
+      ytd: [projects_shipped, design_maturity]
 
   analytics:
     enabled: true
@@ -414,6 +486,8 @@ pillars:
           reporting:
             daily: [session_count, top_pages]
             weekly: [traffic_trends, source_breakdown]
+            quarterly: [quarter_comparison, campaign_metrics]
+            ytd: [annual_totals, year_comparison]
 
       - id: dubco
         type: mcp
@@ -424,6 +498,8 @@ pillars:
           reporting:
             daily: [click_counts]
             weekly: [top_links]
+            quarterly: [link_performance]
+            ytd: [total_clicks]
 
       - id: substack
         type: unavailable
@@ -433,7 +509,8 @@ pillars:
     outcomes:
       daily: [pageviews, link_clicks]
       weekly: [traffic_trends, top_links]
-      monthly: [month_comparison]
+      quarterly: [quarter_trends, campaign_performance]
+      ytd: [annual_traffic, yoy_comparison]
 
 team:
   members:
