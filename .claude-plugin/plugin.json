@@ -1,12 +1,12 @@
 {
-  "name": "company-skills",
-  "description": "A mini team of agents for daily, weekly, and as-needed workflows. Works for any company.",
+  "name": "design-company-skills",
   "version": "1.0.0",
+  "description": "Design company toolkit: brand guidelines, design system, team productivity, Figma + GitHub integration",
   "author": {
     "name": "Open Session",
-    "url": "https://opensesh.com"
+    "url": "https://opensession.ai"
   },
-  "repository": "https://github.com/opensesh/company-skills",
+  "repository": "https://github.com/opensesh/design-company-skills",
   "commands_dir": "commands",
   "skills_dir": "skills"
 }
