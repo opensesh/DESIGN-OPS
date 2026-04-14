@@ -77,7 +77,7 @@ pillars:
       #       daily: [unread_counts, recent_messages]
       #       weekly: [channel_activity]
 
-    # What to include in daily/weekly/monthly outputs
+    # What to include in daily/weekly/quarterly/ytd outputs
     outcomes:
       daily: []
         # - calendar_events      # Today's meetings (from google_workspace)
@@ -88,8 +88,14 @@ pillars:
         # - week_overview        # Events attended (from google_workspace)
         # - tasks_completed      # Tasks done this week (from notion/linear)
         # - team_activity        # Team communication (from slack)
-      monthly: []
-        # - project_status       # Project progress (from notion/linear)
+      quarterly: []
+        # - quarter_goals        # Quarter goal progress (from notion/linear)
+        # - budget_status        # Budget tracking (from notion)
+        # - project_completions  # Projects completed this quarter (from notion/linear)
+      ytd: []
+        # - annual_goals         # Annual goal progress (from notion/linear)
+        # - revenue_tracking     # Revenue metrics (from notion)
+        # - client_retention     # Client retention rate (from notion)
 
   # ───────────────────────────────────────────────────────────────────────────
   # DESIGN — Creative work, code, visual assets
@@ -147,8 +153,14 @@ pillars:
         # - team_contributions   # Commits by person (from github/gitlab)
         # - design_versions      # Versions created (from figma)
         # - pr_activity          # PRs merged (from github/gitlab)
-      monthly: []
-        # - design_progress      # Project completion (from figma)
+      quarterly: []
+        # - shipped_projects     # Projects shipped this quarter (from github/figma)
+        # - design_velocity      # PR velocity metrics (from github)
+        # - system_coverage      # Design system coverage (from figma)
+      ytd: []
+        # - projects_shipped     # Total projects shipped (from github/figma)
+        # - design_maturity      # Design system maturity score (from figma)
+        # - component_growth     # New components added (from figma)
 
   # ───────────────────────────────────────────────────────────────────────────
   # ANALYTICS — Metrics, insights, reporting
@@ -205,8 +217,14 @@ pillars:
         # - traffic_trends       # Traffic patterns (from google_analytics)
         # - top_links            # Best performing links (from dubco)
         # - audience_growth      # Subscriber growth (from substack)
-      monthly: []
-        # - month_comparison     # Month-over-month (from google_analytics)
+      quarterly: []
+        # - quarter_trends       # Quarter traffic trends (from google_analytics)
+        # - campaign_performance # Campaign metrics (from google_analytics)
+        # - conversion_funnel    # Conversion funnel data (from google_analytics)
+      ytd: []
+        # - annual_traffic       # Total annual traffic (from google_analytics)
+        # - yoy_comparison       # Year-over-year comparison (from google_analytics)
+        # - total_growth         # Total growth metrics (from google_analytics/dubco)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # TEAM MEMBERS (optional - for cleaner output)
