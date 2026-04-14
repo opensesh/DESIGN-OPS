@@ -229,24 +229,24 @@ Continue with other sources if possible.
 ### Design (Figma)
 
 **Active files**
-- **Homepage Redesign** — Sarah, 2h ago
-- **Mobile Onboarding** — Sarah, 5h ago
+- **Homepage Redesign** — Taylor, 2h ago
+- **Mobile Onboarding** — Taylor, 5h ago
 - **Brand Guidelines** — No recent activity
 
 **Recent versions**
-- Sarah: "Final hero layout" on Homepage Redesign (3h ago)
+- Taylor: "Final hero layout" on Homepage Redesign (3h ago)
 
 ---
 
 ### Development (GitHub)
 
 **Recent commits**
-- **webapp** — Jake: "fix: auth redirect loop" (1h ago)
-- **webapp** — Jake: "feat: add logout button" (3h ago)
-- **design-system** — Sarah: "update brand tokens" (yesterday)
+- **webapp** — Morgan: "fix: auth redirect loop" (1h ago)
+- **webapp** — Morgan: "feat: add logout button" (3h ago)
+- **design-system** — Taylor: "update brand tokens" (yesterday)
 
 **Open PRs**
-- Jake: "Auth improvements" → webapp (ready for review)
+- Morgan: "Auth improvements" → webapp (ready for review)
 
 ---
 
@@ -254,8 +254,8 @@ Continue with other sources if possible.
 
 | Person | Design | Code |
 |--------|--------|------|
-| Sarah  | 2 files | 1 commit |
-| Jake   | —      | 2 commits, 1 PR |
+| Taylor | 2 files | 1 commit |
+| Morgan | —      | 2 commits, 1 PR |
 ```
 
 ---

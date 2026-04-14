@@ -92,7 +92,7 @@ When extracting from raw notes:
 **Identifying Action Items:**
 - Must have: What + Who + When
 - If who/when is missing, flag it: "[Owner TBD]" or "[Date TBD]"
-- Active voice: "Sarah will..." not "It was discussed that Sarah might..."
+- Active voice: "Taylor will..." not "It was discussed that Taylor might..."
 
 **Summary Quality:**
 - Lead with outcomes, not process
@@ -109,13 +109,13 @@ When extracting from raw notes:
 
 **User:**
 ```
-design review call today with sarah and jake
+design review call today with taylor and morgan
 - looked at homepage redesign
-- sarah likes the hero but wants to explore different cta colors
-- jake pointed out accessibility issues with the contrast
+- taylor likes the hero but wants to explore different cta colors
+- morgan pointed out accessibility issues with the contrast
 - need to fix contrast before next review
 - decided to go with option B for the nav
-- sarah will send mood board by friday
+- taylor will send mood board by friday
 - next review tuesday
 ```
 
@@ -125,7 +125,7 @@ design review call today with sarah and jake
 ## Meeting Recap: Design Review - Homepage Redesign
 
 **Date:** [Today's date]
-**Attendees:** Sarah, Jake, [You]
+**Attendees:** Taylor, Morgan, [You]
 
 ### Summary
 Reviewed homepage redesign progress. Approved Option B for navigation. Identified accessibility concerns with CTA contrast that need resolution before next review.
@@ -135,15 +135,15 @@ Reviewed homepage redesign progress. Approved Option B for navigation. Identifie
 - **Hero:** Approved, but exploring alternative CTA colors
 
 ### Discussion Highlights
-- Sarah positive on hero design overall
-- Jake flagged contrast/accessibility issues with current CTA
+- Taylor positive on hero design overall
+- Morgan flagged contrast/accessibility issues with current CTA
 - CTA color exploration needed to meet accessibility standards
 
 ### Action Items
 
 | Action | Owner | Due Date |
 |--------|-------|----------|
-| Send mood board for CTA color exploration | Sarah | Friday |
+| Send mood board for CTA color exploration | Taylor | Friday |
 | Fix CTA contrast to meet accessibility standards | [Owner TBD] | Before Tuesday |
 | Schedule accessibility audit if needed | [Owner TBD] | [Date TBD] |
 

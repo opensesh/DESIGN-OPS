@@ -133,8 +133,8 @@ Ask:
 >
 > Example:
 > ```
-> Sarah | Sarah Chen | sarahc
-> Jake | | jakedev
+> Taylor | Taylor Lee | taylorl
+> Morgan | | morgandev
 > ```
 > (Leave a field blank if not applicable)
 

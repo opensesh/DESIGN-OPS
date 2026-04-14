@@ -1,6 +1,6 @@
 # /dcs:test
 
-Verification suite that checks all integrations, skills, and commands are working correctly.
+Verification suite that checks all integrations, skills, and commands are working correctly. Organized by pillars.
 
 ## Trigger
 
@@ -36,63 +36,104 @@ Running verification tests...
 - Pass: `[x] Config syntax valid`
 - Fail: `[ ] Config has syntax errors — see details below`
 
-**Test 3: Required fields present**
-- Check: `version`, `figma` or `github` section exists
-- Pass: `[x] Required fields present`
-- Fail: `[ ] Missing required fields: {list}`
+**Test 3: Config version**
+- Check: `version` field is "2.0"
+- Pass: `[x] Config version: 2.0`
+- Warn: `[~] Config version: 1.0 — run /dcs:setup to migrate`
 
-**Test 4: No conflicting settings**
-- Check: No duplicate project IDs, no circular references
-- Pass: `[x] No conflicting settings`
-- Fail: `[ ] Conflict detected: {description}`
+**Test 4: At least one pillar enabled**
+- Check: At least one pillar has `enabled: true`
+- Pass: `[x] Pillars enabled: {count}`
+- Fail: `[ ] No pillars enabled — run /dcs:configure`
 
 ---
 
-### Step 3: Integration Tests
+### Step 3: Operations Pillar Tests
 
 ```markdown
-### Integrations
+### Operations Pillar
 ```
 
-**Test 5: Figma API (if configured)**
-```bash
-curl -s -H "Authorization: Bearer {token}" "https://api.figma.com/v1/me"
-```
-- Pass: `[x] Figma API: Connected as {handle}`
-- Fail: `[ ] Figma API: {error_message}`
+**If pillar enabled:**
 
-**Test 6: Figma projects accessible (if configured)**
-For each tracked project:
-```bash
-curl -s -H "Authorization: Bearer {token}" \
-  "https://api.figma.com/v1/projects/{id}/files"
-```
-- Pass: `[x] Figma projects: All {N} accessible`
-- Partial: `[~] Figma projects: {N}/{M} accessible`
-- Fail: `[ ] Figma projects: None accessible`
+For each tool in `pillars.operations.tools`:
 
-**Test 7: GitHub MCP (if configured)**
-- Check: MCP tools available and responding
+**Test: {Tool} connection**
+- MCP: Try basic query
+- API: Validate token
+- Pass: `[x] {Tool}: Connected`
+- Fail: `[ ] {Tool}: {error_message}`
+
+**Test: {Tool} capabilities**
+- Check: Can fetch data for configured outcomes
+- Pass: `[x] {Tool} capabilities: All accessible`
+- Partial: `[~] {Tool} capabilities: {N}/{M} accessible`
+
+**If pillar disabled:**
+```markdown
+- [○] Operations pillar: Disabled (skipped)
+```
+
+---
+
+### Step 4: Design Pillar Tests
+
+```markdown
+### Design Pillar
+```
+
+**If pillar enabled:**
+
+**Test: GitHub MCP (if configured)**
 - Try: `mcp__github__list_commits` on one tracked repo
-- Pass: `[x] GitHub MCP: Connected, tools working`
+- Pass: `[x] GitHub MCP: Connected, can list repos`
 - Fail: `[ ] GitHub MCP: {error_message}`
 
-**Test 8: GitHub repos accessible (if configured)**
+**Test: GitHub repos accessible (if configured)**
 For each tracked repo:
 - Try: List recent commits
 - Pass: `[x] GitHub repos: All {N} accessible`
 - Partial: `[~] GitHub repos: {N}/{M} accessible`
 - Fail: `[ ] GitHub repos: None accessible`
 
+**Test: Figma API (if configured)**
+```bash
+curl -s -H "Authorization: Bearer {token}" "https://api.figma.com/v1/me"
+```
+- Pass: `[x] Figma API: Connected as {handle}`
+- Fail: `[ ] Figma API: {error_message}`
+
+**Test: Figma projects accessible (if configured)**
+For each tracked project:
+- Pass: `[x] Figma projects: All {N} accessible`
+- Partial: `[~] Figma projects: {N}/{M} accessible`
+
 ---
 
-### Step 4: Skills Tests
+### Step 5: Analytics Pillar Tests
+
+```markdown
+### Analytics Pillar
+```
+
+**If pillar enabled:**
+
+For each analytics tool:
+
+**Test: {Tool} connection**
+- Pass: `[x] {Tool}: Connected`
+- Fail: `[ ] {Tool}: {error_message}`
+- Skipped: `[○] {Tool}: Skipped (no wrapper)`
+
+---
+
+### Step 6: Skills Tests
 
 ```markdown
 ### Skills
 ```
 
-**Test 9: Skill files exist**
+**Test: Skill files exist**
 For each expected skill:
 - Check: `skills/{name}/SKILL.md` or `skills/{name}.md` exists
 - Pass: `[x] {skill-name}: Found`
@@ -105,21 +146,22 @@ Expected skills:
 - brand-voice
 - design-feedback
 - verification-before-completion
+- tool-evaluator
 
-**Test 10: Skill frontmatter valid**
+**Test: Skill frontmatter valid**
 - Check: YAML frontmatter parses, has `name` and `description`
 - Pass: `[x] Skill frontmatter: All valid`
 - Fail: `[ ] Skill frontmatter: {skill} has errors`
 
 ---
 
-### Step 5: Commands Tests
+### Step 7: Commands Tests
 
 ```markdown
 ### Commands
 ```
 
-**Test 11: Command files exist**
+**Test: Command files exist**
 For each expected command:
 - Check: `commands/{name}.md` exists
 - Pass: `[x] All commands registered`
@@ -133,46 +175,53 @@ Expected commands:
 - devils-advocate, site-analysis
 - social-post, add-tool
 
-**Test 12: No naming conflicts**
+**Test: No naming conflicts**
 - Check: No duplicate command names across plugins
 - Pass: `[x] No naming conflicts`
 - Fail: `[ ] Conflict with: {plugin}/{command}`
 
 ---
 
-### Step 6: Integration Test
+### Step 8: End-to-End Test
 
 ```markdown
 ### End-to-End Test
 ```
 
-**Test 13: Team pulse data fetch**
-If both Figma and GitHub configured:
-- Try: Fetch activity from both sources
-- Pass: `[x] Team pulse: Can fetch data from all sources`
-- Partial: `[~] Team pulse: Partial data ({working} of {total})`
-- Fail: `[ ] Team pulse: Cannot fetch any data`
+**Test: Daily brief data fetch**
+If any pillar enabled:
+- Try: Fetch data from each connected tool
+- Pass: `[x] Daily brief: Can fetch from all sources`
+- Partial: `[~] Daily brief: Partial data ({N} of {M} sources)`
+- Fail: `[ ] Daily brief: Cannot fetch any data`
+
+**Test: Outcome mapping**
+- Check: All configured outcomes map to available capabilities
+- Pass: `[x] Outcomes: All mappings valid`
+- Warn: `[~] Outcomes: {outcome} has no source (tool not connected)`
 
 ---
 
-### Step 7: Summary
+### Step 9: Summary
 
 ```markdown
 ---
 
 ## Results
 
-**Passed:** 12/13 tests
-**Warnings:** 1
+**Passed:** 18/20 tests
+**Warnings:** 2
 **Failed:** 0
 
 ### Warnings
 
 - Figma project "Old Project" (id: 111) returned 404 — may have been deleted
+- Substack not connected — some analytics outcomes unavailable
 
 ### Recommendations
 
-1. Remove deleted Figma project: `/dcs:configure` → Figma → Remove project
+1. Remove deleted Figma project: `/dcs:configure` → Design → Figma
+2. Connect Substack for full analytics: `/dcs:add-tool substack`
 ```
 
 ---
@@ -187,37 +236,51 @@ Full test output:
 ### Configuration
 - [x] Config file exists
 - [x] Config syntax valid
-- [x] Required fields present
-- [x] No conflicting settings
+- [x] Config version: 2.0
+- [x] Pillars enabled: 3
 
-### Integrations
-- [x] Figma API: Connected as sarah.chen
+### Operations Pillar
+- [x] Notion MCP: Connected
+- [x] Notion capabilities: All accessible
+- [x] Google Workspace MCP: Connected
+- [x] Google Workspace capabilities: All accessible
+- [○] Slack: Not configured (optional)
+
+### Design Pillar
+- [x] GitHub MCP: Connected
+- [x] GitHub repos: All 2 accessible
+- [x] Figma API: Connected as jordan.smith
 - [~] Figma projects: 1/2 accessible
-- [x] GitHub MCP: Connected, tools working
-- [x] GitHub repos: All 3 accessible
+
+### Analytics Pillar
+- [x] Google Analytics MCP: Connected
+- [x] Dub.co MCP: Connected
+- [○] Substack: Skipped (no wrapper)
 
 ### Skills
 - [x] brand-guidelines: Found
 - [x] frontend-design: Found
 - [x] design-system-quality: Found
-- [x] All 6 skills valid
+- [x] tool-evaluator: Found
+- [x] All 7 skills valid
 
 ### Commands
 - [x] All 15 commands registered
 - [x] No naming conflicts
 
 ### End-to-End
-- [x] Team pulse: Can fetch data from all sources
+- [x] Daily brief: Can fetch from all sources
+- [~] Outcomes: substack_subscribers has no source
 
 ---
 
 ## Results
 
-**Passed:** 12/13 tests
-**Warnings:** 1
+**Passed:** 18/20 tests
+**Warnings:** 2
 **Failed:** 0
 
-All critical systems operational. One Figma project may need attention.
+All critical systems operational. Some optional features need attention.
 
 Run `/dcs:configure` to fix warnings, or `/dcs:status` for overview.
 ```
@@ -230,17 +293,30 @@ If user runs `/dcs:test quick`:
 
 Only run critical tests:
 1. Config exists and valid
-2. Figma API responds (if configured)
-3. GitHub MCP responds (if configured)
+2. One tool per pillar responds
+3. Skills directory accessible
 
 ```markdown
 ## Quick Diagnostics
 
-- [x] Config: OK
-- [x] Figma: OK
-- [x] GitHub: OK
+- [x] Config: OK (v2.0)
+- [x] Operations: OK (Notion responding)
+- [x] Design: OK (GitHub responding)
+- [x] Analytics: OK (GA4 responding)
 
 All systems operational.
+```
+
+---
+
+## Test by Pillar
+
+User can test specific pillar:
+
+```
+/dcs:test operations
+/dcs:test design
+/dcs:test analytics
 ```
 
 ---
@@ -259,9 +335,22 @@ When tests fail, provide actionable details:
 2. Token was revoked — check Figma account settings
 3. Wrong token scope — needs "File content" permission
 
-**Fix:** Run `/dcs:configure` → Figma → Update token
+**Fix:** Run `/dcs:configure` → Design → Figma → Update token
+```
+
+```markdown
+### Failed: GitHub MCP
+
+**Error:** MCP not responding (timeout after 10s)
+
+**Likely causes:**
+1. MCP server crashed — restart Claude
+2. Network issue — check internet connection
+3. MCP misconfigured — check ~/.claude/settings.json
+
+**Fix:** Try restarting Claude, or run `claude mcp list` to check status
 ```
 
 ---
 
-*Version: 1.0*
+*Version: 2.0*

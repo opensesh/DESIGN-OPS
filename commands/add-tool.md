@@ -1,220 +1,427 @@
-# /add-tool
+# /dcs:add-tool
 
-Guided setup for connecting a new MCP (tool integration).
+Guided setup for adding a new tool to Design Company Skills. Uses the evaluation cascade to determine the best connection method.
 
 ## Trigger
 
-User runs `/add-tool` to connect a new tool to Claude Code.
+User runs `/dcs:add-tool` or `/dcs:add-tool {toolname}` to connect a new tool.
 
 ---
 
-## Workflow
-
-### Step 1: Present Options
-
-Show available MCPs with what they enable:
+## Workflow Overview
 
 ```
+User wants to add a tool
+        │
+        ▼
+┌───────────────────────┐
+│ 1. Identify the tool  │ ← Which tool? Which pillar?
+└───────────────────────┘
+        │
+        ▼
+┌───────────────────────┐
+│ 2. Evaluate the tool  │ ← Check MCP → Check API → Assess viability
+└───────────────────────┘
+        │
+        ▼
+┌───────────────────────┐
+│ 3. Guide connection   │ ← Based on evaluation results
+└───────────────────────┘
+        │
+        ▼
+┌───────────────────────┐
+│ 4. Update config      │ ← Add to appropriate pillar
+└───────────────────────┘
+```
+
+---
+
+## Step 1: Identify the Tool
+
+### If tool specified in command
+
+```
+/dcs:add-tool substack
+```
+
+Parse the tool name and proceed to evaluation.
+
+### If no tool specified
+
+Present options organized by pillar:
+
+```markdown
 ## Add a New Tool
 
 What would you like to connect?
 
-**Recommended:**
-1. **Google Calendar** — Auto-fetch meetings for daily briefs
-2. **Notion** — Pull tasks, search docs
-3. **GitHub** — Code search, PR reviews
-4. **Firecrawl** — Deep website analysis
+**Operations (coordination, scheduling, tasks):**
+1. Notion — Tasks, docs, wikis
+2. Google Workspace — Calendar, email, docs
+3. Linear — Issue tracking
+4. Asana — Project management
+5. Slack — Communication
 
-**Other options:**
-5. **Gmail** — Email summaries and drafts
-6. **Supabase** — Database queries
-7. **Linear** — Issue tracking
-8. **Custom** — Add any MCP server
+**Design (code, creative work):**
+6. GitHub — Repos, PRs, issues
+7. GitLab — Repos, merge requests
+8. Figma — Design files
+9. Bitbucket — Repos, PRs
+
+**Analytics (metrics, insights):**
+10. Google Analytics (GA4) — Web traffic
+11. Dub.co — Link analytics
+12. Plausible — Privacy-focused analytics
+13. Substack — Newsletter metrics
+14. Bitly — Link tracking
+
+**Other:**
+15. Custom tool — I'll specify the name
 
 Which one? (enter number or name)
 ```
 
-### Step 2: Guide Setup Based on Selection
+---
 
-#### For OAuth-Based MCPs (Calendar, Gmail, Drive)
+## Step 2: Evaluate the Tool
 
+Use the tool-evaluator skill to assess the tool:
+
+```markdown
+Evaluating {tool_name}...
 ```
-## Setting up Google Calendar
 
-This uses browser authentication — I'll open a window for you to log in.
+### Evaluation Cascade
 
-**Step 1:** Run this command in your terminal:
+1. **Check for MCP**
+   - Search `~/.claude/settings.json` for existing MCP
+   - Check `references/tool-registry.md` for known MCPs
+   - Determine if MCP supports reporting data we need
 
-claude mcp add google-calendar -- npx -y @anthropic/mcp-google-calendar
+2. **If MCP found:**
+   - Check if already connected
+   - If not connected, guide MCP installation
+   - Catalog capabilities
 
-**Step 2:** A browser window will open. Log in and authorize access.
+3. **If no MCP, check API:**
+   - Consult tool registry for API information
+   - Assess if API supports reporting (daily/weekly data)
+   - Determine auth requirements
 
-**Step 3:** Come back here and say "done" when complete.
+4. **Determine connection type:**
+   - `mcp` — MCP available
+   - `api` — Direct API integration
+   - `custom_wrapper` — API needs MCP wrapper
+   - `unavailable` — No viable connection
 
 ---
 
-Need help? Common issues:
-- Browser didn't open → Try running the command again
-- Authorization failed → Make sure you're logged into the right Google account
+## Step 3: Guide Connection
+
+### Connection Type: MCP (available, not connected)
+
+```markdown
+## {Tool} — MCP Available
+
+{Tool} has an official MCP that provides reporting data.
+
+**Installation:**
+```bash
+claude mcp add {mcp-name} -- npx -y {package-name}
 ```
 
-#### For API Key-Based MCPs (Notion, Firecrawl, Supabase)
+**Authentication:**
+{Auth instructions based on tool type}
 
+Run the command above, then say "done" when complete.
 ```
-## Setting up Notion
 
-This requires an API key from Notion.
+### Connection Type: MCP (already connected)
 
-**Step 1:** Get your API key
-Go to: https://www.notion.so/my-integrations
-Create a new integration and copy the "Internal Integration Token"
+```markdown
+## {Tool} — Already Connected
 
-**Step 2:** Run these commands in your terminal:
+{Tool} MCP is already installed and connected.
 
-export NOTION_API_KEY="your-token-here"
-claude mcp add notion -- npx -y @anthropic/mcp-notion
+**Capabilities detected:**
+- {capability 1}
+- {capability 2}
+- {capability 3}
 
-**Step 3:** Important! Add to your shell profile so it persists:
+Would you like to:
+1. Configure which data to include in briefs
+2. Set up project/repo tracking
+3. Skip — tool is ready to use
+```
 
-# Add this line to ~/.zshrc (or ~/.bashrc):
-export NOTION_API_KEY="your-token-here"
+### Connection Type: API (direct)
 
-Then run: source ~/.zshrc
+```markdown
+## {Tool} — API Integration
 
-**Step 4:** Say "done" when complete.
+{Tool} doesn't have an MCP for reporting, but has a good API.
+
+**To connect:**
+1. Get your API token from: {token_url}
+2. {Specific token generation instructions}
+3. Enter your token below:
+
+Token: [____________]
+```
+
+After token entry, validate and store.
+
+### Connection Type: Custom Wrapper
+
+```markdown
+## {Tool} — Needs Custom Wrapper
+
+{Tool} has an API that can provide reporting data, but needs
+an MCP wrapper to integrate with Design Company Skills.
+
+**What this means:**
+- We'll create a simple MCP server that wraps {Tool}'s API
+- This takes a few minutes to set up
+- Once created, it works like any other MCP
+
+Would you like to create the wrapper now?
+
+[Yes, guide me through it] [Skip for now]
+```
+
+If yes, invoke `/mcp-builder` skill with tool context.
+
+### Connection Type: Unavailable
+
+```markdown
+## {Tool} — Not Available
+
+Unfortunately, {Tool} can't be connected at this time.
+
+**Reason:** {specific_reason}
+
+{If alternatives exist:}
+**Alternatives you might consider:**
+- {Alternative 1} — {brief description}
+- {Alternative 2} — {brief description}
+
+Would you like to add one of these instead?
+```
 
 ---
 
-Need help?
-- Can't find integrations page → Look in Settings & Members > Integrations
-- Permission denied → Make sure your integration has access to your workspace
+## Step 4: Configure the Tool
+
+### For tools with project/repo tracking
+
+```markdown
+## Configure {Tool} Tracking
+
+Which {items} should I track for activity reports?
+
+{List of detected items if available}
+
+Or enter manually:
+- {format instructions}
 ```
 
-#### For Custom MCPs
+### Determine pillar placement
 
-```
-## Add a Custom MCP
+If not obvious from tool type:
 
-What MCP server do you want to add?
+```markdown
+## Where should {Tool} appear in reports?
 
-**If from npm:**
-claude mcp add [name] -- npx -y [package-name]
-
-**If from a local file:**
-claude mcp add [name] -- node /path/to/server.js
-
-**If from Docker:**
-claude mcp add [name] -- docker run [image]
-
-What's the package name or path?
+1. **Operations** — Include in task/scheduling sections
+2. **Design** — Include in code/creative sections
+3. **Analytics** — Include in metrics sections
 ```
 
-### Step 3: Verify Connection
+### Select outcomes
 
-After user says "done":
+```markdown
+## What data from {Tool} do you want in your briefs?
 
-```
-Let me verify the connection...
-```
+**Daily:**
+☐ {outcome 1} — {description}
+☐ {outcome 2} — {description}
 
-Try to use the MCP (e.g., for Calendar, ask "What's on my calendar today?").
+**Weekly:**
+☐ {outcome 3} — {description}
+☐ {outcome 4} — {description}
 
-**If successful:**
-```
-✅ Google Calendar connected successfully!
-
-What this enables:
-• /daily-brief will show your meetings automatically
-• "What meetings do I have this week?"
-• "Prep me for my 2pm call"
-
-I've updated your config at ~/.claude/skills-config.yaml.
-
-Want to add another tool, or are you all set?
+[Confirm selections]
 ```
 
-**If failed:**
-```
-⚠️ I couldn't connect to Google Calendar.
+---
 
-Common fixes:
-1. Make sure the authorization completed in the browser
-2. Try running the command again
-3. Check that you authorized the correct Google account
+## Step 5: Update Configuration
 
-Want to try again, or skip for now?
-```
-
-### Step 4: Update Config
-
-After successful connection, update `~/.claude/skills-config.yaml`:
+Write changes to `~/.claude/dcs-config.yaml`:
 
 ```yaml
-mcp_connected:
-  - name: google-calendar
-    capabilities: [events, scheduling]
-  # ... existing entries
+pillars:
+  {pillar}:
+    enabled: true
+    tools:
+      # ... existing tools ...
+      - id: {tool_id}
+        type: {connection_type}
+        mcp_name: "{mcp_name}"  # if MCP
+        auth:                    # if API
+          token_env: {ENV_VAR}
+        status: connected
+        capabilities:
+          data_types: [{types}]
+          reporting:
+            daily: [{daily_caps}]
+            weekly: [{weekly_caps}]
+        {tracking_config}        # if applicable
+    outcomes:
+      daily: [{updated_daily}]
+      weekly: [{updated_weekly}]
 ```
 
 ---
 
-## MCP Reference Table
+## Step 6: Verification
 
-| MCP | Type | Command | What It Enables |
-|-----|------|---------|-----------------|
-| Google Calendar | OAuth | `claude mcp add google-calendar -- npx -y @anthropic/mcp-google-calendar` | Meeting data for daily briefs |
-| Gmail | OAuth | `claude mcp add gmail -- npx -y @anthropic/mcp-gmail` | Email summaries, draft replies |
-| Notion | API Key | `export NOTION_API_KEY="..." && claude mcp add notion -- npx -y @anthropic/mcp-notion` | Tasks, docs, workspace search |
-| GitHub | Auth | `claude mcp add github -- npx -y @anthropic/mcp-github` | Code search, PR reviews |
-| Firecrawl | API Key | `export FIRECRAWL_API_KEY="..." && claude mcp add firecrawl -- npx -y firecrawl-mcp` | Website analysis |
-| Supabase | API Key | `export SUPABASE_URL="..." SUPABASE_KEY="..." && claude mcp add supabase -- npx -y @anthropic/mcp-supabase` | Database queries |
+Test the new connection:
+
+```markdown
+## Verifying Connection
+
+Testing {Tool}...
+
+- [x] Authentication valid
+- [x] Can fetch data
+- [x] Reporting endpoints accessible
+
+{Tool} is connected and ready!
+
+**What's now available:**
+- {capability 1} in daily briefs
+- {capability 2} in weekly recaps
+
+**Commands affected:**
+- `/dcs:daily-brief` — now includes {tool} data
+- `/dcs:weekly-recap` — now includes {tool} data
+```
 
 ---
 
-## Education on Connect
+## Quick Reference: Common Tools
 
-When an MCP is connected, briefly explain what's now possible:
+### OAuth-Based (Browser Auth)
 
-```
-✅ [Tool Name] connected!
+| Tool | Command |
+|------|---------|
+| Google Calendar | `claude mcp add google-calendar -- npx -y @anthropic/mcp-google-calendar` |
+| Gmail | `claude mcp add gmail -- npx -y @anthropic/mcp-gmail` |
+| GitHub | `claude mcp add github -- npx -y @anthropic/mcp-github` |
 
-What you can now do:
-• [Specific capability 1]
-• [Specific capability 2]
-• [Specific capability 3]
+### API Key-Based
 
-The [Tool Name] MCP is [read-only / read-write] — Claude can [see/modify] your data.
-```
+| Tool | Auth Location |
+|------|---------------|
+| Notion | notion.so/my-integrations |
+| Figma | figma.com/developers/api#access-tokens |
+| Linear | linear.app/settings/api |
+| Dub.co | dub.co/settings/tokens |
+
+### Need Custom Wrapper
+
+| Tool | API Docs |
+|------|----------|
+| Substack | substack.com/api (limited docs) |
+| Plausible | plausible.io/docs/stats-api |
+| Bitly | dev.bitly.com |
+
+### Unavailable
+
+| Tool | Reason |
+|------|--------|
+| Instagram | Business accounts only, complex approval |
+| Twitter/X | Paid API tiers only |
+| LinkedIn | Restricted to company pages |
 
 ---
 
 ## Error Handling
 
-**Node.js not installed:**
-```
-It looks like Node.js isn't installed, which is needed for MCP servers.
+### MCP Installation Failed
 
-Install it from: https://nodejs.org/
-(We recommend the LTS version)
+```markdown
+MCP installation failed.
 
-Then come back and run /add-tool again.
-```
+**Common fixes:**
+1. Ensure Node.js is installed: `node --version`
+2. Try running with sudo: `sudo claude mcp add ...`
+3. Check npm permissions: `npm config get prefix`
 
-**Package not found:**
-```
-I couldn't find that MCP package. Double-check the package name, or
-look for it here: https://github.com/anthropics/mcp-servers
+Try again, or skip this tool for now?
 ```
 
-**Auth expired:**
-```
-Your [Tool] authentication may have expired.
+### Token Validation Failed
 
-Try removing and re-adding:
-1. claude mcp remove [name]
-2. claude mcp add [name] -- [command]
+```markdown
+Token validation failed for {Tool}.
+
+**This might be:**
+- Token has expired — regenerate at {url}
+- Wrong token scope — needs "{required_scope}"
+- Copy/paste error — try entering again
+
+Enter a new token, or skip for now?
+```
+
+### API Unavailable
+
+```markdown
+Couldn't reach {Tool}'s API.
+
+**This might be:**
+- Network issue — check your connection
+- Service outage — check {status_page}
+- Firewall blocking — try a different network
+
+Try again later, or skip for now?
 ```
 
 ---
 
-*Version: 1.0*
+## Re-Adding a Skipped Tool
+
+If user previously skipped a tool:
+
+```markdown
+## {Tool} — Previously Skipped
+
+{Tool} was skipped during setup.
+
+Current status: {reason_for_skip}
+
+Would you like to:
+1. Try connecting now
+2. Keep it skipped
+```
+
+---
+
+## Integration with /dcs:configure
+
+This command can also be triggered from `/dcs:configure`:
+
+```
+/dcs:configure → "Add new tools" → /dcs:add-tool flow
+```
+
+Or for a specific pillar:
+
+```
+/dcs:configure analytics → "Add new tool" → /dcs:add-tool (filtered to analytics tools)
+```
+
+---
+
+*Version: 2.0*

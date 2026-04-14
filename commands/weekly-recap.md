@@ -1,134 +1,248 @@
-# /weekly-recap
+# /dcs:weekly-recap
 
-End-of-week summary for personal reflection and planning.
+End-of-week summary that aggregates data from connected tools across all three pillars for reflection and planning.
 
 ## Trigger
 
-User invokes `/weekly-recap` at the end of a week to review accomplishments, identify patterns, and prepare for the next week.
+User invokes `/dcs:weekly-recap` at the end of a week to review accomplishments, identify patterns, and prepare for the next week.
 
 ---
 
 ## Config-Aware Behavior
 
-This command adapts based on the user's setup in `~/.claude/skills-config.yaml`.
+This command reads from `~/.claude/dcs-config.yaml` and fetches data based on:
+1. Which pillars are enabled
+2. Which tools are connected in each pillar
+3. Which outcomes are selected for weekly recaps
 
-### Check Available Resources
+### Pillar-Based Data Gathering
 
-1. **Read user config** at `~/.claude/skills-config.yaml`
-2. **Check MCP connections** for Calendar, Tasks, Email
-3. **Adapt data gathering** based on what's connected
-
-### Integration Levels
-
-| Level | What's Connected | Behavior |
-|-------|------------------|----------|
-| **Full** | Calendar + Tasks + Email | Pull metrics automatically, focus on reflection |
-| **Partial** | Calendar only | Show meeting count, ask about tasks/accomplishments |
-| **Manual** | Nothing connected | Guide through reflection questions, still valuable |
+```yaml
+# From config:
+pillars:
+  operations:
+    outcomes:
+      weekly: [week_overview, tasks_completed, team_activity]
+  design:
+    outcomes:
+      weekly: [team_contributions, design_versions, pr_activity]
+  analytics:
+    outcomes:
+      weekly: [traffic_trends, top_links, audience_growth]
+```
 
 ---
 
 ## Workflow
 
-### Step 1: Gather Data (Adaptive)
+### Step 1: Load Config and Gather Data
 
-**If Calendar connected:**
-- Count meetings this week
-- Note busiest days
-- Compare to typical week (if history available)
+1. **Read** `~/.claude/dcs-config.yaml`
+2. **For each enabled pillar:**
+   - Get list of weekly outcomes
+   - Fetch data from connected tools
+   - Aggregate into weekly summaries
 
-**If Task tool connected:**
-- Tasks completed vs. planned
-- Overdue items carried forward
+### Step 2: Fetch Data by Pillar
 
-**If Email connected:**
-- Email volume (sent/received)
-- Response patterns
+**Operations data (if pillar enabled):**
+- Meeting count from google_workspace
+- Tasks completed from notion/linear
+- Communication volume from slack
 
-**If nothing connected:**
-- Skip to reflection questions directly
+**Design data (if pillar enabled):**
+- Commits by author from github
+- PRs opened/merged from github
+- Design versions from figma
+- File activity from figma
 
-### Step 2: Reflection Questions
+**Analytics data (if pillar enabled):**
+- Traffic trends from google_analytics
+- Top performing links from dubco
+- Subscriber growth from substack
 
-Guide the user through reflection. Adapt based on available data:
+### Step 3: Reflection Questions
 
-**With data:**
-```
-You had 11 meetings this week (3 more than usual).
-Let's dig in — what did you accomplish that you're most satisfied with?
-```
+After presenting data, guide reflection:
 
-**Without data:**
-```
+```markdown
 Let's reflect on your week.
-What were the highlights? What are you most satisfied with?
+
+Based on the data above:
+1. What did you accomplish that you're most satisfied with?
+2. What didn't get done that should have?
+3. What gave you energy vs. drained you?
 ```
 
-Core reflection prompts:
-1. "What did you accomplish this week that you're most satisfied with?"
-2. "What didn't get done that should have?"
-3. "What drained your energy vs. gave you energy?"
-4. "Any patterns you noticed?"
+### Step 4: Generate Recap
 
-### Step 3: Generate Recap
+Combine automated data with reflection:
 
-Combine automated data (if available) with user reflection:
-
-```
-## Week of [Date Range]
+```markdown
+## Week of April 7-11, 2025
 
 ### Accomplishments
-- [Major accomplishment 1]
-- [Major accomplishment 2]
-- [Major accomplishment 3]
+[User-provided + inferred from data]
+- Shipped homepage redesign to staging
+- Closed deal with Acme Corp
+- Hired freelance developer
 
-### Metrics (if available)
-- Meetings: [X] ([change from typical])
-- Tasks completed: [X of Y planned]
-- [Other relevant metrics]
+### Operations Summary
+[From Operations pillar]
+**Meetings:** 11 this week (3 more than usual)
+**Tasks:** 8 of 12 planned completed (67%)
+**Email:** 47 sent, 156 received
+
+### Development Summary
+[From Design pillar]
+**Commits:** 23 total
+- Jordan: 12 commits
+- Taylor: 8 commits
+- Morgan: 3 commits
+
+**Pull Requests:**
+- Opened: 5
+- Merged: 4
+- Avg review time: 18 hours
+
+### Design Summary
+[From Design pillar]
+**Figma activity:**
+- 3 named versions created
+- 12 files modified
+- 8 comment threads
+
+### Analytics Summary
+[From Analytics pillar]
+**Traffic:** 8,742 sessions (↑15% vs last week)
+**Top pages:**
+1. /pricing — 2,341 views
+2. /features — 1,892 views
+3. /blog/launch — 1,456 views
+
+**Link performance:**
+- Total clicks: 623
+- Top link: "Product Hunt" — 189 clicks
 
 ### Energy Audit
-**Energizing:** [What gave energy]
-**Draining:** [What drained energy]
-
-### Didn't Get To
-- [Item 1] - [Why / What to do about it]
-- [Item 2]
+**Energizing:** [From reflection]
+**Draining:** [From reflection]
 
 ### Patterns & Insights
-[Observations about the week, trends, realizations]
-
-### Wins to Celebrate
-[Something to feel good about, even if small]
+[Synthesized from data + reflection]
+- Meeting-heavy weeks correlate with lower commit counts
+- Design work peaks mid-week
+- /pricing traffic suggests buyer interest
 
 ### Focus for Next Week
-- [Priority 1]
-- [Priority 2]
-- [Priority 3]
+[From reflection]
+1. Priority 1
+2. Priority 2
+3. Priority 3
 ```
 
-### Step 4: Offer Follow-ups
+---
 
-- "Want me to block time for these priorities next week?"
-- "Should I save this recap somewhere?"
-- "Anything you want to carry forward to Monday's daily brief?"
+## Pillar Sections
+
+### Operations Section
+
+```markdown
+### Operations Summary
+
+**Meetings:** {count} this week ({comparison})
+**Tasks:** {completed} of {planned} completed ({percentage})
+**Communication:** {email_count} emails, {slack_messages} Slack messages
+
+**Busiest day:** {day}
+**Quietest day:** {day}
+```
+
+### Design Section
+
+```markdown
+### Development Summary
+
+**Commits this week:** {total}
+{For each team member with commits:}
+- {Name}: {count} commits
+
+**Pull Requests:**
+- Opened: {count}
+- Merged: {count}
+- Avg review time: {hours}
+
+### Design Summary
+
+**Figma activity:**
+- {versions} named versions created
+- {files} files modified
+- {threads} comment threads
+```
+
+### Analytics Section
+
+```markdown
+### Analytics Summary
+
+**Traffic:** {sessions} sessions ({change} vs last week)
+
+**Top pages:**
+1. {page} — {views} views
+2. {page} — {views} views
+3. {page} — {views} views
+
+**Link performance:**
+- Total clicks: {count}
+- Top link: "{name}" — {clicks} clicks
+
+{If substack connected:}
+**Newsletter:**
+- New subscribers: {count}
+- Open rate: {percentage}
+```
 
 ---
 
 ## Graceful Degradation
 
-| Source Unavailable | How to Handle |
-|--------------------|---------------|
-| Calendar | Ask: "Roughly how many meetings did you have?" |
-| Tasks | Ask: "What did you get done this week?" |
-| Email | Skip email metrics section |
-| All sources | Full reflection mode — still highly valuable |
+### By Pillar
 
-**The reflection is the core value.** Data just enriches it.
+| Pillar Disabled | How to Handle |
+|-----------------|---------------|
+| Operations | Skip meeting/task metrics, ask user |
+| Design | Skip dev/design metrics |
+| Analytics | Skip traffic/link metrics |
+| All disabled | Full reflection mode |
+
+### No Data Available
+
+```markdown
+### Operations Summary
+
+Could not fetch meeting data — Google Workspace not responding.
+Manually: Roughly how many meetings did you have?
+```
+
+### No Config
+
+```markdown
+## Weekly Reflection
+
+Let's reflect on your week. I don't have access to your tools yet,
+but I can still help you think through what happened.
+
+**Questions:**
+1. What were the highlights?
+2. What did you accomplish?
+3. What's carrying over to next week?
+
+(Run `/dcs:setup` to get automated weekly metrics.)
+```
 
 ---
 
-## Reflection Prompts (Backup)
+## Reflection Prompts
 
 Use these when user gives thin answers:
 
@@ -149,75 +263,97 @@ Use these when user gives thin answers:
 
 ---
 
-## Example Outputs
+## Example Output
 
 ### Full Automation
 
-```
-## Week of March 25-29
+```markdown
+## Week of April 7-11, 2025
 
 ### Accomplishments
 - Shipped homepage redesign to staging
 - Closed deal with Acme Corp ($12k project)
 - Hired freelance developer for Q2 overflow
 
-### Metrics
-- Meetings: 11 (3 more than usual - lots of client calls)
-- Tasks completed: 8 of 12 planned (67%)
-- Emails sent: 47
+### Operations Summary
+**Meetings:** 11 (3 more than usual - lots of client calls)
+**Tasks:** 8 of 12 planned (67%)
+**Emails:** 47 sent
+
+### Development Summary
+**Commits:** 23 total
+- Jordan: 12 commits
+- Taylor: 8 commits
+- Morgan: 3 commits
+
+**Pull Requests:**
+- Opened: 5 | Merged: 4
+- Avg review time: 18 hours
+
+### Design Summary
+**Figma activity:**
+- 3 named versions created
+- 12 files modified
+- Most active: Design System
+
+### Analytics Summary
+**Traffic:** 8,742 sessions (↑15%)
+**Top page:** /pricing (2,341 views)
+**Link clicks:** 623 total
 
 ### Energy Audit
 **Energizing:** Design deep work on Wednesday, closing the Acme deal
-**Draining:** Too many context switches, that 90-min meeting that could've been 30
+**Draining:** Too many context switches, that 90-min meeting
 
 ### Didn't Get To
-- Figma AI exploration - keep getting bumped (block time next week)
-- Q1 case study writeup - need uninterrupted 2hrs
+- Figma AI exploration — keeps getting bumped
+- Q1 case study writeup — need uninterrupted 2hrs
 
 ### Patterns & Insights
-Meeting-heavy weeks kill my creative output. Need to protect Wednesday design time better.
+Meeting-heavy weeks kill creative output. Need to protect
+Wednesday design time better.
 
 ### Wins to Celebrate
 New client + new hire in the same week. Growth mode.
 
 ### Focus for Next Week
-- Onboard new developer
-- Finish case study (block Thursday AM)
-- Start Acme discovery
-```
-
-### Manual Mode
-
-```
-## Week of March 25-29
-
-(Based on your reflection)
-
-### Accomplishments
-- Shipped the homepage redesign you'd been pushing for
-- Finally closed Acme after two months of back-and-forth
-- Found a great freelancer for the overflow work
-
-### Energy Audit
-**Energizing:** Wednesday's focus time on design, the win with Acme
-**Draining:** Context switching between projects, that long client meeting
-
-### Didn't Get To
-- Figma AI exploration — keeps slipping
-- Q1 case study — need dedicated time
-
-### Patterns & Insights
-You mentioned meetings killing creative time. Consider protecting one full day for deep work?
-
-### Focus for Next Week
-- Onboard the new developer
-- Block Thursday AM for case study (no meetings)
-- Kick off Acme discovery
+1. Onboard new developer
+2. Finish case study (block Thursday AM)
+3. Start Acme discovery
 
 ---
 
-Want me to help you set up calendar access? Then next week's recap will include automatic metrics.
+Want me to help block time for these priorities?
 ```
+
+---
+
+## Follow-up Offers
+
+```markdown
+---
+
+**Want me to:**
+- Block time for next week's priorities?
+- Save this recap somewhere?
+- Carry anything forward to Monday's brief?
+```
+
+---
+
+## Outcome to Tool Mapping
+
+| Outcome | Tool | Capability |
+|---------|------|------------|
+| `week_overview` | google_workspace | event_count |
+| `tasks_completed` | notion, linear | task_completion |
+| `team_activity` | slack | channel_activity |
+| `team_contributions` | github | team_contributions |
+| `pr_activity` | github | pr_activity |
+| `design_versions` | figma | design_versions |
+| `traffic_trends` | google_analytics | traffic_trends |
+| `top_links` | dubco | top_links |
+| `audience_growth` | substack | subscriber_growth |
 
 ---
 

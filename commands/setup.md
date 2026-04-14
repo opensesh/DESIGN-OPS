@@ -1,6 +1,6 @@
 # /dcs:setup
 
-Main onboarding wizard for Design Company Skills. Sets up integrations, preferences, and verifies everything works.
+Main onboarding wizard for Design Company Skills. Guides users through connecting data sources across three business pillars: Operations, Design, and Analytics.
 
 ## Trigger
 
@@ -8,6 +8,16 @@ User runs `/dcs:setup` to configure the plugin. Works in:
 - Claude Code CLI (terminal) — full interactive setup
 - Claude Desktop (Code tab) — full interactive setup
 - Claude Co-work (web) — read-only mode, directs to terminal
+
+---
+
+## Design Philosophy
+
+This setup flow is **tool-agnostic** and **outcome-driven**:
+- Ask what tools they use, discover how to connect
+- Evaluate each tool for MCP or API capabilities
+- Let users select what data they want in their briefs
+- Adapt to whatever combination of tools the user has
 
 ---
 
@@ -27,7 +37,9 @@ if (web/co-work environment detected):
 ### 2. Check Existing Configuration
 
 1. **Check for existing config** at `~/.claude/dcs-config.yaml`
-   - If exists, ask: "You have an existing config. What would you like to do?"
+   - If exists, check version field
+   - If v1.x: "Found v1 config. Want to migrate to the new pillar-based format?"
+   - If v2.x: "You have an existing config. What would you like to do?"
    - Options: `Update existing` | `Start fresh` | `Just show status`
 
 2. **Check for legacy config** at `~/.claude/team-pulse-config.yaml`
@@ -38,144 +50,393 @@ if (web/co-work environment detected):
    - Note any conflicting skill names
    - Plan to offer merge options if conflicts found
 
-### 3. Detect Available MCP Servers
+---
 
-Check `~/.claude/settings.json` for configured MCP servers:
-- GitHub MCP
-- Figma MCP (if exists)
-- Slack MCP
-- Google Calendar
-- Notion
-- Others
+## Welcome Screen
 
-Note which are connected for the interview phase.
+Present the welcome message:
+
+```
+╭──────────────────────────────────────────────────────────────╮
+│  Welcome to Design Company Skills                            │
+│                                                              │
+│  This is a Claude Code plugin — a package of skills,         │
+│  commands, and agents designed for design companies          │
+│  and entrepreneurs.                                          │
+│                                                              │
+│  Works in:                                                   │
+│  • Claude Code (terminal)                                    │
+│  • Claude Desktop (Code tab)                                 │
+│  • VS Code Extension                                         │
+│                                                              │
+│  We'll set up your data sources across three areas:          │
+│                                                              │
+│  1. Operations — Calendar, tasks, communication              │
+│  2. Design — Code repos, design files                        │
+│  3. Analytics — Web, links, social                           │
+│                                                              │
+│  Let's get started.                                          │
+╰──────────────────────────────────────────────────────────────╯
+```
 
 ---
 
-## Onboarding Flow
+## Chapter 1: Operations
 
-### Phase 1: Welcome
+**Goal**: Connect tools for coordination, scheduling, task management
 
-```markdown
-# Design Company Skills Setup
-
-Setting up your design toolkit with:
-- Brand guidelines and design system quality checks
-- Team activity dashboard (Figma + GitHub)
-- Productivity commands (daily briefs, meeting prep)
-
-This takes about 3-5 minutes depending on your integrations.
-```
-
----
-
-### Phase 2: MCP Server Detection
-
-```markdown
-## Connected Tools
-
-Checking your MCP configuration...
-```
-
-Display results:
-
-```markdown
-Detected MCP servers:
-- GitHub — connected (code, PRs, issues)
-- Figma — not connected
-
-Would you like to set up any additional integrations?
-```
+### Step 1.1: Tool Selection
 
 Use AskUserQuestion with checkboxes:
-- `[ ] Set up Figma integration` (if not connected)
-- `[ ] Set up Slack integration` (if not connected)
-- `[ ] Skip integrations for now`
-
----
-
-### Phase 3: Figma Configuration
-
-**Only if user selected Figma setup:**
 
 ```markdown
-## Figma Integration
+## Operations — What tools do you use for coordination?
 
-To track design activity, I need a Figma API token.
-
-1. Go to: https://www.figma.com/developers/api#access-tokens
-2. Or: Figma Settings → Account → Personal access tokens
-3. Generate a token with "File content" scope
-
-Paste your token below (it will be stored locally only):
-```
-
-Accept token input, then validate:
-
-```bash
-# Test the token
-curl -s -H "Authorization: Bearer {token}" \
-  "https://api.figma.com/v1/me"
-```
-
-**If valid:**
-```markdown
-Token verified! Connected as: {user.handle}
-
-Which Figma projects should I track for team activity?
-```
-
-Use AskUserQuestion for project selection:
-- Show list of recent projects from API if possible
-- Allow manual entry: "Enter project IDs manually"
-- Option: "Skip Figma tracking for now"
-
-**If invalid:**
-```markdown
-That token didn't work. Common issues:
-- Token may have expired
-- Missing "File content" scope
-- Copy/paste error
-
-Want to try again or skip Figma setup?
-```
-
----
-
-### Phase 4: GitHub Configuration
-
-**If GitHub MCP is connected:**
-
-```markdown
-## GitHub Integration
-
-GitHub is already connected via MCP — no additional setup needed.
-
-Which repositories should I track for team activity?
+Select all that apply:
 ```
 
 Options:
-- List recently accessed repos if available
-- Manual entry: "Enter repo names (owner/repo format)"
-- Skip: "Don't track GitHub activity"
+- `Notion` — Tasks, docs, wikis
+- `Google Workspace` — Calendar, email, docs
+- `Linear` — Issue tracking
+- `Asana` — Project management
+- `Slack` — Communication
+- `Other` — Free text input
+- `None / Skip this section`
 
-**If GitHub MCP not connected:**
+### Step 1.2: Tool Evaluation (Async)
+
+**For each selected tool, spawn a background sub-agent to evaluate:**
 
 ```markdown
-## GitHub Integration
+[Checking your tools... ━━━━━━━━━━━━━━━━━━━━ 2/3]
+```
 
-GitHub MCP isn't connected. To enable:
+Use the Task tool with `subagent_type: Explore` and `run_in_background: true`:
 
-1. Install the GitHub MCP from claude.ai/mcps
-2. Authorize with your GitHub account
-3. Re-run /dcs:setup
+```yaml
+task: tool_evaluation
+input:
+  tools: [notion, google_workspace]
+  pillar: operations
+```
 
-Skip GitHub tracking for now?
+The sub-agent for each tool:
+1. Check if MCP exists and is connected (read `~/.claude/settings.json`)
+2. If MCP connected, catalog its reporting capabilities
+3. If MCP not connected but available, note it needs setup
+4. If no MCP, evaluate if API exists for reporting
+5. If no API suitable, mark as unavailable
+6. Return capability matrix
+
+### Step 1.3: Present Findings
+
+Once evaluation completes, show what's actually available:
+
+```markdown
+## Here's what we found for your Operations tools:
+
+┌──────────────────┬────────────┬─────────────────────────────────────┐
+│ Tool             │ Connection │ Available Data                      │
+├──────────────────┼────────────┼─────────────────────────────────────┤
+│ Notion           │ MCP ✓      │ Pages, databases, tasks, comments   │
+│                  │            │ ↳ Daily: recent pages, task counts  │
+│                  │            │ ↳ Weekly: page activity, updates    │
+├──────────────────┼────────────┼─────────────────────────────────────┤
+│ Google Workspace │ MCP ✓      │ Calendar, Gmail, Drive              │
+│                  │            │ ↳ Daily: today's events, emails     │
+│                  │            │ ↳ Weekly: event count, email volume │
+├──────────────────┼────────────┼─────────────────────────────────────┤
+│ Slack            │ MCP ⚠      │ Messages, channels (limited)        │
+│                  │ needs setup│ ↳ Unread counts, recent messages    │
+└──────────────────┴────────────┴─────────────────────────────────────┘
+```
+
+### Step 1.4: Handle Unconnected Tools
+
+For tools that need connection:
+
+```markdown
+### Slack MCP is available but not connected.
+
+To connect:
+1. Add the Slack MCP to your Claude settings
+2. Visit: [setup guide link]
+
+What would you like to do?
+```
+
+Options:
+- `Skip for now` — Continue without this tool
+- `I'll set this up` — Pause setup, user sets up MCP, then resume
+
+If user chooses to set up, provide the specific MCP installation command:
+```bash
+claude mcp add slack -- npx -y @anthropic/mcp-slack
+```
+
+### Step 1.5: Outcome Mapping
+
+Based on available capabilities, ask what they want in their briefs:
+
+```markdown
+## Based on your connected tools, here's what we can include:
+
+**Daily Brief (Operations):**
+☑ Today's calendar events (from Google Workspace)
+☑ Tasks due today (from Notion)
+☐ Unread emails (from Google Workspace)
+☐ Unread Slack messages (requires Slack setup)
+
+**Weekly Recap (Operations):**
+☑ Week overview - events attended (from Google Workspace)
+☑ Tasks completed this week (from Notion)
+☐ Team activity summary (requires Slack)
+
+[Confirm selections]
+```
+
+Options are pre-checked based on connected tools. Disabled options show why they're unavailable.
+
+---
+
+## Chapter 2: Design
+
+**Goal**: Connect tools for creative and development work
+
+### Step 2.1: Tool Selection
+
+```markdown
+## Design — What tools do you use for design & code?
+
+**Code:**
+```
+
+Options:
+- `GitHub` — Repos, PRs, issues
+- `GitLab`
+- `Bitbucket`
+- `Other` — Free text input
+
+```markdown
+**Creative:**
+```
+
+Options:
+- `Figma` — Design files
+- `Sketch`
+- `Adobe XD`
+- `Other` — Free text input
+- `None / Skip this section`
+
+### Step 2.2: Tool Evaluation
+
+Same async evaluation pattern as Operations.
+
+### Step 2.3: Present Findings
+
+```markdown
+## Here's what we found for your Design tools:
+
+┌──────────────────┬────────────┬─────────────────────────────────────┐
+│ Tool             │ Connection │ Available Data                      │
+├──────────────────┼────────────┼─────────────────────────────────────┤
+│ GitHub           │ MCP ✓      │ Repos, commits, PRs, issues         │
+│                  │            │ ↳ Daily: recent commits, open PRs   │
+│                  │            │ ↳ Weekly: team contributions        │
+├──────────────────┼────────────┼─────────────────────────────────────┤
+│ Figma            │ API ✓      │ Files, versions, comments, users    │
+│                  │ (not MCP)  │ ↳ Daily: files edited, active users │
+│                  │            │ ↳ Weekly: design versions created   │
+└──────────────────┴────────────┴─────────────────────────────────────┘
+```
+
+### Step 2.4: Figma Special Handling
+
+The official Figma MCP is code-focused, not for reporting. Detect this:
+
+```markdown
+### Figma Evaluation
+
+MCP Status: Available (code-focused, not for reporting)
+API Status: Available (supports reporting data)
+
+The official Figma MCP is designed for code generation workflows.
+For team activity tracking, we'll use the Figma API directly.
+
+To enable Figma reporting:
+1. Go to: figma.com/developers/api#access-tokens
+2. Generate a token with "File content" scope
+3. Enter your token below:
+```
+
+Accept token, validate via API call:
+```bash
+curl -s -H "Authorization: Bearer {token}" "https://api.figma.com/v1/me"
+```
+
+If valid, ask which projects to track.
+
+### Step 2.5: GitHub Project Selection
+
+If GitHub MCP connected:
+
+```markdown
+### GitHub Configuration
+
+GitHub is connected via MCP. Which repositories should I track?
+```
+
+Options:
+- Show recently accessed repos if discoverable
+- Allow manual entry: "Enter repo names (owner/repo format)"
+- Option: "Track all repos I have access to"
+
+### Step 2.6: Outcome Mapping
+
+```markdown
+## Based on your Design tools, here's what we can include:
+
+**Daily (Design):**
+☑ Recent commits (from GitHub) — last 24h
+☑ Open PRs needing review (from GitHub)
+☑ Figma files edited today (from Figma API)
+☐ Who's working on what (requires team tracking setup)
+
+**Weekly (Design):**
+☑ Team contribution summary (commits by person)
+☑ Design versions created (from Figma)
+☑ PR/merge activity (from GitHub)
+
+[Confirm selections]
 ```
 
 ---
 
-### Phase 5: Team Member Mapping (Optional)
+## Chapter 3: Analytics
+
+**Goal**: Connect tools for metrics and insights
+
+### Step 3.1: Tool Selection
+
+```markdown
+## Analytics — What tools do you use for metrics?
+
+**Web Analytics:**
+```
+
+Options:
+- `Google Analytics (GA4)`
+- `Plausible`
+- `Other` — Free text input
+
+```markdown
+**Link Analytics:**
+```
+
+Options:
+- `Dub.co`
+- `Bitly`
+- `Other` — Free text input
+
+```markdown
+**Social/Content:**
+```
+
+Options:
+- `Substack`
+- `Instagram`
+- `Twitter/X`
+- `LinkedIn`
+- `Other` — Free text input
+- `None / Skip this section`
+
+### Step 3.2: Tool Evaluation
+
+Same async pattern. Analytics tools often need custom wrappers.
+
+### Step 3.3: Present Findings
+
+```markdown
+## Here's what we found for your Analytics tools:
+
+┌──────────────────┬────────────┬─────────────────────────────────────┐
+│ Tool             │ Connection │ Available Data                      │
+├──────────────────┼────────────┼─────────────────────────────────────┤
+│ Google Analytics │ MCP ✓      │ Pageviews, sessions, events, goals  │
+│                  │            │ ↳ Daily: session count, top pages   │
+│                  │            │ ↳ Weekly: traffic trends, sources   │
+├──────────────────┼────────────┼─────────────────────────────────────┤
+│ Dub.co           │ MCP ✓      │ Link clicks, referrers, geo data    │
+│                  │            │ ↳ Daily: click counts per link      │
+│                  │            │ ↳ Weekly: top performing links      │
+├──────────────────┼────────────┼─────────────────────────────────────┤
+│ Substack         │ No MCP     │ API available: subscribers, posts   │
+│                  │ API ✓      │ ↳ Needs custom wrapper              │
+│                  │            │ ↳ Can provide: subscriber count,    │
+│                  │            │    post views, email open rates     │
+├──────────────────┼────────────┼─────────────────────────────────────┤
+│ Instagram        │ No MCP     │ API limited: basic profile only     │
+│                  │ API ⚠      │ ↳ Business accounts only            │
+│                  │            │ ↳ Follower counts, post engagement  │
+└──────────────────┴────────────┴─────────────────────────────────────┘
+```
+
+### Step 3.4: Handle Custom Wrapper Creation
+
+For tools that need custom wrappers (like Substack):
+
+```markdown
+### Substack
+
+Substack has an API that supports reporting data.
+
+We can create a custom MCP wrapper to pull:
+- Subscriber count and growth
+- Post view counts
+- Email open rates
+
+Would you like to set this up now?
+```
+
+Options:
+- `Yes, guide me through it` — Trigger `mcp-builder` skill with Substack API context
+- `Skip for now` — Mark as skipped, can add later
+
+If user chooses to create wrapper:
+1. Invoke `/mcp-builder` skill with Substack context
+2. Guide through API token creation
+3. Scaffold wrapper using mcp-builder
+4. User registers wrapper in Claude settings
+5. Continue setup with wrapper connected
+
+### Step 3.5: Outcome Mapping
+
+```markdown
+## Based on your Analytics tools, here's what we can include:
+
+**Daily (Analytics):**
+☑ Page views today (from GA4)
+☑ Link click counts (from Dub.co)
+☐ New subscribers (requires Substack wrapper)
+
+**Weekly (Analytics):**
+☑ Traffic trends (from GA4)
+☑ Top performing links (from Dub.co)
+☐ Audience growth (requires Substack wrapper)
+☐ Social engagement (requires Instagram setup)
+
+Note: Some options are disabled because those tools aren't connected.
+You can add them later with `/dcs:configure analytics`
+
+[Confirm selections]
+```
+
+---
+
+## Team Member Mapping (Optional)
+
+After all three pillars:
 
 ```markdown
 ## Team Configuration (Optional)
@@ -185,6 +446,9 @@ Want cleaner output with real names instead of handles?
 I can map:
 - Figma handles → friendly names
 - GitHub usernames → friendly names
+- Platform handles → real names
+
+This makes reports more readable.
 ```
 
 Options:
@@ -194,124 +458,174 @@ Options:
 **If setting up team:**
 
 ```markdown
-Add team members one at a time. For each person, provide:
-- Display name
-- Figma handle (optional)
-- GitHub username (optional)
+Add team members one at a time.
 
-Start with yourself:
+**Your info first:**
+- Display name: [input]
+- Figma handle (if using Figma): [input or skip]
+- GitHub username (if using GitHub): [input or skip]
 ```
 
-Loop until user says done:
-- Name: [input]
-- Figma handle: [input or skip]
-- GitHub username: [input or skip]
-
-"Add another team member?" → Yes/Done
+Loop: "Add another team member?" → Yes/Done
 
 ---
 
-### Phase 6: Workflow Preferences
+## Final Synthesis
+
+Generate personalized configuration:
 
 ```markdown
-## Workflow Preferences
+## Your Setup Summary
 
-Which workflows do you want enabled?
+### Connected Tools
+
+**Operations:**
+  ✓ Notion (MCP) — tasks, docs
+  ✓ Google Workspace (MCP) — calendar, email
+
+**Design:**
+  ✓ GitHub (MCP) — repos, PRs
+  ✓ Figma (API) — design files
+
+**Analytics:**
+  ✓ Google Analytics (MCP) — web traffic
+  ✓ Dub.co (MCP) — link clicks
+  ⚠ Substack — skipped (no wrapper created)
+
+### Your Daily Brief will include:
+- Today's calendar events
+- Tasks due today
+- Recent commits from your repos
+- Figma file updates
+- Page views and link clicks
+
+### Your Weekly Recap will include:
+- Week overview
+- Team contribution summary
+- Traffic trends
+- Top performing content
+
+### Commands enabled:
+- `/dcs:daily-brief` — Morning overview
+- `/dcs:weekly-recap` — End of week summary
+- `/dcs:team-pulse` — Team activity dashboard
+- `/dcs:analytics` — Metrics summary
+
+[Save Configuration]
 ```
-
-Use AskUserQuestion with checkboxes:
-
-**Daily:**
-- `[x] Morning brief — daily priorities and schedule`
-- `[x] Meeting prep — create focused agendas`
-
-**Weekly:**
-- `[x] Weekly recap — reflection and next-week planning`
-
-**Team:**
-- `[x] Team pulse — Figma + GitHub activity dashboard`
-
-**As-needed:**
-- `[x] Design feedback — structured critique support`
-- `[x] Brand guidelines — voice and visual consistency`
-- `[x] Devils advocate — challenge assumptions`
-- `[x] Site analysis — analyze any website`
 
 ---
 
-### Phase 7: Write Configuration
+## Write Configuration
 
-Create backup if config exists:
+### Backup Existing
+
 ```bash
-cp ~/.claude/dcs-config.yaml ~/.claude/dcs-config.yaml.bak
+if [ -f ~/.claude/dcs-config.yaml ]; then
+  cp ~/.claude/dcs-config.yaml ~/.claude/dcs-config.yaml.bak
+fi
 ```
 
-Write new config to `~/.claude/dcs-config.yaml`:
+### Generate Config
+
+Write to `~/.claude/dcs-config.yaml` using the v2 schema:
 
 ```yaml
-# Design Company Skills Configuration
-# Generated by /dcs:setup on {DATE}
-# Documentation: https://github.com/opensesh/design-company-skills
+version: "2.0"
+created: "{ISO_DATE}"
+updated: "{ISO_DATE}"
 
-version: 1.0
-created: {ISO_DATE}
-updated: {ISO_DATE}
+pillars:
+  operations:
+    enabled: true
+    tools:
+      - id: notion
+        type: mcp
+        mcp_name: "notion"
+        status: connected
+        capabilities:
+          data_types: [pages, databases, tasks, comments]
+          reporting:
+            daily: [recent_pages, task_counts]
+            weekly: [page_activity, task_completion]
+      - id: google_workspace
+        type: mcp
+        mcp_name: "google-workspace"
+        status: connected
+        capabilities:
+          data_types: [calendar, gmail, drive]
+          reporting:
+            daily: [todays_events, unread_emails]
+            weekly: [event_count, email_volume]
+    outcomes:
+      daily: [calendar_events, tasks_due]
+      weekly: [week_overview, tasks_completed]
 
-# ─────────────────────────────────────────────────────────────────────────────
-# FIGMA INTEGRATION
-# ─────────────────────────────────────────────────────────────────────────────
-figma:
-  enabled: true
-  api_token: "{ENCRYPTED_OR_PLAIN}"
-  tracked_projects:
-    - id: "123456789"
-      name: "Design System"
-  tracked_files: []
+  design:
+    enabled: true
+    tools:
+      - id: github
+        type: mcp
+        mcp_name: "github"
+        status: connected
+        capabilities:
+          data_types: [repos, commits, prs, issues]
+          reporting:
+            daily: [recent_commits, open_prs]
+            weekly: [team_contributions, pr_activity]
+        tracked_repos:
+          - owner: "opensesh"
+            repo: "webapp"
+      - id: figma
+        type: api
+        auth:
+          token_env: FIGMA_API_TOKEN
+        status: connected
+        capabilities:
+          data_types: [files, versions, comments, users]
+          reporting:
+            daily: [files_edited, active_users]
+            weekly: [design_versions]
+        tracked_projects:
+          - id: "123456789"
+            name: "Design System"
+    outcomes:
+      daily: [recent_commits, open_prs, design_updates]
+      weekly: [team_contributions, design_versions, pr_activity]
 
-# ─────────────────────────────────────────────────────────────────────────────
-# GITHUB INTEGRATION
-# ─────────────────────────────────────────────────────────────────────────────
-github:
-  enabled: true
-  # Uses MCP connection — no token needed
-  tracked_repos:
-    - owner: "opensesh"
-      repo: "webapp"
-    - owner: "opensesh"
-      repo: "design-system"
+  analytics:
+    enabled: true
+    tools:
+      - id: google_analytics
+        type: mcp
+        mcp_name: "ga4"
+        status: connected
+        capabilities:
+          data_types: [pageviews, sessions, events]
+          reporting:
+            daily: [session_count, top_pages]
+            weekly: [traffic_trends]
+      - id: substack
+        type: unavailable
+        status: skipped
+        reason: "No wrapper created"
+    outcomes:
+      daily: [pageviews, link_clicks]
+      weekly: [traffic_trends, top_links]
 
-# ─────────────────────────────────────────────────────────────────────────────
-# TEAM MEMBERS
-# ─────────────────────────────────────────────────────────────────────────────
 team:
   members:
-    - name: "Sarah Chen"
-      figma_handle: "sarah.chen"
-      github_username: "sarahc"
-    - name: "Jake Miller"
-      figma_handle: ""
-      github_username: "jakemiller"
+    - name: "Jordan Smith"
+      handles:
+        figma: "jordan.smith"
+        github: "jordansmith"
 
-# ─────────────────────────────────────────────────────────────────────────────
-# WORKFLOW PREFERENCES
-# ─────────────────────────────────────────────────────────────────────────────
-workflows:
-  daily:
-    - morning_brief
-    - meeting_prep
-  weekly:
-    - weekly_recap
-  team:
-    - team_pulse
-  as_needed:
-    - design_feedback
-    - brand_guidelines
-    - devils_advocate
-    - site_analysis
+enabled_commands:
+  - daily_brief
+  - weekly_recap
+  - team_pulse
+  - analytics
 
-# ─────────────────────────────────────────────────────────────────────────────
-# DISPLAY PREFERENCES
-# ─────────────────────────────────────────────────────────────────────────────
 preferences:
   activity_window_hours: 24
   show_prs: true
@@ -321,7 +635,7 @@ preferences:
 
 ---
 
-### Phase 8: Verification Tests
+## Verification Tests
 
 Run `/dcs:test` automatically:
 
@@ -334,43 +648,40 @@ Running verification tests...
 Display checklist as tests complete:
 
 ```markdown
-Configuration:
+**Configuration:**
 - [x] Config file created at ~/.claude/dcs-config.yaml
-- [x] Config syntax valid
+- [x] Config syntax valid (v2.0)
 
-Integrations:
-- [x] GitHub MCP: Can list repos
-- [x] Figma API: Can fetch file metadata
-- [ ] Slack: Not configured (optional)
+**Operations Pillar:**
+- [x] Notion MCP: Connected, can search pages
+- [x] Google Workspace MCP: Connected, can list events
 
-Skills:
-- [x] brand-guidelines: Active
-- [x] frontend-design: Active
-- [x] design-system-quality: Active
+**Design Pillar:**
+- [x] GitHub MCP: Connected, can list repos
+- [x] Figma API: Token valid, can fetch files
 
-Commands:
-- [x] All /dcs:* commands registered
+**Analytics Pillar:**
+- [x] Google Analytics MCP: Connected
+- [~] Substack: Skipped (can add later)
+
+**Skills:**
+- [x] All auto-activating skills loaded
 - [x] No naming conflicts detected
 ```
 
 ---
 
-### Phase 9: Completion Summary
+## Completion Summary
 
 ```markdown
 ## Setup Complete!
 
 Design Company Skills is configured and ready.
 
-### What's Tracking
-- **Figma:** 2 projects (Design System, Marketing Site)
-- **GitHub:** 3 repos (webapp, design-system, marketing)
-- **Team:** 2 members mapped
-
 ### Try These Commands
 - `/dcs:daily-brief` — Morning overview
 - `/dcs:team-pulse` — Team activity dashboard
-- `/dcs:meeting-brief` — Prep for your next meeting
+- `/dcs:weekly-recap` — End of week summary
 - `/dcs:help` — Full command reference
 
 ### Auto-Activating Skills
@@ -389,32 +700,71 @@ Something not working? Run `/dcs:test` to diagnose.
 
 ---
 
-## Non-Destructive Guarantees
+## Tool Evaluation Flow Reference
 
-1. **Never overwrite** existing files without asking
-2. **Always backup** before changes: `*.yaml.bak`
-3. **Show diff** of proposed config changes before writing
-4. **Merge** new settings with existing (don't replace wholesale)
-5. **Namespace** all commands with `dcs:` to avoid conflicts
+For **every tool** the user selects, follow this evaluation cascade:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  User selects: "Substack"                                   │
+└─────────────────────────────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────────┐
+│  Step 1: Check for MCP                                      │
+│  Is there an official or community MCP that supports        │
+│  the reporting data we need (stats, usage, activity)?       │
+│                                                             │
+│  Check: ~/.claude/settings.json mcpServers                  │
+│  Check: references/tool-registry.md for known MCPs          │
+│                                                             │
+│  ✗ Substack MCP not found / doesn't support reporting       │
+└─────────────────────────────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────────┐
+│  Step 2: Evaluate the API                                   │
+│  Does this tool have an API that supports:                  │
+│  - Daily reporting data (recent activity, stats)            │
+│  - Weekly aggregations (summaries, trends)                  │
+│  - Monthly rollups (growth, comparisons)                    │
+│                                                             │
+│  Check: references/tool-registry.md for API info            │
+│                                                             │
+│  ✓ Substack has API for subscriber counts, post stats       │
+└─────────────────────────────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────────┐
+│  Step 3: Offer Custom MCP Creation                          │
+│  Walk user through creating a custom MCP wrapper:           │
+│  1. Gather API credentials                                  │
+│  2. Use /mcp-builder skill to scaffold wrapper              │
+│  3. Test the wrapper                                        │
+│  4. Register in Claude settings                             │
+│                                                             │
+│  Or: User skips, tool marked as "skipped"                   │
+└─────────────────────────────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────────┐
+│  Step 4: If API Unavailable                                 │
+│  - Inform user this tool can't be connected                 │
+│  - Suggest alternatives if available                        │
+│  - Mark as "unavailable" in config                          │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ---
 
-## Conflict Detection
+## Connection Types Summary
 
-Before writing any config:
-
-```markdown
-Checking for conflicts...
-
-- Existing /daily-brief? → Ours is /dcs:daily-brief (no conflict)
-- Existing brand-guidelines skill? → Ask: merge or keep separate?
-- Existing Figma token? → Ask: reuse or replace?
-```
-
-If conflicts found, present options:
-- Keep existing, skip ours
-- Replace with ours (backup existing)
-- Rename ours to avoid conflict
+| Type | Description | How to Detect | Setup Process |
+|------|-------------|---------------|---------------|
+| **MCP** | Native MCP server | In `~/.claude/settings.json` | Guide MCP installation |
+| **API** | Direct API (plugin calls) | Token in config or env | Guide token creation |
+| **Custom Wrapper** | User-created MCP | User registers after creation | `/mcp-builder` skill |
+| **Unavailable** | No API/MCP support | API evaluation fails | Inform user, suggest alternatives |
 
 ---
 
@@ -455,15 +805,25 @@ Continue setup without {service}? You can add it later with /dcs:configure.
 
 If user runs `/dcs:setup` with existing config:
 
-1. Show current config summary
+1. Show current config summary with pillar breakdown
 2. Ask what to change:
-   - "Update integrations (Figma, GitHub)"
+   - "Update a pillar (Operations, Design, Analytics)"
+   - "Add new tools"
    - "Modify team members"
-   - "Change workflow preferences"
    - "Start completely fresh"
 3. Only modify selected sections
 4. Run verification tests
 
 ---
 
-*Version: 1.0*
+## Non-Destructive Guarantees
+
+1. **Never overwrite** existing files without asking
+2. **Always backup** before changes: `*.yaml.bak`
+3. **Show diff** of proposed config changes before writing
+4. **Merge** new settings with existing (don't replace wholesale)
+5. **Namespace** all commands with `dcs:` to avoid conflicts
+
+---
+
+*Version: 2.0*

@@ -1,115 +1,189 @@
-# /daily-brief
+# /dcs:daily-brief
 
-Morning briefing that aggregates your calendar, tasks, email, and priorities into a focused daily overview.
+Morning briefing that aggregates data from your connected tools across all three pillars into a focused daily overview.
 
 ## Trigger
 
-User invokes `/daily-brief` to start their day with a consolidated view of what matters.
+User invokes `/dcs:daily-brief` to start their day with a consolidated view of what matters.
 
 ---
 
 ## Config-Aware Behavior
 
-This command adapts based on the user's setup in `~/.claude/skills-config.yaml`.
+This command reads from `~/.claude/dcs-config.yaml` and fetches data based on:
+1. Which pillars are enabled
+2. Which tools are connected in each pillar
+3. Which outcomes are selected for daily briefs
 
-### Check Available Resources
+### Pillar-Based Data Gathering
 
-Before fetching data, determine what's available:
+```yaml
+# From config:
+pillars:
+  operations:
+    outcomes:
+      daily: [calendar_events, tasks_due, unread_emails]
+  design:
+    outcomes:
+      daily: [recent_commits, open_prs, design_updates]
+  analytics:
+    outcomes:
+      daily: [pageviews, link_clicks]
+```
 
-1. **Read user config** at `~/.claude/skills-config.yaml`
-2. **Check MCP connections** for Calendar, Notion, Gmail
-3. **Adapt workflow** based on what's connected
-
-### Integration Levels
-
-| Level | What's Connected | Behavior |
-|-------|------------------|----------|
-| **Full** | Calendar + Tasks + Email | Automated brief with all sections |
-| **Partial** | Calendar only | Show meetings, ask about tasks/priorities |
-| **Manual** | Nothing connected | Ask user for input, help prioritize |
+The command fetches each outcome from its corresponding tool's capabilities.
 
 ---
 
 ## Workflow
 
-### Step 1: Assess Available Data Sources
+### Step 1: Load Config and Determine Available Data
 
-Check for these MCP servers:
-- **Google Calendar** → Today's meetings and events
-- **Notion** → Tasks due today or overdue
-- **Gmail** → Unread/flagged emails from last 24 hours
-- **Linear/Jira/Asana** → Alternative task sources
+1. **Read** `~/.claude/dcs-config.yaml`
+2. **For each enabled pillar:**
+   - Get list of daily outcomes
+   - Map outcomes to connected tools
+   - Note which outcomes can be fetched
 
-### Step 2: Gather Data (Adaptive)
+3. **Adapt workflow** based on what's available
 
-**If Calendar connected:**
-- Fetch today's events automatically
-- Identify back-to-back meetings, gaps, conflicts
+### Step 2: Fetch Data by Pillar
 
-**If Task tool connected (Notion, Linear, etc.):**
-- Pull tasks due today
-- Include overdue items
+**Operations data (if pillar enabled):**
+- Calendar events from google_workspace
+- Tasks due from notion/linear
+- Unread emails from google_workspace
+- Unread messages from slack
 
-**If Email connected:**
-- Get unread/flagged email summaries
-- Identify urgent items
+**Design data (if pillar enabled):**
+- Recent commits from github/gitlab
+- Open PRs from github/gitlab
+- Design updates from figma
 
-**If nothing connected:**
-- Skip to Step 3 with conversational prompt
+**Analytics data (if pillar enabled):**
+- Page views from google_analytics
+- Link clicks from dubco
+- New subscribers from substack (if connected)
 
 ### Step 3: Synthesize Briefing
 
-**Full automation (all sources available):**
+Combine data from all pillars into cohesive overview:
 
-```
+```markdown
 ## Good morning
 
 ### Today's Schedule
-[List meetings with times, attendees summary, and prep notes]
+[From Operations: google_workspace calendar_events]
+- **9:00 AM** - Design review with Taylor (Figma link in calendar)
+- **11:30 AM** - Client call: Acme Corp (prep: review proposal)
+- **2:00 PM** - 1:1 with Morgan
 
 ### Tasks Due Today
-[Priority-ordered list]
-[Include any overdue items]
+[From Operations: notion/linear tasks_due]
+- [ ] Finalize homepage wireframes
+- [ ] Send invoice to Acme
+- [ ] Review PR from Morgan
 
-### Email Requiring Attention
-[Urgent/important emails grouped by topic]
+### Development Activity
+[From Design: github recent_commits, open_prs]
+**Recent commits (last 24h):**
+- `feat(auth): add logout button` — Jordan, 2h ago
+- `fix(api): handle null response` — Taylor, 8h ago
+
+**PRs needing review:**
+- #142 "Add user settings page" — Morgan (2 days old)
+
+### Design Activity
+[From Design: figma design_updates]
+**Figma files updated:**
+- Design System — Jordan edited 3h ago
+- Marketing Landing Page — Taylor edited yesterday
+
+### Today's Numbers
+[From Analytics: google_analytics, dubco]
+- **Page views:** 1,247 (↑12% vs yesterday)
+- **Link clicks:** 89 across 15 tracked links
+- **Top page:** /pricing (342 views)
 
 ### Heads Up
-[Conflicts, gaps, concerns for the day]
+[Synthesized insights]
+- 30-min gap at 10:30 — good for deep work
+- PR #142 is 2 days old — consider reviewing today
+- Traffic spike on /pricing — worth investigating
 ```
 
-**Partial automation (some sources):**
+---
 
-```
-## Good morning
+## Pillar Sections
 
+### Operations Section
+
+When operations pillar has connected tools:
+
+```markdown
 ### Today's Schedule
-[From Calendar]
+[From calendar_events outcome]
 
-### What's on Your Plate?
-I don't have access to your tasks — what are your top priorities today?
+### Tasks Due Today
+[From tasks_due outcome]
 
-[After user responds, synthesize into action plan]
+### Communications
+[From unread_emails, unread_messages outcomes]
 ```
 
-**Manual mode (no sources):**
+### Design Section
 
+When design pillar has connected tools:
+
+```markdown
+### Development Activity
+[From recent_commits, open_prs outcomes]
+
+### Design Activity
+[From design_updates, active_users outcomes]
 ```
-Good morning! I don't have access to your calendar or tasks yet.
+
+### Analytics Section
+
+When analytics pillar has connected tools:
+
+```markdown
+### Today's Numbers
+[From pageviews, link_clicks, new_subscribers outcomes]
+```
+
+---
+
+## Graceful Degradation
+
+### By Pillar
+
+| Pillar Disabled | How to Handle |
+|-----------------|---------------|
+| Operations | Skip schedule/tasks sections, show what's available |
+| Design | Skip dev/design sections |
+| Analytics | Skip metrics section |
+| All disabled | Full conversational mode |
+
+### By Outcome
+
+If specific outcome can't be fetched (tool issue):
+
+```markdown
+### Tasks Due Today
+Could not fetch tasks from Notion — MCP not responding.
+Run `/dcs:test operations` to diagnose.
+```
+
+### No Config
+
+```markdown
+Good morning! I don't have access to your tools yet.
 
 Tell me: what's on your plate today? I'll help you prioritize and plan.
 
-(Run /add-tool to connect your calendar for automated briefs.)
+To enable automated briefs, run `/dcs:setup` to connect your tools.
 ```
-
-### Step 4: Offer Follow-ups
-
-After presenting the briefing, offer relevant next steps:
-
-- "Would you like me to prep you for [specific meeting]?"
-- "Should I help prioritize these tasks?"
-- "Want me to draft a reply to [urgent email]?"
-- "I can block focus time around your meetings — want me to suggest times?"
 
 ---
 
@@ -119,81 +193,127 @@ After presenting the briefing, offer relevant next steps:
 - No fluff or commentary
 - Use bullet points
 - Bold key names, times, and action items
-- Personal tone ("You have 3 meetings today" not "There are 3 meetings scheduled")
+- Personal tone ("You have 3 meetings today")
 - Warm but efficient
-
----
-
-## Graceful Degradation
-
-| Source Unavailable | How to Handle |
-|--------------------|---------------|
-| Calendar | Ask: "What meetings do you have today?" |
-| Tasks | Ask: "What are your priorities for today?" |
-| Email | Skip section, note: "(Email not connected)" |
-| All sources | Full conversational mode — still valuable |
-
-**Important:** Never fail. Always provide value, just adjust the approach.
 
 ---
 
 ## Example Outputs
 
-### Full Automation
+### Full Automation (All Pillars)
 
-```
+```markdown
 ## Good morning
 
 ### Today's Schedule
-- **9:00 AM** - Design review with Sarah (Figma link in calendar)
+- **9:00 AM** - Design review with Taylor (Figma link in calendar)
 - **11:30 AM** - Client call: Acme Corp (prep: review proposal)
-- **2:00 PM** - 1:1 with Jake
+- **2:00 PM** - 1:1 with Morgan
 
 ### Tasks Due Today
 - [ ] Finalize homepage wireframes
 - [ ] Send invoice to Acme
-- [ ] Review PR from Jake
+- [ ] Review PR from Morgan
 
-### Email Requiring Attention
-- **[Urgent]** Sarah Chen - "Logo feedback needed by noon"
-- **[Client]** Mike @ Acme - Question about timeline
-- 4 other unread, none urgent
+### Communications
+- 12 unread emails (3 flagged important)
+- 8 unread Slack messages in #design
+
+### Development Activity
+**Recent commits:**
+- `feat(auth): add logout` — Jordan, 2h ago
+- `fix(api): null handling` — Taylor, 8h ago
+
+**PRs needing review:**
+- #142 "User settings" — Morgan (2 days)
+
+### Design Activity
+- Design System — Jordan, 3h ago
+- Marketing Page — Taylor, yesterday
+
+### Today's Numbers
+- **Page views:** 1,247 (↑12%)
+- **Link clicks:** 89
+- **Top page:** /pricing
 
 ### Heads Up
-- 30-min gap at 10:30 — good for logo feedback
-- Acme call conflicts with usual lunch — eat early
+- Gap at 10:30 for deep work
+- PR #142 getting stale
+- /pricing traffic up — investigate?
 ```
 
-### Partial Automation (Calendar only)
+### Partial (Operations + Design Only)
 
-```
+```markdown
 ## Good morning
 
 ### Today's Schedule
-- **9:00 AM** - Design review with Sarah
+- **9:00 AM** - Design review with Taylor
 - **11:30 AM** - Client call: Acme Corp
-- **2:00 PM** - 1:1 with Jake
+- **2:00 PM** - 1:1 with Morgan
 
-### What Else is on Your Plate?
-I see your meetings, but I don't have access to your task list.
+### Tasks Due Today
+- [ ] Finalize homepage wireframes
+- [ ] Send invoice to Acme
 
-What are your top priorities today? I'll help you fit them around your schedule.
+### Development Activity
+**Recent commits (last 24h):**
+- `feat(auth): add logout` — Jordan
+
+**PRs needing review:**
+- #142 "User settings" — Morgan
+
+### Heads Up
+- 30-min gap at 10:30 for focus time
 ```
 
-### Manual Mode
+### Manual Mode (No Config)
 
-```
+```markdown
 Good morning! Let's plan your day.
 
-I don't have access to your calendar or tasks yet, but I can still help.
+I don't have access to your calendar or tools yet, but I can still help.
 
 **Quick questions:**
 1. What meetings do you have today?
 2. What must get done today?
 3. Anything stressing you out?
 
-(Pro tip: Run /add-tool to connect your calendar for automated briefs tomorrow.)
+(Run `/dcs:setup` to connect your tools for automated briefs tomorrow.)
 ```
+
+---
+
+## Follow-up Offers
+
+After presenting the briefing:
+
+```markdown
+---
+
+**Want me to:**
+- Prep you for the Acme call?
+- Review PR #142?
+- Block focus time around your meetings?
+```
+
+---
+
+## Outcome to Tool Mapping
+
+| Outcome | Tool | Capability |
+|---------|------|------------|
+| `calendar_events` | google_workspace | todays_events |
+| `tasks_due` | notion, linear | task_counts |
+| `unread_emails` | google_workspace | unread_emails |
+| `unread_messages` | slack | unread_counts |
+| `recent_commits` | github | recent_commits |
+| `open_prs` | github | open_prs |
+| `design_updates` | figma | files_edited |
+| `active_users` | figma | active_users |
+| `pageviews` | google_analytics | session_count |
+| `link_clicks` | dubco | click_counts |
+| `new_subscribers` | substack | new_subscribers |
 
 ---
 

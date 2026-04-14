@@ -1,6 +1,6 @@
 # /dcs:status
 
-Show current configuration status, integration health, and available commands.
+Show current configuration status organized by pillars, integration health, and available commands.
 
 ## Trigger
 
@@ -23,23 +23,27 @@ User runs `/dcs:status` to see what's configured and working.
    ```
    Exit early.
 
-3. **Parse** config and note any issues
+3. **Check version**
+   - If v1.x: "Found legacy v1 config. Run `/dcs:setup` to migrate to v2."
+   - If v2.x: Continue
+
+4. **Parse** config and note any issues
 
 ---
 
 ### Step 2: Check Integration Health
 
-**Figma check (if enabled):**
-```bash
-curl -s -H "Authorization: Bearer {token}" "https://api.figma.com/v1/me"
-```
+For each pillar, check connected tools:
+
+**For MCP connections:**
+- Try a basic query to verify MCP is responding
+- Success → "Connected"
+- Timeout → "Not responding"
+
+**For API connections:**
+- Validate token if stored
 - Success → "Connected as {handle}"
 - Failure → "Token invalid or expired"
-
-**GitHub check (if MCP available):**
-- Try listing one tracked repo
-- Success → "Connected via MCP"
-- Failure → "MCP not responding"
 
 ---
 
@@ -48,48 +52,65 @@ curl -s -H "Authorization: Bearer {token}" "https://api.figma.com/v1/me"
 ```markdown
 ## Design Company Skills — Status
 
-**Last updated:** April 13, 2025
+**Config version:** 2.0
+**Last updated:** April 14, 2025
 
 ---
 
-### Integrations
+### Operations Pillar
 
-| Service | Status | Details |
-|---------|--------|---------|
-| Figma   | Connected | sarah.chen, 2 projects |
-| GitHub  | Connected | MCP, 3 repos |
-| Slack   | Not configured | — |
+| Tool             | Status      | Details                    |
+|------------------|-------------|----------------------------|
+| Notion           | Connected   | MCP, 3 databases tracked   |
+| Google Workspace | Connected   | MCP, calendar + email      |
+| Slack            | Not configured | —                       |
+
+**Daily outcomes:** calendar_events, tasks_due, unread_emails
+**Weekly outcomes:** week_overview, tasks_completed
 
 ---
 
-### Tracking
+### Design Pillar
 
-**Figma Projects:**
-- Design System (id: 123456789)
-- Marketing Site (id: 987654321)
+| Tool   | Status      | Details                    |
+|--------|-------------|----------------------------|
+| GitHub | Connected   | MCP, 2 repos tracked       |
+| Figma  | Connected   | API, 1 project tracked     |
 
-**GitHub Repos:**
-- opensesh/webapp
-- opensesh/design-system
-- opensesh/marketing
+**Daily outcomes:** recent_commits, open_prs, design_updates
+**Weekly outcomes:** team_contributions, design_versions
+
+---
+
+### Analytics Pillar
+
+| Tool             | Status      | Details                    |
+|------------------|-------------|----------------------------|
+| Google Analytics | Connected   | MCP, GA4 property          |
+| Dub.co           | Connected   | MCP, 15 links tracked      |
+| Substack         | Skipped     | No wrapper created         |
+
+**Daily outcomes:** pageviews, link_clicks
+**Weekly outcomes:** traffic_trends, top_links
 
 ---
 
 ### Team
 
-| Name | Figma | GitHub |
-|------|-------|--------|
-| Sarah Chen | sarah.chen | sarahc |
-| Jake Miller | — | jakemiller |
+| Name        | Figma        | GitHub       |
+|-------------|--------------|--------------|
+| Jordan      | jordan.smith | jordansmith  |
+| Taylor Lee  | taylor.lee   | taylorl      |
 
 ---
 
-### Enabled Workflows
+### Enabled Commands
 
-**Daily:** morning_brief, meeting_prep
-**Weekly:** weekly_recap
-**Team:** team_pulse
-**As-needed:** design_feedback, brand_guidelines, devils_advocate
+Based on your connected tools:
+- `/dcs:daily-brief` — Operations + Design + Analytics
+- `/dcs:weekly-recap` — Operations + Design + Analytics
+- `/dcs:team-pulse` — Design (GitHub + Figma)
+- `/dcs:analytics` — Analytics
 
 ---
 
@@ -103,8 +124,33 @@ curl -s -H "Authorization: Bearer {token}" "https://api.figma.com/v1/me"
 
 - `/dcs:configure` — Update settings
 - `/dcs:test` — Run diagnostics
+- `/dcs:add-tool` — Connect new tools
 - `/dcs:help` — Command reference
 ```
+
+---
+
+## Pillar Status Indicators
+
+| Status | Display | Meaning |
+|--------|---------|---------|
+| All tools connected | Pillar: Active | Fully operational |
+| Some tools connected | Pillar: Partial | Some features limited |
+| No tools connected | Pillar: Inactive | Pillar disabled |
+| Tools with issues | Pillar: Issues | Needs attention |
+
+---
+
+## Tool Status Indicators
+
+| Status | Display | Meaning |
+|--------|---------|---------|
+| Working | Connected | Fully operational |
+| Connected but limited | Connected (limited) | Some features unavailable |
+| Token/auth issue | Error | Needs reauthorization |
+| Not responding | Not responding | MCP/API timeout |
+| Not configured | Not configured | Never set up |
+| Skipped | Skipped | User chose to skip |
 
 ---
 
@@ -130,16 +176,19 @@ The plugin is installed but not configured.
 
 ---
 
-## Health Indicators
+## Compact Status
 
-Use clear visual status:
+For quick checks, show condensed view:
 
-| Status | Display |
-|--------|---------|
-| Working | Connected |
-| Degraded | Limited (reason) |
-| Broken | Error (reason) |
-| Not configured | Not configured |
+```markdown
+## DCS Status
+
+**Operations:** ✓ Notion, Google Workspace | ⚠ Slack (not configured)
+**Design:** ✓ GitHub, Figma
+**Analytics:** ✓ GA4, Dub.co | ○ Substack (skipped)
+
+All systems operational. Run `/dcs:test` for detailed diagnostics.
+```
 
 ---
 
@@ -153,12 +202,62 @@ If issues detected, append:
 ### Issues Detected
 
 **Figma token expired:**
-Your Figma token is no longer valid. Run `/dcs:configure` → Figma → Update token.
+Your Figma token is no longer valid.
+Fix: `/dcs:configure` → Design → Figma → Update token
 
 **GitHub repo not found:**
-Repository `opensesh/old-repo` no longer exists. Run `/dcs:configure` → GitHub → Remove it.
+Repository `opensesh/old-repo` no longer exists.
+Fix: `/dcs:configure` → Design → GitHub → Remove repo
+
+**Substack not connected:**
+You skipped Substack during setup. To add it:
+Run: `/dcs:add-tool substack`
 ```
 
 ---
 
-*Version: 1.0*
+## Status by Pillar Command
+
+User can check specific pillar:
+
+```
+/dcs:status operations
+/dcs:status design
+/dcs:status analytics
+```
+
+Shows detailed status for just that pillar:
+
+```markdown
+## Operations Pillar — Detailed Status
+
+### Notion (MCP)
+- Status: Connected
+- MCP name: notion
+- Databases tracked: 3
+  - Tasks (database_id: abc123)
+  - Projects (database_id: def456)
+  - Notes (database_id: ghi789)
+- Capabilities:
+  - Daily: recent_pages, task_counts
+  - Weekly: page_activity, task_completion
+
+### Google Workspace (MCP)
+- Status: Connected
+- Components:
+  - Calendar: Active
+  - Gmail: Active
+  - Drive: Not configured
+- Capabilities:
+  - Daily: todays_events, unread_emails
+  - Weekly: event_count, email_volume
+
+### Slack
+- Status: Not configured
+- MCP available but not installed
+- To add: `/dcs:add-tool slack`
+```
+
+---
+
+*Version: 2.0*

@@ -37,9 +37,9 @@ This command adapts based on the user's setup in `~/.claude/skills-config.yaml`.
 Which meeting are you prepping for?
 
 Today:
-1. 9:00 AM - Design Review (Sarah, Jake)
+1. 9:00 AM - Design Review (Taylor, Morgan)
 2. 11:30 AM - Client Call: Acme Corp
-3. 2:00 PM - 1:1 with Jake
+3. 2:00 PM - 1:1 with Morgan
 
 Or describe a different meeting.
 ```
@@ -173,9 +173,9 @@ Built into the output:
 Which meeting are you prepping for?
 
 Today:
-1. 9:00 AM - Design Review (Sarah, Jake) - 30 min
+1. 9:00 AM - Design Review (Taylor, Morgan) - 30 min
 2. 11:30 AM - Client Call: Acme Corp - 60 min
-3. 2:00 PM - 1:1 with Jake - 30 min
+3. 2:00 PM - 1:1 with Morgan - 30 min
 
 Or describe a different meeting.
 ```
