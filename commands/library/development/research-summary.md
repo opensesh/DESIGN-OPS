@@ -1,10 +1,10 @@
-# /do:research-summary
+# /design-ops:research-summary
 
 Synthesize research into actionable insights. Analyzes multiple sources and produces executive summaries with recommendations.
 
 ## Trigger
 
-User invokes `/do:research-summary` when they need to:
+User invokes `/design-ops:research-summary` when they need to:
 - Synthesize findings from multiple sources
 - Create executive summaries from research
 - Extract patterns and recommendations
@@ -256,7 +256,7 @@ Uses firecrawl for:
 
 ## Example Session
 
-**User:** `/do:research-summary`
+**User:** `/design-ops:research-summary`
 
 **Claude:** "What research do you want to synthesize?"
 

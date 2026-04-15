@@ -1,10 +1,10 @@
-# /do:copy-variants
+# /design-ops:copy-variants
 
 Generate and score copy variations for A/B testing. Creates multiple headline, CTA, and body copy options aligned with brand voice.
 
 ## Trigger
 
-User invokes `/do:copy-variants` when they need multiple copy options for:
+User invokes `/design-ops:copy-variants` when they need multiple copy options for:
 - Headlines and taglines
 - CTA buttons and links
 - Email subject lines
@@ -163,7 +163,7 @@ When brand config exists, score against:
 
 ## Example Session
 
-**User:** `/do:copy-variants`
+**User:** `/design-ops:copy-variants`
 
 **Claude:** "What copy do you need variations for?"
 

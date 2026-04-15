@@ -1,10 +1,10 @@
-# /do:add-tool
+# /design-ops:add-tool
 
 Guided setup for adding a new tool to DESIGN-OPS. Uses the evaluation cascade to determine the best connection method.
 
 ## Trigger
 
-User runs `/do:add-tool` or `/do:add-tool {toolname}` to connect a new tool.
+User runs `/design-ops:add-tool` or `/design-ops:add-tool {toolname}` to connect a new tool.
 
 ---
 
@@ -41,7 +41,7 @@ User wants to add a tool
 ### If tool specified in command
 
 ```
-/do:add-tool substack
+/design-ops:add-tool substack
 ```
 
 Parse the tool name and proceed to evaluation.
@@ -304,8 +304,8 @@ Testing {Tool}...
 - {capability 2} in weekly recaps
 
 **Commands affected:**
-- `/do:daily-brief` — now includes {tool} data
-- `/do:weekly-recap` — now includes {tool} data
+- `/design-ops:daily-brief` — now includes {tool} data
+- `/design-ops:weekly-recap` — now includes {tool} data
 ```
 
 ---
@@ -408,18 +408,18 @@ Would you like to:
 
 ---
 
-## Integration with /do:configure
+## Integration with /design-ops:configure
 
-This command can also be triggered from `/do:configure`:
+This command can also be triggered from `/design-ops:configure`:
 
 ```
-/do:configure → "Add new tools" → /do:add-tool flow
+/design-ops:configure → "Add new tools" → /design-ops:add-tool flow
 ```
 
 Or for a specific pillar:
 
 ```
-/do:configure analytics → "Add new tool" → /do:add-tool (filtered to analytics tools)
+/design-ops:configure analytics → "Add new tool" → /design-ops:add-tool (filtered to analytics tools)
 ```
 
 ---

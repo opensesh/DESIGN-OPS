@@ -1,10 +1,10 @@
-# /do:mood-board
+# /design-ops:mood-board
 
 Curated design inspiration from web sources. Analyzes design patterns, color palettes, and techniques from inspiration sites.
 
 ## Trigger
 
-User invokes `/do:mood-board` when seeking design inspiration for:
+User invokes `/design-ops:mood-board` when seeking design inspiration for:
 - A specific style or aesthetic
 - UI patterns and layouts
 - Color and typography trends
@@ -168,7 +168,7 @@ If brand configuration exists:
 
 ## Example Session
 
-**User:** `/do:mood-board`
+**User:** `/design-ops:mood-board`
 
 **Claude:** "What kind of inspiration are you looking for?"
 

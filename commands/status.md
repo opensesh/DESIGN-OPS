@@ -1,10 +1,10 @@
-# /do:status
+# /design-ops:status
 
 Show current configuration status organized by pillars, integration health, and available commands.
 
 ## Trigger
 
-User runs `/do:status` to see what's configured and working.
+User runs `/design-ops:status` to see what's configured and working.
 
 ---
 
@@ -19,12 +19,12 @@ User runs `/do:status` to see what's configured and working.
 
    No configuration found at ~/.claude/do-config.yaml
 
-   Run `/do:setup` to get started, or see `/do:help` for available commands.
+   Run `/design-ops:setup` to get started, or see `/design-ops:help` for available commands.
    ```
    Exit early.
 
 3. **Check version**
-   - If v1.x: "Found legacy v1 config. Run `/do:setup` to migrate to v2."
+   - If v1.x: "Found legacy v1 config. Run `/design-ops:setup` to migrate to v2."
    - If v2.x: Continue
 
 4. **Parse** config and note any issues
@@ -107,10 +107,10 @@ For each pillar, check connected tools:
 ### Enabled Commands
 
 Based on your connected tools:
-- `/do:daily-brief` — Operations + Design + Analytics
-- `/do:weekly-recap` — Operations + Design + Analytics
-- `/do:team-pulse` — Design (GitHub + Figma)
-- `/do:analytics` — Analytics
+- `/design-ops:daily-brief` — Operations + Design + Analytics
+- `/design-ops:weekly-recap` — Operations + Design + Analytics
+- `/design-ops:team-pulse` — Design (GitHub + Figma)
+- `/design-ops:analytics` — Analytics
 
 ---
 
@@ -122,10 +122,10 @@ Based on your connected tools:
 
 ### Quick Actions
 
-- `/do:configure` — Update settings
-- `/do:test` — Run diagnostics
-- `/do:add-tool` — Connect new tools
-- `/do:help` — Command reference
+- `/design-ops:configure` — Update settings
+- `/design-ops:test` — Run diagnostics
+- `/design-ops:add-tool` — Connect new tools
+- `/design-ops:help` — Command reference
 ```
 
 ---
@@ -164,8 +164,8 @@ If config doesn't exist:
 The plugin is installed but not configured.
 
 **What you can still use:**
-- `/do:help` — See all commands
-- `/do:setup` — Configure integrations
+- `/design-ops:help` — See all commands
+- `/design-ops:setup` — Configure integrations
 
 **Auto-activating skills** (work without config):
 - brand-guidelines
@@ -187,7 +187,7 @@ For quick checks, show condensed view:
 **Design:** ✓ GitHub, Figma
 **Analytics:** ✓ GA4, Dub.co | ○ Substack (skipped)
 
-All systems operational. Run `/do:test` for detailed diagnostics.
+All systems operational. Run `/design-ops:test` for detailed diagnostics.
 ```
 
 ---
@@ -203,15 +203,15 @@ If issues detected, append:
 
 **Figma token expired:**
 Your Figma token is no longer valid.
-Fix: `/do:configure` → Design → Figma → Update token
+Fix: `/design-ops:configure` → Design → Figma → Update token
 
 **GitHub repo not found:**
 Repository `opensesh/old-repo` no longer exists.
-Fix: `/do:configure` → Design → GitHub → Remove repo
+Fix: `/design-ops:configure` → Design → GitHub → Remove repo
 
 **Substack not connected:**
 You skipped Substack during setup. To add it:
-Run: `/do:add-tool substack`
+Run: `/design-ops:add-tool substack`
 ```
 
 ---
@@ -221,9 +221,9 @@ Run: `/do:add-tool substack`
 User can check specific pillar:
 
 ```
-/do:status operations
-/do:status design
-/do:status analytics
+/design-ops:status operations
+/design-ops:status design
+/design-ops:status analytics
 ```
 
 Shows detailed status for just that pillar:
@@ -255,7 +255,7 @@ Shows detailed status for just that pillar:
 ### Slack
 - Status: Not configured
 - MCP available but not installed
-- To add: `/do:add-tool slack`
+- To add: `/design-ops:add-tool slack`
 ```
 
 ---

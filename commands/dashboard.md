@@ -1,11 +1,11 @@
-# /do:dashboard
+# /design-ops:dashboard
 
 Unified dashboard command that generates pillar × timeframe reports from connected tools.
 
 ## Trigger
 
 ```bash
-/do:dashboard [pillar] [timeframe]
+/design-ops:dashboard [pillar] [timeframe]
 ```
 
 ## Parameters
@@ -33,12 +33,12 @@ Unified dashboard command that generates pillar × timeframe reports from connec
 ## Argument Parsing Logic
 
 ```
-/do:dashboard                    → all pillars, daily
-/do:dashboard ops                → operations, daily
-/do:dashboard weekly             → all pillars, weekly
-/do:dashboard ops weekly         → operations, weekly
-/do:dashboard design quarterly   → design, quarterly
-/do:dashboard analytics ytd      → analytics, year-to-date
+/design-ops:dashboard                    → all pillars, daily
+/design-ops:dashboard ops                → operations, daily
+/design-ops:dashboard weekly             → all pillars, weekly
+/design-ops:dashboard ops weekly         → operations, weekly
+/design-ops:dashboard design quarterly   → design, quarterly
+/design-ops:dashboard analytics ytd      → analytics, year-to-date
 ```
 
 **Detection rules:**
@@ -375,9 +375,9 @@ If requested pillar is disabled:
 ```markdown
 The {pillar} pillar is not enabled in your config.
 
-Run `/do:configure` to enable it, or try:
-- `/do:dashboard` (all enabled pillars)
-- `/do:dashboard {other_pillar}`
+Run `/design-ops:configure` to enable it, or try:
+- `/design-ops:dashboard` (all enabled pillars)
+- `/design-ops:dashboard {other_pillar}`
 ```
 
 ### No Data for Timeframe
@@ -389,7 +389,7 @@ No {timeframe} outcomes configured for {pillar}.
 
 Your current config has outcomes for: {available_timeframes}
 
-To add {timeframe} outcomes, run `/do:configure`.
+To add {timeframe} outcomes, run `/design-ops:configure`.
 ```
 
 ### No Config
@@ -397,7 +397,7 @@ To add {timeframe} outcomes, run `/do:configure`.
 ```markdown
 DESIGN-OPS isn't configured yet.
 
-Run `/do:setup` to connect your tools and start getting automated dashboards.
+Run `/design-ops:setup` to connect your tools and start getting automated dashboards.
 
 Or tell me what you'd like to review, and I'll help manually.
 ```
@@ -474,7 +474,7 @@ After presenting any dashboard:
 ### Example: Default (All Pillars, Daily)
 
 ```bash
-/do:dashboard
+/design-ops:dashboard
 ```
 
 Shows combined daily dashboard across all enabled pillars.
@@ -482,7 +482,7 @@ Shows combined daily dashboard across all enabled pillars.
 ### Example: Operations Weekly
 
 ```bash
-/do:dashboard ops weekly
+/design-ops:dashboard ops weekly
 ```
 
 Shows operations-only weekly summary with meeting count, tasks completed, and communication volume.
@@ -490,7 +490,7 @@ Shows operations-only weekly summary with meeting count, tasks completed, and co
 ### Example: Design Quarterly
 
 ```bash
-/do:dashboard design quarterly
+/design-ops:dashboard design quarterly
 ```
 
 Shows design-only quarterly summary with shipped projects, design velocity, and system coverage metrics.
@@ -498,7 +498,7 @@ Shows design-only quarterly summary with shipped projects, design velocity, and 
 ### Example: Analytics YTD
 
 ```bash
-/do:dashboard analytics ytd
+/design-ops:dashboard analytics ytd
 ```
 
 Shows analytics-only year-to-date summary with annual traffic totals and YoY comparisons.
@@ -506,7 +506,7 @@ Shows analytics-only year-to-date summary with annual traffic totals and YoY com
 ### Example: Just Timeframe
 
 ```bash
-/do:dashboard weekly
+/design-ops:dashboard weekly
 ```
 
 Shows all enabled pillars with weekly timeframe.

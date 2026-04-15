@@ -1,10 +1,10 @@
-# /do:weekly-recap
+# /design-ops:weekly-recap
 
-**Legacy alias** for `/do:dashboard weekly`
+**Legacy alias** for `/design-ops:dashboard weekly`
 
 ## Trigger
 
-User invokes `/do:weekly-recap` at the end of a week to review accomplishments and plan ahead.
+User invokes `/design-ops:weekly-recap` at the end of a week to review accomplishments and plan ahead.
 
 ---
 
@@ -13,37 +13,37 @@ User invokes `/do:weekly-recap` at the end of a week to review accomplishments a
 This command is a backwards-compatible alias. It delegates to the unified dashboard command:
 
 ```
-/do:weekly-recap  →  /do:dashboard weekly
+/design-ops:weekly-recap  →  /design-ops:dashboard weekly
 ```
 
 ### Execution
 
-1. **Invoke** `/do:dashboard weekly`
+1. **Invoke** `/design-ops:dashboard weekly`
 2. **Return** the weekly dashboard output (all enabled pillars)
 
 ---
 
 ## Migration Notice
 
-`/do:weekly-recap` continues to work for backwards compatibility, but the recommended command is now:
+`/design-ops:weekly-recap` continues to work for backwards compatibility, but the recommended command is now:
 
 ```bash
-/do:dashboard weekly           # All pillars, weekly
-/do:dashboard ops weekly       # Operations only, weekly
-/do:dashboard design weekly    # Design only, weekly
+/design-ops:dashboard weekly           # All pillars, weekly
+/design-ops:dashboard ops weekly       # Operations only, weekly
+/design-ops:dashboard design weekly    # Design only, weekly
 ```
 
-See `/do:dashboard` for full documentation on pillar and timeframe options.
+See `/design-ops:dashboard` for full documentation on pillar and timeframe options.
 
 ---
 
 ## Why This Alias Exists
 
-- **Muscle memory** — Existing users know `/do:weekly-recap`
+- **Muscle memory** — Existing users know `/design-ops:weekly-recap`
 - **Documentation links** — Prevents broken references
 - **Gradual migration** — Users can adopt new syntax at their own pace
 
 ---
 
 *Version: 2.0 (alias wrapper)*
-*Delegates to: /do:dashboard weekly*
+*Delegates to: /design-ops:dashboard weekly*

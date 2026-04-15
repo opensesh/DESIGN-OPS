@@ -164,17 +164,17 @@ Global installation of [DESIGN-OPS](https://github.com/opensesh/DESIGN-OPS) for 
 
 ### Quick Reference
 
-- **Commands:** Type `/do:` to see all commands
-- **Setup:** `/do:setup` — Configure integrations
-- **Dashboard:** `/do:dashboard` — Daily/weekly overview
-- **Library:** `/do:library` — Browse 14 utility commands
-- **Help:** `/do:help` — Full command reference
+- **Commands:** Type `/design-ops:` to see all commands
+- **Setup:** `/design-ops:setup` — Configure integrations
+- **Dashboard:** `/design-ops:dashboard` — Daily/weekly overview
+- **Library:** `/design-ops:library` — Browse 14 utility commands
+- **Help:** `/design-ops:help` — Full command reference
 
 ### Configuration
 
 Config file: `~/.claude/do-config.yaml`
 
-Run `/do:setup` for guided configuration.
+Run `/design-ops:setup` for guided configuration.
 <!-- DESIGN-OPS:END -->
 EOF
 
@@ -195,8 +195,8 @@ echo "  references/         Documentation"
 echo "  templates/          Config templates"
 echo
 echo "Next steps:"
-echo "  1. Run '/do:setup' to configure your integrations"
-echo "  2. Run '/do:library' to explore utility commands"
-echo "  3. Run '/do:dashboard' for your daily overview"
+echo "  1. Run '/design-ops:setup' to configure your integrations"
+echo "  2. Run '/design-ops:library' to explore utility commands"
+echo "  3. Run '/design-ops:dashboard' for your daily overview"
 echo
 echo "For more information: https://github.com/opensesh/DESIGN-OPS"

@@ -1,7 +1,7 @@
 # Team Pulse Configuration
 # Copy this to ~/.claude/team-pulse-config.yaml and fill in your values
 #
-# Setup: Run /do:setup or /do:configure design for guided configuration
+# Setup: Run /design-ops:setup or /design-ops:configure design for guided configuration
 
 # ─────────────────────────────────────────────────────────────────────────────
 # FIGMA (for design activity tracking)

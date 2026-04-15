@@ -1,10 +1,10 @@
-# /do:variation-sprint
+# /design-ops:variation-sprint
 
 Generate multiple design variations within brand constraints. Creates 3-5 alternative approaches with trade-off analysis.
 
 ## Trigger
 
-User invokes `/do:variation-sprint` when they need to explore multiple design directions for:
+User invokes `/design-ops:variation-sprint` when they need to explore multiple design directions for:
 - Landing pages or hero sections
 - UI components
 - Layout alternatives
@@ -264,7 +264,7 @@ When brand config exists:
 
 ## Example Session
 
-**User:** `/do:variation-sprint`
+**User:** `/design-ops:variation-sprint`
 
 **Claude:** "What are you designing variations for?"
 

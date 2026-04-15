@@ -1,12 +1,12 @@
-# /do:library
+# /design-ops:library
 
 Browse and discover utility commands organized by category.
 
 ## Trigger
 
 ```bash
-/do:library              # List all utility commands by category
-/do:library [category]   # Filter to specific category
+/design-ops:library              # List all utility commands by category
+/design-ops:library [category]   # Filter to specific category
 ```
 
 ## Parameters
@@ -45,9 +45,9 @@ Ad-hoc commands organized by purpose. Use any command directly.
 
 | Command | Description |
 |---------|-------------|
-| `/do:meeting-brief` | Create focused meeting agendas through guided questions |
-| `/do:meeting-recap` | Document meetings with summaries, decisions, and action items |
-| `/do:kickoff-prep` | Generate project kickoff materials (agenda, brief, questions) |
+| `/design-ops:meeting-brief` | Create focused meeting agendas through guided questions |
+| `/design-ops:meeting-recap` | Document meetings with summaries, decisions, and action items |
+| `/design-ops:kickoff-prep` | Generate project kickoff materials (agenda, brief, questions) |
 
 ---
 
@@ -56,9 +56,9 @@ Ad-hoc commands organized by purpose. Use any command directly.
 
 | Command | Description |
 |---------|-------------|
-| `/do:social-post` | Create platform-optimized social content |
-| `/do:copy-variants` | Generate and A/B test copy variations |
-| `/do:content-brief` | Create content briefs for articles, blogs, case studies |
+| `/design-ops:social-post` | Create platform-optimized social content |
+| `/design-ops:copy-variants` | Generate and A/B test copy variations |
+| `/design-ops:content-brief` | Create content briefs for articles, blogs, case studies |
 
 ---
 
@@ -67,9 +67,9 @@ Ad-hoc commands organized by purpose. Use any command directly.
 
 | Command | Description |
 |---------|-------------|
-| `/do:site-analysis` | Deep website analysis with structure mapping |
-| `/do:devils-advocate` | Challenge assumptions and stress-test your thinking |
-| `/do:research-summary` | Synthesize research into actionable insights |
+| `/design-ops:site-analysis` | Deep website analysis with structure mapping |
+| `/design-ops:devils-advocate` | Challenge assumptions and stress-test your thinking |
+| `/design-ops:research-summary` | Synthesize research into actionable insights |
 
 ---
 
@@ -78,19 +78,19 @@ Ad-hoc commands organized by purpose. Use any command directly.
 
 | Command | Description |
 |---------|-------------|
-| `/do:design-audit` | Automated design system compliance check |
-| `/do:a11y-audit` | Accessibility compliance check (WCAG A/AA/AAA) |
-| `/do:mood-board` | Curated design inspiration from web sources |
-| `/do:competitor-scan` | Competitive design analysis |
-| `/do:variation-sprint` | Generate design variations within brand constraints |
+| `/design-ops:design-audit` | Automated design system compliance check |
+| `/design-ops:a11y-audit` | Accessibility compliance check (WCAG A/AA/AAA) |
+| `/design-ops:mood-board` | Curated design inspiration from web sources |
+| `/design-ops:competitor-scan` | Competitive design analysis |
+| `/design-ops:variation-sprint` | Generate design variations within brand constraints |
 
 ---
 
 Run any command by name, or browse a specific category:
-- `/do:library logistics`
-- `/do:library content`
-- `/do:library development`
-- `/do:library design`
+- `/design-ops:library logistics`
+- `/design-ops:library content`
+- `/design-ops:library development`
+- `/design-ops:library design`
 ```
 
 ---
@@ -100,7 +100,7 @@ Run any command by name, or browse a specific category:
 When user specifies a category:
 
 ```bash
-/do:library logistics
+/design-ops:library logistics
 ```
 
 Show only that category:
@@ -112,15 +112,15 @@ Show only that category:
 
 | Command | Description |
 |---------|-------------|
-| `/do:meeting-brief` | Create focused meeting agendas through guided questions |
-| `/do:meeting-recap` | Document meetings with summaries, decisions, and action items |
-| `/do:kickoff-prep` | Generate project kickoff materials (agenda, brief, questions) |
+| `/design-ops:meeting-brief` | Create focused meeting agendas through guided questions |
+| `/design-ops:meeting-recap` | Document meetings with summaries, decisions, and action items |
+| `/design-ops:kickoff-prep` | Generate project kickoff materials (agenda, brief, questions) |
 
 ---
 
 **Other categories:** content, development, design
 
-Run `/do:library` to see all categories.
+Run `/design-ops:library` to see all categories.
 ```
 
 ---
@@ -138,7 +138,7 @@ Available categories:
 - **development** — Research, analysis, and ideation tools
 - **design** — Design quality, research, and variation tools
 
-Run `/do:library` to see all commands.
+Run `/design-ops:library` to see all commands.
 ```
 
 ---
@@ -161,7 +161,7 @@ commands:
     path: logistics/meeting-brief.md
     category: logistics
     description: "Create focused meeting agendas"
-    trigger: "/do:meeting-brief"
+    trigger: "/design-ops:meeting-brief"
     tags: [meetings, planning, preparation]
   # ... more commands (14 total)
 ```
@@ -183,11 +183,11 @@ To add a command to the library:
      path: {category}/command-name.md
      category: {category}
      description: "Brief description of what it does"
-     trigger: "/do:command-name"
+     trigger: "/design-ops:command-name"
      tags: [relevant, tags]
    ```
 
-3. The command will appear in `/do:library` output
+3. The command will appear in `/design-ops:library` output
 
 ---
 
@@ -205,8 +205,8 @@ To add a command to the library:
 
 ## Related Commands
 
-- `/do:help` — Full command reference (includes system commands and dashboard)
-- `/do:dashboard` — Core pillar × timeframe reporting
+- `/design-ops:help` — Full command reference (includes system commands and dashboard)
+- `/design-ops:dashboard` — Core pillar × timeframe reporting
 
 ---
 

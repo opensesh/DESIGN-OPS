@@ -1,10 +1,10 @@
-# /do:a11y-audit
+# /design-ops:a11y-audit
 
 Accessibility compliance check against WCAG A, AA, and AAA standards.
 
 ## Trigger
 
-User invokes `/do:a11y-audit` to audit accessibility for:
+User invokes `/design-ops:a11y-audit` to audit accessibility for:
 - Live URLs (crawls the page)
 - Components (checks patterns)
 - Screenshots (visual analysis)
@@ -177,7 +177,7 @@ For URL audits:
 
 ## Example Session
 
-**User:** `/do:a11y-audit`
+**User:** `/design-ops:a11y-audit`
 
 **Claude:** "What would you like to audit?"
 

@@ -89,7 +89,7 @@ The config lives at `~/.claude/do-config.yaml`. You can:
    cat ~/.claude/do-config.yaml
    ```
 
-2. Reset it by running `/do:setup` again and choosing "Start fresh"
+2. Reset it by running `/design-ops:setup` again and choosing "Start fresh"
 
 ---
 

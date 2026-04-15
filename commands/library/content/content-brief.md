@@ -1,10 +1,10 @@
-# /do:content-brief
+# /design-ops:content-brief
 
 Create structured content briefs for articles, blog posts, case studies, and other long-form content.
 
 ## Trigger
 
-User invokes `/do:content-brief` when planning:
+User invokes `/design-ops:content-brief` when planning:
 - Blog posts and articles
 - Case studies
 - Tutorials and how-to guides
@@ -266,7 +266,7 @@ Additional sections for tutorials:
 
 ## Example Session
 
-**User:** `/do:content-brief`
+**User:** `/design-ops:content-brief`
 
 **Claude:** "What type of content are you creating?"
 

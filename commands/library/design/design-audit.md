@@ -1,10 +1,10 @@
-# /do:design-audit
+# /design-ops:design-audit
 
 Automated design system compliance check. Validates components, screens, or files against your design tokens and patterns.
 
 ## Trigger
 
-User invokes `/do:design-audit` to check design system compliance for:
+User invokes `/design-ops:design-audit` to check design system compliance for:
 - Figma files (via URL or file key)
 - Screenshots (uploaded images)
 - Component names (references existing patterns)
@@ -36,7 +36,7 @@ No design system configured. I'll use general best practices.
 
 To add your design system:
 1. Create `references/design-system.md` in your project
-2. Or run `/do:configure design` to add tokens
+2. Or run `/design-ops:configure design` to add tokens
 
 Continue with general audit? [Yes / Configure first]
 ```
@@ -141,7 +141,7 @@ design_audit:
 
 ## Example Session
 
-**User:** `/do:design-audit`
+**User:** `/design-ops:design-audit`
 
 **Claude:** "What would you like to audit?"
 
@@ -180,7 +180,7 @@ Would you like me to generate a fix list for your designer?
 | Error | Response |
 |-------|----------|
 | Invalid Figma URL | "That doesn't look like a valid Figma URL. Format: figma.com/file/KEY/name" |
-| No Figma token | "Figma API access required. Run `/do:configure design` to add your token." |
+| No Figma token | "Figma API access required. Run `/design-ops:configure design` to add your token." |
 | File not accessible | "Can't access that file. Check sharing permissions or token scope." |
 | No design system | "No design system found. Proceeding with general best practices." |
 

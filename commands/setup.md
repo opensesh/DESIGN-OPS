@@ -1,10 +1,10 @@
-# /do:setup
+# /design-ops:setup
 
 Main onboarding wizard for DESIGN-OPS. Guides users through connecting data sources across three business pillars: Operations, Design, and Analytics.
 
 ## Trigger
 
-User runs `/do:setup` to configure the plugin. Works in:
+User runs `/design-ops:setup` to configure the plugin. Works in:
 - Claude Code CLI (terminal) — full interactive setup
 - Claude Desktop (Code tab) — full interactive setup
 - Claude Co-work (web) — read-only mode, directs to terminal
@@ -30,7 +30,7 @@ Before starting, detect the environment and existing setup:
 ```
 if (web/co-work environment detected):
   Show current config status
-  Display: "For full setup, run /do:setup in Claude Code CLI"
+  Display: "For full setup, run /design-ops:setup in Claude Code CLI"
   Exit early
 ```
 
@@ -428,7 +428,7 @@ If user chooses to create wrapper:
 ☐ Social engagement (requires Instagram setup)
 
 Note: Some options are disabled because those tools aren't connected.
-You can add them later with `/do:configure analytics`
+You can add them later with `/design-ops:configure analytics`
 
 [Confirm selections]
 ```
@@ -470,7 +470,7 @@ DESIGN-OPS includes a library of utility skills. Select the ones you want to ena
 ☑ systematic-debugging — 4-phase root cause analysis
 
 Note: Auto-activating skills work automatically based on context.
-The selectable skills above are invoked via `/do:library`.
+The selectable skills above are invoked via `/design-ops:library`.
 
 [Enable selected] [Enable all] [Skip for now]
 ```
@@ -573,10 +573,10 @@ Generate personalized configuration:
 - Top performing content
 
 ### Commands enabled:
-- `/do:daily-brief` — Morning overview
-- `/do:weekly-recap` — End of week summary
-- `/do:team-pulse` — Team activity dashboard
-- `/do:analytics` — Metrics summary
+- `/design-ops:daily-brief` — Morning overview
+- `/design-ops:weekly-recap` — End of week summary
+- `/design-ops:team-pulse` — Team activity dashboard
+- `/design-ops:analytics` — Metrics summary
 
 [Save Configuration]
 ```
@@ -704,7 +704,7 @@ preferences:
 
 ## Verification Tests
 
-Run `/do:test` automatically:
+Run `/design-ops:test` automatically:
 
 ```markdown
 ## Verifying Setup
@@ -746,23 +746,23 @@ Display checklist as tests complete:
 DESIGN-OPS is configured and ready.
 
 ### Next steps:
-• Run `/do:status` to verify your configuration
-• Run `/do:dashboard` for today's overview
-• Run `/do:library` to explore utility commands
+• Run `/design-ops:status` to verify your configuration
+• Run `/design-ops:dashboard` for today's overview
+• Run `/design-ops:library` to explore utility commands
 
 ### Your Dashboard Commands
-- `/do:dashboard` — All pillars, daily (default)
-- `/do:dashboard ops weekly` — Operations, weekly
-- `/do:dashboard design` — Design pillar focus
-- `/do:dashboard analytics ytd` — Analytics, year-to-date
+- `/design-ops:dashboard` — All pillars, daily (default)
+- `/design-ops:dashboard ops weekly` — Operations, weekly
+- `/design-ops:dashboard design` — Design pillar focus
+- `/design-ops:dashboard analytics ytd` — Analytics, year-to-date
 
 ### Legacy Aliases (still work)
-- `/do:daily-brief` — Same as `/do:dashboard daily`
-- `/do:weekly-recap` — Same as `/do:dashboard weekly`
-- `/do:team-pulse` — Same as `/do:dashboard design daily`
+- `/design-ops:daily-brief` — Same as `/design-ops:dashboard daily`
+- `/design-ops:weekly-recap` — Same as `/design-ops:dashboard weekly`
+- `/design-ops:team-pulse` — Same as `/design-ops:dashboard design daily`
 
 ### Utility Library
-Run `/do:library` to browse 14 utility commands:
+Run `/design-ops:library` to browse 14 utility commands:
 - **logistics/** — meeting-brief, meeting-recap, kickoff-prep
 - **content/** — social-post, copy-variants, content-brief
 - **development/** — site-analysis, devils-advocate, research-summary
@@ -778,11 +778,11 @@ These work automatically when relevant — no command needed:
 
 ### Configuration
 - Config file: `~/.claude/do-config.yaml`
-- View status: `/do:status` — Quick overview of what's configured
-- Diagnose issues: `/do:test` — Deep diagnostics when troubleshooting
-- Update settings: `/do:configure`
+- View status: `/design-ops:status` — Quick overview of what's configured
+- Diagnose issues: `/design-ops:test` — Deep diagnostics when troubleshooting
+- Update settings: `/design-ops:configure`
 
-Something not working? Run `/do:test` to diagnose.
+Something not working? Run `/design-ops:test` to diagnose.
 ```
 
 ---
@@ -869,7 +869,7 @@ Couldn't write config file. Check permissions for ~/.claude/
 Manual fix:
 1. Run: mkdir -p ~/.claude
 2. Run: chmod 755 ~/.claude
-3. Re-run /do:setup
+3. Re-run /design-ops:setup
 
 Still stuck? See: references/troubleshooting.md
 ```
@@ -883,14 +883,14 @@ This might be:
 - Invalid credentials (re-enter)
 - Service outage (check status page)
 
-Continue setup without {service}? You can add it later with /do:configure.
+Continue setup without {service}? You can add it later with /design-ops:configure.
 ```
 
 ---
 
 ## Re-Running Setup
 
-If user runs `/do:setup` with existing config:
+If user runs `/design-ops:setup` with existing config:
 
 1. Show current config summary with pillar breakdown
 2. Ask what to change:

@@ -1,6 +1,6 @@
 # Tool Evaluator Skill
 
-Sub-agent skill for evaluating tools during `/do:setup`. Checks MCP availability, API capabilities, and builds capability matrices.
+Sub-agent skill for evaluating tools during `/design-ops:setup`. Checks MCP availability, API capabilities, and builds capability matrices.
 
 ## Purpose
 
@@ -12,7 +12,7 @@ When a user selects tools in the setup flow, this skill evaluates each tool to d
 
 ## Trigger
 
-Invoked by `/do:setup` during tool evaluation phase. Should run as a background sub-agent.
+Invoked by `/design-ops:setup` during tool evaluation phase. Should run as a background sub-agent.
 
 ---
 

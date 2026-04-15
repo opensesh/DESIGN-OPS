@@ -1,10 +1,10 @@
-# /do:help
+# /design-ops:help
 
 Complete command reference for DESIGN-OPS.
 
 ## Trigger
 
-User runs `/do:help` to see all available commands and skills.
+User runs `/design-ops:help` to see all available commands and skills.
 
 ---
 
@@ -17,15 +17,15 @@ User runs `/do:help` to see all available commands and skills.
 
 | Command | Description |
 |---------|-------------|
-| `/do:setup` | Initial onboarding wizard — configure integrations and preferences |
-| `/do:configure` | Update specific settings without full setup |
-| `/do:status` | Quick overview of what's configured |
-| `/do:test` | Deep diagnostics when troubleshooting |
-| `/do:add-tool` | Connect a new MCP or API with guided setup |
-| `/do:help` | This command reference |
-| `/do:library` | Browse utility commands by category |
+| `/design-ops:setup` | Initial onboarding wizard — configure integrations and preferences |
+| `/design-ops:configure` | Update specific settings without full setup |
+| `/design-ops:status` | Quick overview of what's configured |
+| `/design-ops:test` | Deep diagnostics when troubleshooting |
+| `/design-ops:add-tool` | Connect a new MCP or API with guided setup |
+| `/design-ops:help` | This command reference |
+| `/design-ops:library` | Browse utility commands by category |
 
-**Note:** Use `/do:status` for a quick config check. Use `/do:test` when something isn't working.
+**Note:** Use `/design-ops:status` for a quick config check. Use `/design-ops:test` when something isn't working.
 
 ---
 
@@ -34,7 +34,7 @@ User runs `/do:help` to see all available commands and skills.
 The unified dashboard command generates reports across pillars and timeframes:
 
 ```bash
-/do:dashboard [pillar] [timeframe]
+/design-ops:dashboard [pillar] [timeframe]
 ```
 
 | Pillars | Timeframes |
@@ -46,11 +46,11 @@ The unified dashboard command generates reports across pillars and timeframes:
 
 **Examples:**
 ```bash
-/do:dashboard                    # All pillars, daily (default)
-/do:dashboard ops weekly         # Operations, weekly
-/do:dashboard design quarterly   # Design, quarterly
-/do:dashboard analytics ytd      # Analytics, year-to-date
-/do:dashboard weekly             # All pillars, weekly
+/design-ops:dashboard                    # All pillars, daily (default)
+/design-ops:dashboard ops weekly         # Operations, weekly
+/design-ops:dashboard design quarterly   # Design, quarterly
+/design-ops:dashboard analytics ytd      # Analytics, year-to-date
+/design-ops:dashboard weekly             # All pillars, weekly
 ```
 
 ---
@@ -61,60 +61,60 @@ These commands remain for backwards compatibility:
 
 | Command | Maps To |
 |---------|---------|
-| `/do:daily-brief` | `/do:dashboard daily` |
-| `/do:weekly-recap` | `/do:dashboard weekly` |
-| `/do:team-pulse` | `/do:dashboard design daily --team` |
+| `/design-ops:daily-brief` | `/design-ops:dashboard daily` |
+| `/design-ops:weekly-recap` | `/design-ops:dashboard weekly` |
+| `/design-ops:team-pulse` | `/design-ops:dashboard design daily --team` |
 
 ---
 
 ## Utility Library
 
-Browse with `/do:library` or `/do:library [category]`.
+Browse with `/design-ops:library` or `/design-ops:library [category]`.
 
 **Quick access:**
-- `/do:library` — Browse all 14 utility commands
-- `/do:library design` — Show design commands only
-- `/do:library content` — Show content commands only
-- `/do:library development` — Show development commands only
-- `/do:library logistics` — Show logistics commands only
+- `/design-ops:library` — Browse all 14 utility commands
+- `/design-ops:library design` — Show design commands only
+- `/design-ops:library content` — Show content commands only
+- `/design-ops:library development` — Show development commands only
+- `/design-ops:library logistics` — Show logistics commands only
 
 ### Logistics (3)
 *Meeting prep, kickoffs, and project coordination*
 
 | Command | Description |
 |---------|-------------|
-| `/do:meeting-brief` | Create focused meeting agendas |
-| `/do:meeting-recap` | Document meetings with action items |
-| `/do:kickoff-prep` | Generate project kickoff materials |
+| `/design-ops:meeting-brief` | Create focused meeting agendas |
+| `/design-ops:meeting-recap` | Document meetings with action items |
+| `/design-ops:kickoff-prep` | Generate project kickoff materials |
 
 ### Content (3)
 *Content creation for social and marketing*
 
 | Command | Description |
 |---------|-------------|
-| `/do:social-post` | Create platform-optimized social content |
-| `/do:copy-variants` | Generate and A/B test copy variations |
-| `/do:content-brief` | Create content briefs for articles, blogs, case studies |
+| `/design-ops:social-post` | Create platform-optimized social content |
+| `/design-ops:copy-variants` | Generate and A/B test copy variations |
+| `/design-ops:content-brief` | Create content briefs for articles, blogs, case studies |
 
 ### Development (3)
 *Research, analysis, and ideation tools*
 
 | Command | Description |
 |---------|-------------|
-| `/do:site-analysis` | Deep website analysis |
-| `/do:devils-advocate` | Challenge assumptions |
-| `/do:research-summary` | Synthesize research into actionable insights |
+| `/design-ops:site-analysis` | Deep website analysis |
+| `/design-ops:devils-advocate` | Challenge assumptions |
+| `/design-ops:research-summary` | Synthesize research into actionable insights |
 
 ### Design (5)
 *Design quality, research, and variation tools*
 
 | Command | Description |
 |---------|-------------|
-| `/do:design-audit` | Automated design system compliance check |
-| `/do:a11y-audit` | Accessibility compliance check (WCAG A/AA/AAA) |
-| `/do:mood-board` | Curated design inspiration from web sources |
-| `/do:competitor-scan` | Competitive design analysis |
-| `/do:variation-sprint` | Generate design variations within brand constraints |
+| `/design-ops:design-audit` | Automated design system compliance check |
+| `/design-ops:a11y-audit` | Accessibility compliance check (WCAG A/AA/AAA) |
+| `/design-ops:mood-board` | Curated design inspiration from web sources |
+| `/design-ops:competitor-scan` | Competitive design analysis |
+| `/design-ops:variation-sprint` | Generate design variations within brand constraints |
 
 ---
 
@@ -137,13 +137,13 @@ These activate automatically based on context — no command needed:
 
 ## Quick Start
 
-1. **First time?** Run `/do:setup` to configure integrations
-2. **Morning routine?** Run `/do:dashboard` (or `/do:daily-brief`)
-3. **Weekly review?** Run `/do:dashboard weekly`
-4. **Check team activity?** Run `/do:dashboard design`
-5. **Explore utilities?** Run `/do:library` to browse 14 utility commands
-6. **Check config?** Run `/do:status` for quick overview
-7. **Something broken?** Run `/do:test` for deep diagnostics
+1. **First time?** Run `/design-ops:setup` to configure integrations
+2. **Morning routine?** Run `/design-ops:dashboard` (or `/design-ops:daily-brief`)
+3. **Weekly review?** Run `/design-ops:dashboard weekly`
+4. **Check team activity?** Run `/design-ops:dashboard design`
+5. **Explore utilities?** Run `/design-ops:library` to browse 14 utility commands
+6. **Check config?** Run `/design-ops:status` for quick overview
+7. **Something broken?** Run `/design-ops:test` for deep diagnostics
 
 ---
 
@@ -151,8 +151,8 @@ These activate automatically based on context — no command needed:
 
 Config file: `~/.claude/do-config.yaml`
 
-View current config: `/do:status`
-Update config: `/do:configure`
+View current config: `/design-ops:status`
+Update config: `/design-ops:configure`
 
 ---
 
@@ -167,15 +167,15 @@ Update config: `/do:configure`
 
 ## Contextual Help
 
-If user runs `/do:help {topic}`:
+If user runs `/design-ops:help {topic}`:
 
-**`/do:help dashboard`**
+**`/design-ops:help dashboard`**
 ```markdown
 ## Dashboard Command Help
 
 ### Usage
 ```bash
-/do:dashboard [pillar] [timeframe]
+/design-ops:dashboard [pillar] [timeframe]
 ```
 
 ### Pillars
@@ -192,10 +192,10 @@ If user runs `/do:help {topic}`:
 
 ### Examples
 ```bash
-/do:dashboard                    # All pillars, daily
-/do:dashboard ops                # Operations, daily
-/do:dashboard weekly             # All pillars, weekly
-/do:dashboard design quarterly   # Design, quarterly
+/design-ops:dashboard                    # All pillars, daily
+/design-ops:dashboard ops                # Operations, daily
+/design-ops:dashboard weekly             # All pillars, weekly
+/design-ops:dashboard design quarterly   # Design, quarterly
 ```
 
 ### Configuration
@@ -204,17 +204,17 @@ Dashboard reads from `~/.claude/do-config.yaml`:
 - Which tools are connected
 - Which outcomes to include
 
-Run `/do:configure` to adjust.
+Run `/design-ops:configure` to adjust.
 ```
 
-**`/do:help library`**
+**`/design-ops:help library`**
 ```markdown
 ## Library Command Help
 
 ### Usage
 ```bash
-/do:library              # List all 14 utility commands
-/do:library [category]   # Filter by category
+/design-ops:library              # List all 14 utility commands
+/design-ops:library [category]   # Filter by category
 ```
 
 ### Categories
@@ -226,37 +226,37 @@ Run `/do:configure` to adjust.
 ### Available Commands
 
 **Logistics (3):**
-- `/do:meeting-brief` — Create meeting agendas
-- `/do:meeting-recap` — Document meetings
-- `/do:kickoff-prep` — Project kickoff materials
+- `/design-ops:meeting-brief` — Create meeting agendas
+- `/design-ops:meeting-recap` — Document meetings
+- `/design-ops:kickoff-prep` — Project kickoff materials
 
 **Content (3):**
-- `/do:social-post` — Social media content
-- `/do:copy-variants` — A/B copy variations
-- `/do:content-brief` — Content briefs and outlines
+- `/design-ops:social-post` — Social media content
+- `/design-ops:copy-variants` — A/B copy variations
+- `/design-ops:content-brief` — Content briefs and outlines
 
 **Development (3):**
-- `/do:site-analysis` — Website analysis
-- `/do:devils-advocate` — Challenge assumptions
-- `/do:research-summary` — Research synthesis
+- `/design-ops:site-analysis` — Website analysis
+- `/design-ops:devils-advocate` — Challenge assumptions
+- `/design-ops:research-summary` — Research synthesis
 
 **Design (5):**
-- `/do:design-audit` — Design system compliance
-- `/do:a11y-audit` — Accessibility check (WCAG)
-- `/do:mood-board` — Design inspiration
-- `/do:competitor-scan` — Competitive analysis
-- `/do:variation-sprint` — Design variations
+- `/design-ops:design-audit` — Design system compliance
+- `/design-ops:a11y-audit` — Accessibility check (WCAG)
+- `/design-ops:mood-board` — Design inspiration
+- `/design-ops:competitor-scan` — Competitive analysis
+- `/design-ops:variation-sprint` — Design variations
 
 ### Adding Commands
 See `commands/library/_registry.yaml` for the registry format.
 ```
 
-**`/do:help figma`**
+**`/design-ops:help figma`**
 ```markdown
 ## Figma Integration Help
 
 ### Setup
-Run `/do:setup` and select Figma integration, or run `/do:configure` → Figma.
+Run `/design-ops:setup` and select Figma integration, or run `/design-ops:configure` → Figma.
 
 ### Token Generation
 1. Go to https://www.figma.com/developers/api#access-tokens
@@ -268,14 +268,14 @@ Run `/do:setup` and select Figma integration, or run `/do:configure` → Figma.
 - Or track specific files by key
 
 ### Troubleshooting
-- Token expired? Regenerate and update via `/do:configure`
+- Token expired? Regenerate and update via `/design-ops:configure`
 - Can't see projects? Check token has correct scope
 - 403 errors? Token may have been revoked
 
 See: /references/troubleshooting.md
 ```
 
-**`/do:help github`**
+**`/design-ops:help github`**
 ```markdown
 ## GitHub Integration Help
 
@@ -286,7 +286,7 @@ If GitHub MCP isn't connected:
 1. Go to claude.ai/mcps
 2. Install GitHub MCP
 3. Authorize with your account
-4. Re-run `/do:setup`
+4. Re-run `/design-ops:setup`
 
 ### Tracking
 Add repos in owner/repo format (e.g., opensesh/webapp)
@@ -303,16 +303,16 @@ See: /references/mcp-setup/add-mcp-guide.md
 
 ## Command Not Found
 
-If user runs `/do:help {unknown}`:
+If user runs `/design-ops:help {unknown}`:
 
 ```markdown
 I don't have specific help for "{topic}".
 
 Try:
-- `/do:help dashboard` — Dashboard command usage
-- `/do:help library` — Utility command browser
-- `/do:help figma` — Figma integration
-- `/do:help github` — GitHub integration
+- `/design-ops:help dashboard` — Dashboard command usage
+- `/design-ops:help library` — Utility command browser
+- `/design-ops:help figma` — Figma integration
+- `/design-ops:help github` — GitHub integration
 
 Or search the documentation in /references/
 ```

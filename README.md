@@ -55,10 +55,10 @@ Installs globally to `~/.claude/plugins/design-ops/`.
 ### Your First Dashboard
 
 ```bash
-/do:setup              # Connect your tools (~5 min)
-/do:dashboard          # Get your daily overview
-/do:dashboard weekly   # Weekly summary
-/do:library            # Browse utility commands
+/design-ops:setup              # Connect your tools (~5 min)
+/design-ops:dashboard          # Get your daily overview
+/design-ops:dashboard weekly   # Weekly summary
+/design-ops:library            # Browse utility commands
 ```
 
 **Prerequisites:** [Claude Code](https://claude.ai/code), Git
@@ -67,26 +67,26 @@ Installs globally to `~/.claude/plugins/design-ops/`.
 
 ## Commands
 
-All commands use the `/do:` prefix (DESIGN-OPS).
+All commands use the `/design-ops:` prefix (DESIGN-OPS).
 
 ### System Commands
 
 | Command | Purpose |
 |---------|---------|
-| `/do:setup` | Interactive onboarding wizard |
-| `/do:configure` | Update settings by pillar |
-| `/do:status` | Show current config and health |
-| `/do:test` | Run diagnostics |
-| `/do:add-tool` | Connect new MCP or API |
-| `/do:help` | Command reference |
-| `/do:library` | Browse utility commands |
+| `/design-ops:setup` | Interactive onboarding wizard |
+| `/design-ops:configure` | Update settings by pillar |
+| `/design-ops:status` | Show current config and health |
+| `/design-ops:test` | Run diagnostics |
+| `/design-ops:add-tool` | Connect new MCP or API |
+| `/design-ops:help` | Command reference |
+| `/design-ops:library` | Browse utility commands |
 
 ### Dashboard Command
 
 The unified dashboard generates reports across pillars and timeframes:
 
 ```bash
-/do:dashboard [pillar] [timeframe]
+/design-ops:dashboard [pillar] [timeframe]
 ```
 
 | Pillars | Timeframes |
@@ -98,53 +98,53 @@ The unified dashboard generates reports across pillars and timeframes:
 
 **Examples:**
 ```bash
-/do:dashboard                    # All pillars, daily (default)
-/do:dashboard ops weekly         # Operations, weekly
-/do:dashboard design quarterly   # Design, quarterly
-/do:dashboard analytics ytd      # Analytics, year-to-date
+/design-ops:dashboard                    # All pillars, daily (default)
+/design-ops:dashboard ops weekly         # Operations, weekly
+/design-ops:dashboard design quarterly   # Design, quarterly
+/design-ops:dashboard analytics ytd      # Analytics, year-to-date
 ```
 
 ### Legacy Aliases
 
 | Command | Maps To |
 |---------|---------|
-| `/do:daily-brief` | `/do:dashboard daily` |
-| `/do:weekly-recap` | `/do:dashboard weekly` |
-| `/do:team-pulse` | `/do:dashboard design daily` |
+| `/design-ops:daily-brief` | `/design-ops:dashboard daily` |
+| `/design-ops:weekly-recap` | `/design-ops:dashboard weekly` |
+| `/design-ops:team-pulse` | `/design-ops:dashboard design daily` |
 
 ### Utility Library (14 commands)
 
-Browse with `/do:library` or filter by category: `/do:library design`
+Browse with `/design-ops:library` or filter by category: `/design-ops:library design`
 
 **Logistics (3)** — Meeting prep, kickoffs, project coordination
 | Command | Purpose |
 |---------|---------|
-| `/do:meeting-brief` | Create focused meeting agendas |
-| `/do:meeting-recap` | Document meetings with action items |
-| `/do:kickoff-prep` | Generate project kickoff materials |
+| `/design-ops:meeting-brief` | Create focused meeting agendas |
+| `/design-ops:meeting-recap` | Document meetings with action items |
+| `/design-ops:kickoff-prep` | Generate project kickoff materials |
 
 **Content (3)** — Content creation for social and marketing
 | Command | Purpose |
 |---------|---------|
-| `/do:social-post` | Create platform-optimized social content |
-| `/do:copy-variants` | Generate and A/B test copy variations |
-| `/do:content-brief` | Create content briefs for articles, blogs, case studies |
+| `/design-ops:social-post` | Create platform-optimized social content |
+| `/design-ops:copy-variants` | Generate and A/B test copy variations |
+| `/design-ops:content-brief` | Create content briefs for articles, blogs, case studies |
 
 **Development (3)** — Research, analysis, and ideation tools
 | Command | Purpose |
 |---------|---------|
-| `/do:site-analysis` | Deep website analysis |
-| `/do:devils-advocate` | Challenge assumptions |
-| `/do:research-summary` | Synthesize research into actionable insights |
+| `/design-ops:site-analysis` | Deep website analysis |
+| `/design-ops:devils-advocate` | Challenge assumptions |
+| `/design-ops:research-summary` | Synthesize research into actionable insights |
 
 **Design (5)** — Design quality, research, and variation tools
 | Command | Purpose |
 |---------|---------|
-| `/do:design-audit` | Automated design system compliance check |
-| `/do:a11y-audit` | Accessibility compliance check (WCAG A/AA/AAA) |
-| `/do:mood-board` | Curated design inspiration from web sources |
-| `/do:competitor-scan` | Competitive design analysis |
-| `/do:variation-sprint` | Generate design variations within brand constraints |
+| `/design-ops:design-audit` | Automated design system compliance check |
+| `/design-ops:a11y-audit` | Accessibility compliance check (WCAG A/AA/AAA) |
+| `/design-ops:mood-board` | Curated design inspiration from web sources |
+| `/design-ops:competitor-scan` | Competitive design analysis |
+| `/design-ops:variation-sprint` | Generate design variations within brand constraints |
 
 ---
 
@@ -196,7 +196,7 @@ pillars:
       ytd: [annual_traffic, yoy_comparison]
 ```
 
-Run `/do:setup` for guided configuration.
+Run `/design-ops:setup` for guided configuration.
 
 ---
 
@@ -219,7 +219,7 @@ Run `/do:setup` for guided configuration.
 For tools without native MCP support, DESIGN-OPS guides you through API wrapper creation:
 
 ```bash
-/do:add-tool substack    # Guided setup for any tool
+/design-ops:add-tool substack    # Guided setup for any tool
 ```
 
 ---
@@ -240,7 +240,7 @@ For tools without native MCP support, DESIGN-OPS guides you through API wrapper 
 Yes. Enable only what you need. The plugin adapts to your connected tools.
 
 **Having issues?**
-Run `/do:test` to diagnose. Still stuck? [hello@opensession.co](mailto:hello@opensession.co)
+Run `/design-ops:test` to diagnose. Still stuck? [hello@opensession.co](mailto:hello@opensession.co)
 
 ---
 

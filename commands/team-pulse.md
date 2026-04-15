@@ -1,10 +1,10 @@
-# /do:team-pulse
+# /design-ops:team-pulse
 
-**Legacy alias** for `/do:dashboard design daily` with team focus
+**Legacy alias** for `/design-ops:dashboard design daily` with team focus
 
 ## Trigger
 
-User invokes `/do:team-pulse` to see who's working on what across Figma and GitHub.
+User invokes `/design-ops:team-pulse` to see who's working on what across Figma and GitHub.
 
 ---
 
@@ -13,12 +13,12 @@ User invokes `/do:team-pulse` to see who's working on what across Figma and GitH
 This command is a backwards-compatible alias. It delegates to the unified dashboard command with team-focused output:
 
 ```
-/do:team-pulse  →  /do:dashboard design daily --team
+/design-ops:team-pulse  →  /design-ops:dashboard design daily --team
 ```
 
 ### Execution
 
-1. **Invoke** `/do:dashboard design daily` with team member breakdown
+1. **Invoke** `/design-ops:dashboard design daily` with team member breakdown
 2. **Return** the design dashboard with emphasis on:
    - Activity by team member
    - Team snapshot table
@@ -37,22 +37,22 @@ The `--team` modifier enhances the design dashboard to include:
 | {Name} | — | {N} commits, {N} PRs |
 ```
 
-This flag is automatically applied when using `/do:team-pulse`.
+This flag is automatically applied when using `/design-ops:team-pulse`.
 
 ---
 
 ## Migration Notice
 
-`/do:team-pulse` continues to work for backwards compatibility, but the recommended command is now:
+`/design-ops:team-pulse` continues to work for backwards compatibility, but the recommended command is now:
 
 ```bash
-/do:dashboard design daily    # Design pillar, daily timeframe
-/do:dashboard design weekly   # Design pillar, weekly summary
+/design-ops:dashboard design daily    # Design pillar, daily timeframe
+/design-ops:dashboard design weekly   # Design pillar, weekly summary
 ```
 
 The team snapshot table is included in design dashboards when team members are configured.
 
-See `/do:dashboard` for full documentation on pillar and timeframe options.
+See `/design-ops:dashboard` for full documentation on pillar and timeframe options.
 
 ---
 
@@ -73,17 +73,17 @@ team:
         github: "taylorl"
 ```
 
-Run `/do:configure` → Team to update team member mappings.
+Run `/design-ops:configure` → Team to update team member mappings.
 
 ---
 
 ## Why This Alias Exists
 
-- **Muscle memory** — Existing users know `/do:team-pulse`
+- **Muscle memory** — Existing users know `/design-ops:team-pulse`
 - **Semantic clarity** — "Team pulse" clearly communicates team activity focus
 - **Gradual migration** — Users can adopt new syntax at their own pace
 
 ---
 
 *Version: 2.0 (alias wrapper)*
-*Delegates to: /do:dashboard design daily --team*
+*Delegates to: /design-ops:dashboard design daily --team*

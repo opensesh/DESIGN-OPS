@@ -1,10 +1,10 @@
-# /do:competitor-scan
+# /design-ops:competitor-scan
 
 Quick competitive design analysis. Extracts design patterns, color palettes, typography, and positioning from competitor websites.
 
 ## Trigger
 
-User invokes `/do:competitor-scan` to analyze 1-3 competitor websites for design intelligence.
+User invokes `/design-ops:competitor-scan` to analyze 1-3 competitor websites for design intelligence.
 
 ---
 
@@ -159,7 +159,7 @@ Uses firecrawl for:
 
 ## Example Session
 
-**User:** `/do:competitor-scan`
+**User:** `/design-ops:competitor-scan`
 
 **Claude:** "Which competitors would you like to analyze?"
 

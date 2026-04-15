@@ -1,8 +1,8 @@
 # DESIGN-OPS Utility Library Registry
 # Manifest of ad-hoc commands organized by category
 #
-# Use /do:library to browse available commands
-# Use /do:library [category] to filter by category
+# Use /design-ops:library to browse available commands
+# Use /design-ops:library [category] to filter by category
 
 version: "2.0"
 
@@ -21,21 +21,21 @@ commands:
     path: logistics/meeting-brief.md
     category: logistics
     description: "Create focused meeting agendas through guided questions"
-    trigger: "/do:meeting-brief"
+    trigger: "/design-ops:meeting-brief"
     tags: [meetings, planning, preparation]
 
   - id: meeting-recap
     path: logistics/meeting-recap.md
     category: logistics
     description: "Document meetings with summaries, decisions, and action items"
-    trigger: "/do:meeting-recap"
+    trigger: "/design-ops:meeting-recap"
     tags: [meetings, documentation, follow-up]
 
   - id: kickoff-prep
     path: logistics/kickoff-prep.md
     category: logistics
     description: "Generate project kickoff materials (agenda, brief, questions)"
-    trigger: "/do:kickoff-prep"
+    trigger: "/design-ops:kickoff-prep"
     tags: [projects, kickoff, planning]
 
   # ───────────────────────────────────────────────────────────────────────────
@@ -46,7 +46,7 @@ commands:
     path: content/social-post.md
     category: content
     description: "Create platform-optimized social content (LinkedIn, Instagram, Substack)"
-    trigger: "/do:social-post"
+    trigger: "/design-ops:social-post"
     tags: [social-media, content, marketing]
 
   # ───────────────────────────────────────────────────────────────────────────
@@ -57,21 +57,21 @@ commands:
     path: development/site-analysis.md
     category: development
     description: "Deep website analysis with structure mapping and component detection"
-    trigger: "/do:site-analysis"
+    trigger: "/design-ops:site-analysis"
     tags: [research, websites, analysis, architecture]
 
   - id: devils-advocate
     path: development/devils-advocate.md
     category: development
     description: "Challenge assumptions and stress-test your thinking"
-    trigger: "/do:devils-advocate"
+    trigger: "/design-ops:devils-advocate"
     tags: [ideation, critique, decision-making]
 
   - id: research-summary
     path: development/research-summary.md
     category: development
     description: "Synthesize research into actionable insights"
-    trigger: "/do:research-summary"
+    trigger: "/design-ops:research-summary"
     tags: [research, synthesis, analysis, documentation]
 
   # ───────────────────────────────────────────────────────────────────────────
@@ -82,14 +82,14 @@ commands:
     path: content/copy-variants.md
     category: content
     description: "Generate and A/B test copy variations"
-    trigger: "/do:copy-variants"
+    trigger: "/design-ops:copy-variants"
     tags: [copywriting, a/b-testing, headlines, cta]
 
   - id: content-brief
     path: content/content-brief.md
     category: content
     description: "Create content briefs for articles, blogs, case studies"
-    trigger: "/do:content-brief"
+    trigger: "/design-ops:content-brief"
     tags: [content, planning, briefs, case-study]
 
   # ───────────────────────────────────────────────────────────────────────────
@@ -100,33 +100,33 @@ commands:
     path: design/design-audit.md
     category: design
     description: "Automated design system compliance check"
-    trigger: "/do:design-audit"
+    trigger: "/design-ops:design-audit"
     tags: [design-system, compliance, audit, tokens]
 
   - id: a11y-audit
     path: design/a11y-audit.md
     category: design
     description: "Accessibility compliance check (WCAG A/AA/AAA)"
-    trigger: "/do:a11y-audit"
+    trigger: "/design-ops:a11y-audit"
     tags: [accessibility, wcag, a11y, compliance]
 
   - id: mood-board
     path: design/mood-board.md
     category: design
     description: "Curated design inspiration from web sources"
-    trigger: "/do:mood-board"
+    trigger: "/design-ops:mood-board"
     tags: [inspiration, research, design, trends]
 
   - id: competitor-scan
     path: design/competitor-scan.md
     category: design
     description: "Competitive design analysis"
-    trigger: "/do:competitor-scan"
+    trigger: "/design-ops:competitor-scan"
     tags: [competitive, analysis, research, positioning]
 
   - id: variation-sprint
     path: design/variation-sprint.md
     category: design
     description: "Generate design variations within brand constraints"
-    trigger: "/do:variation-sprint"
+    trigger: "/design-ops:variation-sprint"
     tags: [variations, design, exploration, a/b-testing]

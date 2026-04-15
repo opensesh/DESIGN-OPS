@@ -1,10 +1,10 @@
-# /do:test
+# /design-ops:test
 
 Verification suite that checks all integrations, skills, and commands are working correctly. Organized by pillars.
 
 ## Trigger
 
-User runs `/do:test` to diagnose issues or verify setup after changes.
+User runs `/design-ops:test` to diagnose issues or verify setup after changes.
 
 ---
 
@@ -29,7 +29,7 @@ Running verification tests...
 **Test 1: Config file exists**
 - Check: `~/.claude/do-config.yaml` exists
 - Pass: `[x] Config file exists`
-- Fail: `[ ] Config file not found — run /do:setup`
+- Fail: `[ ] Config file not found — run /design-ops:setup`
 
 **Test 2: Config syntax valid**
 - Check: YAML parses without errors
@@ -39,12 +39,12 @@ Running verification tests...
 **Test 3: Config version**
 - Check: `version` field is "2.0"
 - Pass: `[x] Config version: 2.0`
-- Warn: `[~] Config version: 1.0 — run /do:setup to migrate`
+- Warn: `[~] Config version: 1.0 — run /design-ops:setup to migrate`
 
 **Test 4: At least one pillar enabled**
 - Check: At least one pillar has `enabled: true`
 - Pass: `[x] Pillars enabled: {count}`
-- Fail: `[ ] No pillars enabled — run /do:configure`
+- Fail: `[ ] No pillars enabled — run /design-ops:configure`
 
 ---
 
@@ -220,8 +220,8 @@ If any pillar enabled:
 
 ### Recommendations
 
-1. Remove deleted Figma project: `/do:configure` → Design → Figma
-2. Connect Substack for full analytics: `/do:add-tool substack`
+1. Remove deleted Figma project: `/design-ops:configure` → Design → Figma
+2. Connect Substack for full analytics: `/design-ops:add-tool substack`
 ```
 
 ---
@@ -282,14 +282,14 @@ Full test output:
 
 All critical systems operational. Some optional features need attention.
 
-Run `/do:configure` to fix warnings, or `/do:status` for overview.
+Run `/design-ops:configure` to fix warnings, or `/design-ops:status` for overview.
 ```
 
 ---
 
 ## Quick Test Mode
 
-If user runs `/do:test quick`:
+If user runs `/design-ops:test quick`:
 
 Only run critical tests:
 1. Config exists and valid
@@ -314,9 +314,9 @@ All systems operational.
 User can test specific pillar:
 
 ```
-/do:test operations
-/do:test design
-/do:test analytics
+/design-ops:test operations
+/design-ops:test design
+/design-ops:test analytics
 ```
 
 ---
@@ -335,7 +335,7 @@ When tests fail, provide actionable details:
 2. Token was revoked — check Figma account settings
 3. Wrong token scope — needs "File content" permission
 
-**Fix:** Run `/do:configure` → Design → Figma → Update token
+**Fix:** Run `/design-ops:configure` → Design → Figma → Update token
 ```
 
 ```markdown
