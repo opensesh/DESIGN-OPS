@@ -94,14 +94,14 @@ mkdir %USERPROFILE%\.claude
 
 ### Config looks wrong
 
-The config lives at `~/.claude/skills-config.yaml`. You can:
+The config lives at `~/.claude/do-config.yaml`. You can:
 
 1. View it:
    ```bash
-   cat ~/.claude/skills-config.yaml
+   cat ~/.claude/do-config.yaml
    ```
 
-2. Reset it by running `/install-skills` again and choosing "Start fresh"
+2. Reset it by running `/do:setup` again and choosing "Start fresh"
 
 ---
 

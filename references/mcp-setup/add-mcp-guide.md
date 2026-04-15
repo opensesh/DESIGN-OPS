@@ -189,7 +189,7 @@ Ask Claude something that uses the MCP:
 
 ### Update Your Config
 
-The `/install-skills` command will detect new MCPs. Run it again or use `/add-tool` to update your `skills-config.yaml`.
+The `/do:setup` command will detect new MCPs. Run it again or use `/do:add-tool` to update your `do-config.yaml`.
 
 ---
 

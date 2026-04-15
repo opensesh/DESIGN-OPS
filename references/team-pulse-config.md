@@ -8,7 +8,7 @@ This document describes the configuration schema for the Team Pulse plugin.
 ~/.claude/team-pulse-config.yaml
 ```
 
-Run `/team-pulse-setup` for guided configuration, or copy the template from `templates/team-pulse-config.yaml`.
+Run `/do:setup` or `/do:configure design` for guided configuration, or copy the template from `templates/team-pulse-config.yaml`.
 
 ---
 
