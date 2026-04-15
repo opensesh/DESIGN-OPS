@@ -17,7 +17,7 @@ Common issues and how to fix them.
 2. Restart Claude: `claude`
 3. Verify the plugin is installed:
    ```bash
-   ls .claude/plugins/design-ops
+   ls ~/.claude/plugins/design-ops
    ```
    You should see the `commands/`, `skills/`, and `references/` directories.
 
@@ -29,12 +29,12 @@ Common issues and how to fix them.
 
 **Mac/Linux:**
 ```bash
-ls .claude/plugins/design-ops
+ls ~/.claude/plugins/design-ops
 ```
 
 **Windows:**
 ```powershell
-dir .claude\plugins\design-ops
+dir %USERPROFILE%\.claude\plugins\design-ops
 ```
 
 If the folder doesn't exist, re-run the install script:
@@ -44,12 +44,12 @@ If the folder doesn't exist, re-run the install script:
 **Option 1: Terminal**
 ```bash
 git clone https://github.com/opensesh/DESIGN-OPS
-bash DESIGN-OPS/.design-ops/install.sh ./my-project
+bash DESIGN-OPS/.design-ops/install.sh
 ```
 
 **Option 2: Claude Code**
 ```
-Clone github.com/opensesh/DESIGN-OPS and run the install script to set up DESIGN-OPS in this project.
+Clone github.com/opensesh/DESIGN-OPS and run the install script.
 ```
 
 ---
@@ -155,7 +155,7 @@ If files are marked as read-only after installation, fix with:
 
 **Mac/Linux:**
 ```bash
-chmod -R 755 .claude/plugins/design-ops
+chmod -R 755 ~/.claude/plugins/design-ops
 ```
 
 ---

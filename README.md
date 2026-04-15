@@ -33,11 +33,11 @@ DESIGN-OPS connects your existing tools and gives you automated insights across 
 
 ### Option 1: Terminal
 
-Clone the repo and run the install script from your terminal.
+Clone the repo and run the install script.
 
 ```bash
 git clone https://github.com/opensesh/DESIGN-OPS
-bash DESIGN-OPS/.design-ops/install.sh ./my-project
+bash DESIGN-OPS/.design-ops/install.sh
 ```
 
 ### Option 2: Claude Code
@@ -45,10 +45,12 @@ bash DESIGN-OPS/.design-ops/install.sh ./my-project
 Paste this prompt into Claude Code and it will handle the rest.
 
 ```
-Clone github.com/opensesh/DESIGN-OPS and run the install script to set up DESIGN-OPS in this project.
+Clone github.com/opensesh/DESIGN-OPS and run the install script.
 ```
 
 *Works in Claude Code CLI, desktop app, or IDE extensions.*
+
+Installs globally to `~/.claude/plugins/design-ops/`.
 
 ### Your First Dashboard
 

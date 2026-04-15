@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # DESIGN-OPS Installation Script
-# Installs DESIGN-OPS into a target project
+# Installs DESIGN-OPS globally to ~/.claude/
 #
 # Usage:
-#   bash install.sh                    # Auto-detect (git root or current dir)
-#   bash install.sh /path/to/project   # Explicit path
+#   git clone https://github.com/opensesh/DESIGN-OPS
+#   bash DESIGN-OPS/.design-ops/install.sh
 
 set -e
 
@@ -20,21 +20,9 @@ NC='\033[0m' # No Color
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DESIGN_OPS_ROOT="$(dirname "$SCRIPT_DIR")"
 
-# Parse arguments
-TARGET_DIR="$1"
-
-# Auto-detect target directory if not provided
-if [ -z "$TARGET_DIR" ]; then
-    if GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null); then
-        TARGET_DIR="$GIT_ROOT"
-        echo -e "${BLUE}Auto-detected git repository root: $TARGET_DIR${NC}"
-    else
-        TARGET_DIR="."
-        echo -e "${BLUE}Using current directory: $(pwd)${NC}"
-    fi
-else
-    echo -e "${BLUE}Using specified path: $TARGET_DIR${NC}"
-fi
+# Global installation directory
+CLAUDE_DIR="$HOME/.claude"
+PLUGIN_DIR="$CLAUDE_DIR/plugins/design-ops"
 
 echo
 echo -e "${BLUE}╭──────────────────────────────────────────────────────────────╮${NC}"
@@ -42,36 +30,18 @@ echo -e "${BLUE}│  DESIGN-OPS Installation                                    
 echo -e "${BLUE}╰──────────────────────────────────────────────────────────────╯${NC}"
 echo
 
-# Validate target directory
-if [ ! -d "$TARGET_DIR" ]; then
-    echo -e "${RED}Error: Target directory does not exist: $TARGET_DIR${NC}"
-    exit 1
-fi
-
-# Resolve to absolute path
-TARGET_DIR=$(cd "$TARGET_DIR" && pwd)
-
-# Prevent self-installation
-if [ "$TARGET_DIR" = "$DESIGN_OPS_ROOT" ]; then
-    echo -e "${RED}Error: Cannot install DESIGN-OPS into its own source directory.${NC}"
-    echo "Please run from your target project directory:"
-    echo "  cd /path/to/your/project"
-    echo "  bash /path/to/DESIGN-OPS/.design-ops/install.sh"
-    exit 1
-fi
-
 # Check for existing installation
-PLUGIN_DIR="$TARGET_DIR/.claude/plugins/design-ops"
 if [ -d "$PLUGIN_DIR" ]; then
-    echo -e "${YELLOW}DESIGN-OPS is already installed.${NC}"
+    echo -e "${YELLOW}DESIGN-OPS is already installed at $PLUGIN_DIR${NC}"
     read -p "Overwrite existing installation? (y/n) " -n 1 -r
     echo
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
         exit 0
     fi
+    rm -rf "$PLUGIN_DIR"
 fi
 
-echo -e "${GREEN}Installing DESIGN-OPS to: $TARGET_DIR${NC}"
+echo -e "${GREEN}Installing DESIGN-OPS to: $PLUGIN_DIR${NC}"
 echo
 
 # Create directory structure
@@ -173,9 +143,9 @@ cp "$DESIGN_OPS_ROOT/.claude-plugin/plugin.json" "$PLUGIN_DIR/.claude-plugin/"
 # Copy README
 cp "$DESIGN_OPS_ROOT/README.md" "$PLUGIN_DIR/"
 
-# Update CLAUDE.md
+# Update global CLAUDE.md
 echo "Updating CLAUDE.md..."
-CLAUDE_MD="$TARGET_DIR/CLAUDE.md"
+CLAUDE_MD="$CLAUDE_DIR/CLAUDE.md"
 
 if [ -f "$CLAUDE_MD" ] && grep -q "<!-- DESIGN-OPS:START" "$CLAUDE_MD"; then
     echo -e "${YELLOW}DESIGN-OPS section already in CLAUDE.md, skipping...${NC}"
@@ -190,7 +160,7 @@ else
 <!-- DESIGN-OPS:START - Do not edit between markers -->
 ## DESIGN-OPS
 
-This project uses [DESIGN-OPS](https://github.com/opensesh/DESIGN-OPS) for design team productivity.
+Global installation of [DESIGN-OPS](https://github.com/opensesh/DESIGN-OPS) for design team productivity.
 
 ### Quick Reference
 
