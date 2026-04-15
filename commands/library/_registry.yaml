@@ -4,12 +4,13 @@
 # Use /do:library to browse available commands
 # Use /do:library [category] to filter by category
 
-version: "1.0"
+version: "2.0"
 
 categories:
   logistics: "Meeting prep, kickoffs, and project coordination"
   content: "Content creation for social and marketing"
   development: "Research, analysis, and ideation tools"
+  design: "Design quality, research, and variation tools"
 
 commands:
   # ───────────────────────────────────────────────────────────────────────────
@@ -65,3 +66,67 @@ commands:
     description: "Challenge assumptions and stress-test your thinking"
     trigger: "/do:devils-advocate"
     tags: [ideation, critique, decision-making]
+
+  - id: research-summary
+    path: development/research-summary.md
+    category: development
+    description: "Synthesize research into actionable insights"
+    trigger: "/do:research-summary"
+    tags: [research, synthesis, analysis, documentation]
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # CONTENT — Additional content creation commands
+  # ───────────────────────────────────────────────────────────────────────────
+
+  - id: copy-variants
+    path: content/copy-variants.md
+    category: content
+    description: "Generate and A/B test copy variations"
+    trigger: "/do:copy-variants"
+    tags: [copywriting, a/b-testing, headlines, cta]
+
+  - id: content-brief
+    path: content/content-brief.md
+    category: content
+    description: "Create content briefs for articles, blogs, case studies"
+    trigger: "/do:content-brief"
+    tags: [content, planning, briefs, case-study]
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # DESIGN — Design quality, research, and variation tools
+  # ───────────────────────────────────────────────────────────────────────────
+
+  - id: design-audit
+    path: design/design-audit.md
+    category: design
+    description: "Automated design system compliance check"
+    trigger: "/do:design-audit"
+    tags: [design-system, compliance, audit, tokens]
+
+  - id: a11y-audit
+    path: design/a11y-audit.md
+    category: design
+    description: "Accessibility compliance check (WCAG A/AA/AAA)"
+    trigger: "/do:a11y-audit"
+    tags: [accessibility, wcag, a11y, compliance]
+
+  - id: mood-board
+    path: design/mood-board.md
+    category: design
+    description: "Curated design inspiration from web sources"
+    trigger: "/do:mood-board"
+    tags: [inspiration, research, design, trends]
+
+  - id: competitor-scan
+    path: design/competitor-scan.md
+    category: design
+    description: "Competitive design analysis"
+    trigger: "/do:competitor-scan"
+    tags: [competitive, analysis, research, positioning]
+
+  - id: variation-sprint
+    path: design/variation-sprint.md
+    category: design
+    description: "Generate design variations within brand constraints"
+    trigger: "/do:variation-sprint"
+    tags: [variations, design, exploration, a/b-testing]
