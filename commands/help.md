@@ -19,11 +19,13 @@ User runs `/do:help` to see all available commands and skills.
 |---------|-------------|
 | `/do:setup` | Initial onboarding wizard — configure integrations and preferences |
 | `/do:configure` | Update specific settings without full setup |
-| `/do:status` | Show current config status and integration health |
-| `/do:test` | Run diagnostics to verify everything works |
+| `/do:status` | Quick overview of what's configured |
+| `/do:test` | Deep diagnostics when troubleshooting |
 | `/do:add-tool` | Connect a new MCP or API with guided setup |
 | `/do:help` | This command reference |
 | `/do:library` | Browse utility commands by category |
+
+**Note:** Use `/do:status` for a quick config check. Use `/do:test` when something isn't working.
 
 ---
 
@@ -69,7 +71,14 @@ These commands remain for backwards compatibility:
 
 Browse with `/do:library` or `/do:library [category]`.
 
-### Logistics
+**Quick access:**
+- `/do:library` — Browse all 14 utility commands
+- `/do:library design` — Show design commands only
+- `/do:library content` — Show content commands only
+- `/do:library development` — Show development commands only
+- `/do:library logistics` — Show logistics commands only
+
+### Logistics (3)
 *Meeting prep, kickoffs, and project coordination*
 
 | Command | Description |
@@ -78,20 +87,34 @@ Browse with `/do:library` or `/do:library [category]`.
 | `/do:meeting-recap` | Document meetings with action items |
 | `/do:kickoff-prep` | Generate project kickoff materials |
 
-### Content
+### Content (3)
 *Content creation for social and marketing*
 
 | Command | Description |
 |---------|-------------|
 | `/do:social-post` | Create platform-optimized social content |
+| `/do:copy-variants` | Generate and A/B test copy variations |
+| `/do:content-brief` | Create content briefs for articles, blogs, case studies |
 
-### Development
+### Development (3)
 *Research, analysis, and ideation tools*
 
 | Command | Description |
 |---------|-------------|
 | `/do:site-analysis` | Deep website analysis |
 | `/do:devils-advocate` | Challenge assumptions |
+| `/do:research-summary` | Synthesize research into actionable insights |
+
+### Design (5)
+*Design quality, research, and variation tools*
+
+| Command | Description |
+|---------|-------------|
+| `/do:design-audit` | Automated design system compliance check |
+| `/do:a11y-audit` | Accessibility compliance check (WCAG A/AA/AAA) |
+| `/do:mood-board` | Curated design inspiration from web sources |
+| `/do:competitor-scan` | Competitive design analysis |
+| `/do:variation-sprint` | Generate design variations within brand constraints |
 
 ---
 
@@ -118,8 +141,9 @@ These activate automatically based on context — no command needed:
 2. **Morning routine?** Run `/do:dashboard` (or `/do:daily-brief`)
 3. **Weekly review?** Run `/do:dashboard weekly`
 4. **Check team activity?** Run `/do:dashboard design`
-5. **Something broken?** Run `/do:test`
-6. **Find a utility?** Run `/do:library`
+5. **Explore utilities?** Run `/do:library` to browse 14 utility commands
+6. **Check config?** Run `/do:status` for quick overview
+7. **Something broken?** Run `/do:test` for deep diagnostics
 
 ---
 
@@ -189,28 +213,39 @@ Run `/do:configure` to adjust.
 
 ### Usage
 ```bash
-/do:library              # List all utility commands
+/do:library              # List all 14 utility commands
 /do:library [category]   # Filter by category
 ```
 
 ### Categories
-- `logistics` — Meeting prep, kickoffs, project coordination
-- `content` — Content creation for social and marketing
-- `development` — Research, analysis, ideation tools
+- `logistics` — Meeting prep, kickoffs, project coordination (3 commands)
+- `content` — Content creation for social and marketing (3 commands)
+- `development` — Research, analysis, ideation tools (3 commands)
+- `design` — Design quality, research, variation tools (5 commands)
 
 ### Available Commands
 
-**Logistics:**
+**Logistics (3):**
 - `/do:meeting-brief` — Create meeting agendas
 - `/do:meeting-recap` — Document meetings
 - `/do:kickoff-prep` — Project kickoff materials
 
-**Content:**
+**Content (3):**
 - `/do:social-post` — Social media content
+- `/do:copy-variants` — A/B copy variations
+- `/do:content-brief` — Content briefs and outlines
 
-**Development:**
+**Development (3):**
 - `/do:site-analysis` — Website analysis
 - `/do:devils-advocate` — Challenge assumptions
+- `/do:research-summary` — Research synthesis
+
+**Design (5):**
+- `/do:design-audit` — Design system compliance
+- `/do:a11y-audit` — Accessibility check (WCAG)
+- `/do:mood-board` — Design inspiration
+- `/do:competitor-scan` — Competitive analysis
+- `/do:variation-sprint` — Design variations
 
 ### Adding Commands
 See `commands/library/_registry.yaml` for the registry format.
