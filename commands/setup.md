@@ -138,77 +138,116 @@ Once evaluation completes, show what's actually available.
 
 ```markdown
 **Connection Status:**
-• ✓ **Connected** — Working and ready to use
-• ✓+ **Connected (API recommended)** — MCP works, but API unlocks more data
-• ⚠ **Available** — MCP installed but needs authentication
-• ○ **Not installed** — MCP needs to be added first
-• ✗ **Unavailable** — No MCP exists for this tool
+• ✓ **Connected** — MCP working and ready
+• ✓+ **Connected (API enhances)** — MCP works; optional API adds reporting depth
+• ○ **Available** — Official MCP exists, ready to install
+• ⚡ **API Only** — No official MCP; direct API integration
+• ✗ **Unavailable** — No viable connection method
 ```
 
-Show findings with clear status:
+Show findings with clear status and source:
 
 ```markdown
 ## Here's what we found for your Operations tools:
 
-┌──────────────────┬────────────┬─────────────────────────────────────┐
-│ Tool             │ Connection │ Available Data                      │
-├──────────────────┼────────────┼─────────────────────────────────────┤
-│ Notion           │ MCP ✓      │ Pages, databases, tasks, comments   │
-│                  │            │ ↳ Daily: recent pages, task counts  │
-│                  │            │ ↳ Weekly: page activity, updates    │
-├──────────────────┼────────────┼─────────────────────────────────────┤
-│ Google Workspace │ MCP ✓      │ Calendar, Gmail, Drive              │
-│                  │            │ ↳ Daily: today's events, emails     │
-│                  │            │ ↳ Weekly: event count, email volume │
-├──────────────────┼────────────┼─────────────────────────────────────┤
-│ Slack            │ MCP ⚠      │ Messages, channels (limited)        │
-│                  │ needs auth │ ↳ Unread counts, recent messages    │
-└──────────────────┴────────────┴─────────────────────────────────────┘
+┌──────────────────┬────────────┬──────────┬────────────────────────────────┐
+│ Tool             │ Connection │ Source   │ Available Data                 │
+├──────────────────┼────────────┼──────────┼────────────────────────────────┤
+│ Notion           │ MCP ✓      │ Official │ Pages, databases, tasks        │
+│                  │            │          │ ↳ Daily: recent pages, tasks   │
+│                  │            │          │ ↳ Weekly: page activity        │
+├──────────────────┼────────────┼──────────┼────────────────────────────────┤
+│ Google Workspace │ MCP ✓      │ Official │ Calendar, Gmail, Drive         │
+│                  │            │          │ ↳ Daily: today's events        │
+│                  │            │          │ ↳ Weekly: event count          │
+├──────────────────┼────────────┼──────────┼────────────────────────────────┤
+│ Slack            │ MCP ○      │ Community│ Messages, channels             │
+│                  │ (install)  │          │ ↳ Unread counts, messages      │
+└──────────────────┴────────────┴──────────┴────────────────────────────────┘
 ```
 
-### Step 1.4: Handle Unconnected Tools
+**Source indicators:**
+- **Official** — Published by Anthropic or tool vendor
+- **Vendor** — Published by the tool's company
+- **Community** — Community-maintained package
+- **—** — Direct API (no MCP)
 
-For tools with ⚠ status, show a clear explanation:
+### Step 1.4: Handle Available Tools
+
+For tools with ○ Available status (MCP exists but not installed):
 
 ```markdown
-### Understanding MCP Status
+### {Tool} — Available
 
-**Available but not connected** means:
-- The MCP server is registered in your Claude settings ✓
-- But it hasn't authenticated yet or isn't running ✗
+An official MCP exists for {Tool}. Install it to enable automatic data access.
 
-**Why this matters:**
-MCPs need to complete authentication on first use. Until then,
-Claude can't access the service's data.
-
-**To connect {tool} MCP:**
-1. The next time you ask Claude to access {tool}, it will prompt for authentication
-2. Or manually test: ask Claude "List my {tool} pages/items"
-3. Complete any OAuth flow that appears
+**Install command:**
+```bash
+claude mcp add {tool} -- npx -y {package}
+```
 
 What would you like to do?
-- [Test connection now] — I'll try to access {tool}
-- [Skip for now] — Continue setup, connect later
-- [I need help] — Show detailed setup instructions
+- [Install now] — Run the install command
+- [Skip for now] — Continue setup, add later
+- [Tell me more] — What is an MCP?
 ```
 
 **Options handling:**
 
-**[Test connection now]:**
-Attempt to call the MCP's basic operation (e.g., search for Notion, list events for Calendar).
+**[Install now]:**
+Run the install command and verify:
 - If successful: Update status to ✓ Connected, continue
-- If auth flow triggered: Guide user through it, then retest
+- If auth flow triggered: Guide user through OAuth
 - If fails: Show error, offer to skip or get help
 
 **[Skip for now]:**
-Mark tool as `needs_setup` in config, continue to next tool.
+Mark tool as `available` in config, continue to next tool.
 
-**[I need help]:**
-Show the "I Need Help" MCP education content (see section below).
+**[Tell me more]:**
+Show the MCP education content (see section below).
 
-For tools with ○ status (not installed), provide installation command:
-```bash
-claude mcp add slack -- npx -y @anthropic/mcp-slack
+### Step 1.4b: Handle Community Package Tools
+
+For tools where only a community MCP exists, show warning:
+
+```markdown
+### Community Package Notice
+
+{Tool} uses a community-maintained MCP package.
+
+**Package:** `{package-name}`
+**Weekly downloads:** {downloads}
+**Last updated:** {date}
+
+Community packages are not officially supported. They may:
+- Stop working if not maintained
+- Have security or reliability issues
+
+**Alternatives:**
+- Use direct API integration instead
+- Wait for official MCP release
+
+[Use community package] [Use direct API instead] [Skip this tool]
+```
+
+### Step 1.4c: Handle API-Only Tools
+
+For tools with ⚡ API Only status:
+
+```markdown
+### {Tool} — API Integration
+
+No official MCP exists for {Tool}. We'll connect via their API directly.
+
+**To get started:**
+1. Visit {api_docs_url}
+2. Create an API key/token
+3. Enter your credentials below
+
+This works just as well as an MCP for reporting purposes.
+
+Enter your API token (or press Enter to skip):
+> _
 ```
 
 ---
@@ -266,42 +305,42 @@ After showing education content, return to the connection options.
 
 ---
 
-### Step 1.5: Progressive Disclosure for API Upgrades
+### Step 1.5: Progressive Disclosure for API Enhancements
 
-For tools where MCP is connected but API offers richer data, use progressive disclosure:
+For tools where MCP is connected but API offers richer reporting data, use progressive disclosure:
 
 **Pattern: Soft offer after MCP connection confirmed**
 
 ```markdown
 ### {Tool} — Connected via MCP ✓
 
-Great! Your {Tool} MCP is working. Claude can:
+Your {Tool} MCP is working. Claude can:
 • Search and read your pages
 • Create and edit content
 • Access your databases
 
-**Want richer dashboards?** (optional)
+**Optional: Enhance with API** (✓+ status)
 
-The {Tool} API can provide additional data for reporting:
+The {Tool} API can provide additional data for richer reporting:
 • Activity history — Who edited what, when
 • Batch queries — Fetch data across many pages at once
 • Database aggregations — Task counts, status summaries
 
 ┌─────────────────────────────────────────────────────────────────────┐
-│  💡 You have {Tool} MCP set up — that's enough to get started!      │
+│  You're NOT blocked — MCP-only is always valid!                     │
 │                                                                     │
-│  For better weekly dashboards and team activity reports,            │
-│  you may want to also connect the {Tool} API.                       │
+│  The API is an optional enhancement that unlocks richer dashboard   │
+│  data. You can add it now or anytime later.                         │
 └─────────────────────────────────────────────────────────────────────┘
 
 What would you like to do?
-- [Continue with MCP only] — Good for basic use ← default
-- [Add API for better dashboards] — Unlock full reporting
-- [Tell me more] — Explain the difference
+- [Continue with MCP only] — Works great for most use cases ← default
+- [Add API for richer dashboards] — Optional enhancement
+- [Tell me more] — What's the difference?
 ```
 
 **Key principle:** Never block progress. MCP-only is always valid.
-The API upgrade is an enhancement, not a requirement.
+The API is an *optional enhancement* for users who want deeper analytics.
 
 **Options handling:**
 
@@ -435,18 +474,23 @@ Same async evaluation pattern as Operations.
 ```markdown
 ## Here's what we found for your Design tools:
 
-┌──────────────────┬────────────┬─────────────────────────────────────┐
-│ Tool             │ Connection │ Available Data                      │
-├──────────────────┼────────────┼─────────────────────────────────────┤
-│ GitHub           │ MCP ✓      │ Repos, commits, PRs, issues         │
-│                  │            │ ↳ Daily: recent commits, open PRs   │
-│                  │            │ ↳ Weekly: team contributions        │
-├──────────────────┼────────────┼─────────────────────────────────────┤
-│ Figma            │ API ✓      │ Files, versions, comments, users    │
-│                  │ (not MCP)  │ ↳ Daily: files edited, active users │
-│                  │            │ ↳ Weekly: design versions created   │
-└──────────────────┴────────────┴─────────────────────────────────────┘
+┌──────────────────┬────────────┬──────────┬────────────────────────────────┐
+│ Tool             │ Connection │ Source   │ Available Data                 │
+├──────────────────┼────────────┼──────────┼────────────────────────────────┤
+│ GitHub           │ MCP ✓      │ Official │ Repos, commits, PRs, issues    │
+│                  │            │          │ ↳ Daily: recent commits, PRs   │
+│                  │            │          │ ↳ Weekly: team contributions   │
+├──────────────────┼────────────┼──────────┼────────────────────────────────┤
+│ Figma            │ API ⚡     │ —        │ Files, versions, comments      │
+│                  │            │          │ ↳ Daily: files edited, users   │
+│                  │            │          │ ↳ Weekly: design versions      │
+├──────────────────┼────────────┼──────────┼────────────────────────────────┤
+│ GitLab           │ MCP ○      │ Community│ Repos, commits, MRs            │
+│                  │ (install)  │ ⚠        │ ↳ Verify package first         │
+└──────────────────┴────────────┴──────────┴────────────────────────────────┘
 ```
+
+**Note:** Figma's official MCP is code-focused (not for reporting). We use the API directly for team/version reporting.
 
 ### Step 2.4: Figma Special Handling
 
@@ -714,26 +758,25 @@ Same async pattern as Operations and Design. Analytics tools often need custom w
 ```markdown
 ## Here's what we found for your Analytics tools:
 
-┌──────────────────┬────────────┬─────────────────────────────────────┐
-│ Tool             │ Connection │ Available Data                      │
-├──────────────────┼────────────┼─────────────────────────────────────┤
-│ Google Analytics │ MCP ✓      │ Pageviews, sessions, events, goals  │
-│                  │            │ ↳ Daily: session count, top pages   │
-│                  │            │ ↳ Weekly: traffic trends, sources   │
-├──────────────────┼────────────┼─────────────────────────────────────┤
-│ Dub.co           │ MCP ✓      │ Link clicks, referrers, geo data    │
-│                  │            │ ↳ Daily: click counts per link      │
-│                  │            │ ↳ Weekly: top performing links      │
-├──────────────────┼────────────┼─────────────────────────────────────┤
-│ Substack         │ No MCP     │ API available: subscribers, posts   │
-│                  │ API ✓      │ ↳ Needs custom wrapper              │
-│                  │            │ ↳ Can provide: subscriber count,    │
-│                  │            │    post views, email open rates     │
-├──────────────────┼────────────┼─────────────────────────────────────┤
-│ Instagram        │ No MCP     │ API limited: basic profile only     │
-│                  │ API ⚠      │ ↳ Business accounts only            │
-│                  │            │ ↳ Follower counts, post engagement  │
-└──────────────────┴────────────┴─────────────────────────────────────┘
+┌──────────────────┬────────────┬──────────┬────────────────────────────────┐
+│ Tool             │ Connection │ Source   │ Available Data                 │
+├──────────────────┼────────────┼──────────┼────────────────────────────────┤
+│ Google Analytics │ MCP ✓      │ Official │ Pageviews, sessions, events    │
+│                  │            │          │ ↳ Daily: session count, pages  │
+│                  │            │          │ ↳ Weekly: traffic trends       │
+├──────────────────┼────────────┼──────────┼────────────────────────────────┤
+│ Dub.co           │ MCP ✓      │ Community│ Link clicks, referrers, geo    │
+│                  │            │          │ ↳ Daily: click counts          │
+│                  │            │          │ ↳ Weekly: top links            │
+├──────────────────┼────────────┼──────────┼────────────────────────────────┤
+│ Substack         │ API ⚡     │ —        │ Subscribers, posts, emails     │
+│                  │            │          │ ↳ Needs custom wrapper         │
+│                  │            │          │ ↳ Use /mcp-builder to create   │
+├──────────────────┼────────────┼──────────┼────────────────────────────────┤
+│ Instagram        │ ✗          │ —        │ Unavailable                    │
+│                  │            │          │ ↳ Business accounts only       │
+│                  │            │          │ ↳ Requires Meta approval       │
+└──────────────────┴────────────┴──────────┴────────────────────────────────┘
 ```
 
 ### Step 3.4: Handle Custom Wrapper Creation
@@ -1183,7 +1226,7 @@ Something not working? Run `/design-ops:test` to diagnose.
 
 ## Tool Evaluation Flow Reference
 
-For **every tool** the user selects, follow this evaluation cascade:
+For **every tool** the user selects, the `tool-evaluator` skill invokes `mcp-discovery`:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -1192,32 +1235,42 @@ For **every tool** the user selects, follow this evaluation cascade:
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────────┐
-│  Step 1: Check for MCP                                      │
-│  Is there an official or community MCP that supports        │
-│  the reporting data we need (stats, usage, activity)?       │
+│  Step 1: Check if already installed                         │
+│  Read ~/.claude/settings.json mcpServers                    │
+│  If found and responding → status: connected                │
+└─────────────────────────────────────────────────────────────┘
+                          │ not installed
+                          ▼
+┌─────────────────────────────────────────────────────────────┐
+│  Step 2: Invoke mcp-discovery skill                         │
+│  - Check known-tools.yaml (fast path)                       │
+│  - Search npm for official/vendor MCPs                      │
+│  - Evaluate community packages (quality metrics)            │
+│  - Find API documentation                                   │
 │                                                             │
-│  Check: ~/.claude/settings.json mcpServers                  │
-│  Check: references/tool-registry.md for known MCPs          │
-│                                                             │
-│  ✗ Substack MCP not found / doesn't support reporting       │
+│  Returns: mcp_source, mcp_confidence, recommendation        │
 └─────────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────────┐
-│  Step 2: Evaluate the API                                   │
-│  Does this tool have an API that supports:                  │
-│  - Daily reporting data (recent activity, stats)            │
-│  - Weekly aggregations (summaries, trends)                  │
-│  - Monthly rollups (growth, comparisons)                    │
+│  Step 3: Based on discovery recommendation                  │
 │                                                             │
-│  Check: references/tool-registry.md for API info            │
+│  mcp (high confidence):                                     │
+│    → Offer to install, status: available (○)                │
 │                                                             │
-│  ✓ Substack has API for subscriber counts, post stats       │
+│  mcp (medium confidence - community):                       │
+│    → Show warning, offer install or API alternative         │
+│                                                             │
+│  api:                                                       │
+│    → Guide API token setup, status: api_only (⚡)           │
+│                                                             │
+│  unavailable:                                               │
+│    → Mark unavailable (✗), suggest alternatives             │
 └─────────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────────┐
-│  Step 3: Offer Custom MCP Creation                          │
+│  Step 4: For API-only tools with wrapper option             │
 │  Walk user through creating a custom MCP wrapper:           │
 │  1. Gather API credentials                                  │
 │  2. Use /mcp-builder skill to scaffold wrapper              │
@@ -1226,15 +1279,9 @@ For **every tool** the user selects, follow this evaluation cascade:
 │                                                             │
 │  Or: User skips, tool marked as "skipped"                   │
 └─────────────────────────────────────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────────┐
-│  Step 4: If API Unavailable                                 │
-│  - Inform user this tool can't be connected                 │
-│  - Suggest alternatives if available                        │
-│  - Mark as "unavailable" in config                          │
-└─────────────────────────────────────────────────────────────┘
 ```
+
+See `skills/mcp-discovery/SKILL.md` for the full discovery flow.
 
 ---
 
