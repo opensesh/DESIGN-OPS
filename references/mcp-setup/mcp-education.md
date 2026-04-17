@@ -18,25 +18,31 @@ When DESIGN-OPS evaluates your tools, you'll see one of these statuses:
 
 | Status | Symbol | What It Means |
 |--------|--------|---------------|
-| **Connected** | ✓ | Working and ready to use |
-| **Connected (API recommended)** | ✓+ | MCP works, but API unlocks more data |
-| **Available** | ⚠ | MCP installed but needs authentication |
-| **Not installed** | ○ | MCP needs to be added first |
-| **Unavailable** | ✗ | No MCP exists for this tool |
+| **Connected** | ✓ | MCP working and ready to use |
+| **Connected (API enhances)** | ✓+ | MCP works; optional API adds reporting depth |
+| **Available** | ○ | Official MCP exists, ready to install |
+| **API Only** | ⚡ | No official MCP; direct API recommended |
+| **Unavailable** | ✗ | No viable connection method |
 
-### "Available but not connected" — What does this mean?
+### Understanding Each Status
 
-This means:
-- The MCP server is registered in your Claude settings ✓
-- But it hasn't authenticated yet or isn't running ✗
+**✓ Connected** — Your MCP is working. You're ready to go.
 
-**Why this matters:**
-MCPs need to complete authentication on first use. Until then, Claude can't access the service's data.
+**✓+ Connected (API enhances)** — Your MCP works great for daily tasks (search, read, create). The API is an *optional enhancement* that unlocks richer reporting data like activity history, batch queries, and analytics. You're NOT blocked — MCP-only is always valid.
 
-**To connect:**
-1. Ask Claude to access the tool (e.g., "List my Notion pages")
-2. Complete any OAuth flow that appears
-3. Try again — it should work now
+**○ Available** — An official or vendor-published MCP exists for this tool but isn't installed yet. Run the install command to add it.
+
+**⚡ API Only** — No suitable MCP exists for this tool. We'll help you connect directly via the API, which works just as well for reporting.
+
+**✗ Unavailable** — No MCP or API can connect to this tool. Often due to platform restrictions (e.g., Instagram requires business account approval).
+
+### How to Connect Available Tools
+
+For tools showing ○ Available:
+1. Run the install command shown in setup (e.g., `claude mcp add notion -- npx -y @notionhq/notion-mcp-server`)
+2. Restart Claude or run the MCP list command to verify
+3. Ask Claude to access the tool to complete authentication
+4. Complete any OAuth flow that appears
 
 ---
 
