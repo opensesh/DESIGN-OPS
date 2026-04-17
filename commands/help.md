@@ -21,6 +21,7 @@ User runs `/design-ops:help` to see all available commands and skills.
 | `/design-ops:configure` | Update specific settings without full setup |
 | `/design-ops:status` | Quick overview of what's configured |
 | `/design-ops:test` | Deep diagnostics when troubleshooting |
+| `/design-ops:reset` | Clear configuration and start fresh |
 | `/design-ops:add-tool` | Connect a new MCP or API with guided setup |
 | `/design-ops:help` | This command reference |
 | `/design-ops:library` | Browse utility commands by category |
@@ -251,12 +252,110 @@ Run `/design-ops:configure` to adjust.
 See `commands/library/_registry.yaml` for the registry format.
 ```
 
+**`/design-ops:help status`**
+```markdown
+## Connection Status Help
+
+### Understanding Status Symbols
+
+When DESIGN-OPS evaluates your tools, you'll see these statuses:
+
+| Symbol | Status | What It Means |
+|--------|--------|---------------|
+| ✓ | **Connected** | MCP working and ready to use |
+| ✓+ | **Connected (API enhances)** | MCP works; optional API adds reporting depth |
+| ○ | **Available** | Official MCP exists, ready to install |
+| ⚡ | **API Only** | No official MCP; direct API integration |
+| ✗ | **Unavailable** | No viable connection method |
+
+### What Each Status Means
+
+**✓ Connected**
+Your MCP is working. You're ready to go.
+
+**✓+ Connected (API enhances)**
+Your MCP works great for daily tasks (search, read, create). The API is an
+*optional enhancement* that unlocks richer reporting data like activity
+history, batch queries, and analytics. You're NOT blocked — MCP-only is
+always valid.
+
+**○ Available**
+An official or vendor-published MCP exists but isn't installed yet.
+Run the install command to add it.
+
+**⚡ API Only**
+No suitable MCP exists for this tool. We connect via the API directly,
+which works just as well for reporting.
+
+**✗ Unavailable**
+No MCP or API can connect to this tool. Often due to platform restrictions
+(e.g., Instagram requires business account approval).
+
+### MCP Source Indicators
+
+In the Source column, you'll see where the MCP comes from:
+
+| Source | Meaning |
+|--------|---------|
+| **Official** | Published by Anthropic (highest confidence) |
+| **Vendor** | Published by the tool's company (high confidence) |
+| **Community** | Community-maintained (verify before using) |
+| **—** | Direct API (no MCP) |
+
+### Community Package Warning
+
+When a tool only has a community MCP, you'll see a warning. Community
+packages are not officially supported and may:
+- Stop working if not maintained
+- Have security or reliability issues
+
+You can choose to:
+- Use the community package (with awareness)
+- Use direct API integration instead
+- Skip the tool for now
+```
+
+**`/design-ops:help reset`**
+```markdown
+## Reset Command Help
+
+### Usage
+```bash
+/design-ops:reset          # Reset with confirmation
+/design-ops:reset --force  # Reset without confirmation
+```
+
+### What It Does
+1. Backs up your current config with timestamp
+2. Removes the configuration file
+3. Clears any cached discovery data
+
+Your MCP servers are NOT affected — only the DESIGN-OPS config.
+
+### When to Use
+- Configuration is corrupted or causing issues
+- Want to reconfigure from scratch
+- Testing setup flow changes
+- Discovery cache is stale
+
+### Restore Backup
+```bash
+cp ~/.claude/design-ops-config.yaml.backup.{timestamp} \
+   ~/.claude/design-ops-config.yaml
+```
+```
+
 **`/design-ops:help figma`**
 ```markdown
 ## Figma Integration Help
 
 ### Setup
 Run `/design-ops:setup` and select Figma integration, or run `/design-ops:configure` → Figma.
+
+### Why API Instead of MCP?
+Figma has an official MCP, but it's code-focused (for generating code from
+designs). For team activity tracking and reporting, we use the Figma API
+directly — it provides the data we need for dashboards.
 
 ### Token Generation
 1. Go to https://www.figma.com/developers/api#access-tokens
