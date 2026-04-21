@@ -2,9 +2,26 @@
 
 Verification suite that checks all integrations, skills, and commands are working correctly. Organized by pillars.
 
+**Also available as:** `/design-ops:doctor` (alias for quick health check)
+
 ## Trigger
 
 User runs `/design-ops:test` to diagnose issues or verify setup after changes.
+
+---
+
+## Connection Health Check
+
+This test performs actual connection verification, not just config validation.
+
+### Health Status Definitions
+
+| Health | Meaning | Action |
+|--------|---------|--------|
+| **✓ Healthy** | MCP responding, credentials valid, data accessible | None needed |
+| **⚠ Pending** | Installed but needs OAuth/env setup to work | Follow fix guidance |
+| **✗ Error** | Connection failed, check error details | Troubleshoot |
+| **○ Skipped** | Not configured (optional) | Add via `/design-ops:configure` |
 
 ---
 
@@ -202,7 +219,57 @@ If any pillar enabled:
 
 ---
 
-### Step 9: Summary
+### Step 9: Connection Health Summary
+
+After all tests complete, show a unified health check table:
+
+```markdown
+---
+
+## Connection Health Check
+
+┌───────────────────┬────────────┬───────────────────────────────────────┐
+│ Tool              │ Health     │ Notes                                 │
+├───────────────────┼────────────┼───────────────────────────────────────┤
+│ GitHub            │ ✓ Healthy  │ Last response: 2ms ago                │
+│ Figma             │ ✓ Healthy  │ Token valid, 3 projects tracked       │
+│ Google Workspace  │ ⚠ Pending  │ Run a Google command to complete auth │
+│ Notion            │ ✗ Error    │ NOTION_API_KEY not set                │
+│ Dub.co            │ ✓ Healthy  │ 15 links tracked                      │
+│ Vercel            │ ✓ Healthy  │ 2 projects monitored                  │
+│ Supabase          │ ○ Skipped  │ Not configured                        │
+└───────────────────┴────────────┴───────────────────────────────────────┘
+```
+
+---
+
+### Step 10: Quick Fixes Section
+
+For any tool with **⚠ Pending** or **✗ Error** status, show specific fix guidance:
+
+```markdown
+## Quick Fixes
+
+### Google Workspace — ⚠ OAuth Pending
+Run any Google command to trigger OAuth flow:
+```
+show my calendar for today
+```
+A browser window will open. Authorize, then you're connected.
+
+### Notion — ✗ API Key Missing
+Set the environment variable in your shell profile:
+```bash
+# Add to ~/.zshrc or ~/.bashrc:
+export NOTION_API_KEY="secret_..."
+```
+Get your token: https://www.notion.so/my-integrations
+Then restart your terminal and run `/design-ops:test` again.
+```
+
+---
+
+### Step 11: Results Summary
 
 ```markdown
 ---
@@ -213,15 +280,18 @@ If any pillar enabled:
 **Warnings:** 2
 **Failed:** 0
 
-### Warnings
+### Issues Found
 
-- Figma project "Old Project" (id: 111) returned 404 — may have been deleted
-- Substack not connected — some analytics outcomes unavailable
+| Tool | Issue | Quick Fix |
+|------|-------|-----------|
+| Google Workspace | OAuth pending | Run "show my calendar" |
+| Notion | API key missing | Set NOTION_API_KEY env var |
 
 ### Recommendations
 
-1. Remove deleted Figma project: `/design-ops:configure` → Design → Figma
-2. Connect Substack for full analytics: `/design-ops:add-tool substack`
+1. Complete Google OAuth: Just run any Google command
+2. Set Notion API key: See quick fix above
+3. Remove deleted Figma project: `/design-ops:configure` → Design → Figma
 ```
 
 ---
@@ -240,21 +310,20 @@ Full test output:
 - [x] Pillars enabled: 3
 
 ### Operations Pillar
-- [x] Notion MCP: Connected
+- [x] Notion MCP: Connected, can query databases
 - [x] Notion capabilities: All accessible
-- [x] Google Workspace MCP: Connected
-- [x] Google Workspace capabilities: All accessible
+- [⚠] Google Workspace MCP: Installed (OAuth pending)
 - [○] Slack: Not configured (optional)
 
 ### Design Pillar
-- [x] GitHub MCP: Connected
+- [x] GitHub MCP: Connected, 2 repos tracked
 - [x] GitHub repos: All 2 accessible
-- [x] Figma API: Connected as jordan.smith
+- [x] Figma MCP: Connected as jordan.smith
 - [~] Figma projects: 1/2 accessible
 
 ### Analytics Pillar
-- [x] Google Analytics MCP: Connected
-- [x] Dub.co MCP: Connected
+- [x] Dub.co MCP: Connected, 15 links tracked
+- [x] Vercel MCP: Connected, 2 projects
 - [○] Substack: Skipped (no wrapper)
 
 ### Skills
@@ -269,18 +338,40 @@ Full test output:
 - [x] No naming conflicts
 
 ### End-to-End
-- [x] Daily brief: Can fetch from all sources
-- [~] Outcomes: substack_subscribers has no source
+- [x] Daily brief: Can fetch from 5/6 sources
+- [~] Outcomes: google_calendar has no data (OAuth pending)
+
+---
+
+## Connection Health Check
+
+┌───────────────────┬────────────┬───────────────────────────────────────┐
+│ Tool              │ Health     │ Notes                                 │
+├───────────────────┼────────────┼───────────────────────────────────────┤
+│ GitHub            │ ✓ Healthy  │ 2 repos, last sync: now               │
+│ Figma             │ ✓ Healthy  │ Token valid                           │
+│ Google Workspace  │ ⚠ Pending  │ OAuth required — see fix below        │
+│ Notion            │ ✓ Healthy  │ 3 databases accessible                │
+│ Dub.co            │ ✓ Healthy  │ 15 links tracked                      │
+└───────────────────┴────────────┴───────────────────────────────────────┘
+
+## Quick Fixes
+
+### Google Workspace — Complete OAuth
+Run any Google command to trigger the OAuth flow:
+```
+show my calendar for today
+```
 
 ---
 
 ## Results
 
-**Passed:** 18/20 tests
-**Warnings:** 2
+**Passed:** 17/18 tests
+**Warnings:** 1
 **Failed:** 0
 
-All critical systems operational. Some optional features need attention.
+All critical systems operational. One tool needs OAuth completion.
 
 Run `/design-ops:configure` to fix warnings, or `/design-ops:status` for overview.
 ```
