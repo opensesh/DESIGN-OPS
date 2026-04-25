@@ -1,15 +1,17 @@
 <!--
   All Pillars Layout
 
-  Three-column responsive grid for displaying all enabled pillars.
+  Three-column responsive grid for displaying all enabled pillars with collapsible sections.
 
   Variables:
-    {{OPERATIONS_CONTENT}}  - Operations pillar components
-    {{DESIGN_CONTENT}}      - Design pillar components
-    {{ANALYTICS_CONTENT}}   - Analytics pillar components
+    {{OPERATIONS_CONTENT}}  - Operations pillar collapsible sections
+    {{DESIGN_CONTENT}}      - Design pillar collapsible sections
+    {{ANALYTICS_CONTENT}}   - Analytics pillar collapsible sections
     {{OPS_ENABLED}}         - Boolean: show operations section
     {{DESIGN_ENABLED}}      - Boolean: show design section
     {{ANALYTICS_ENABLED}}   - Boolean: show analytics section
+    {{HAS_INSIGHTS}}        - Boolean: show insights section
+    {{INSIGHTS}}            - Array of insight items
 
   Responsive Behavior:
     - Mobile (<640px): Single column, stacked sections
@@ -22,75 +24,56 @@
   {{#OPS_ENABLED}}
   <!-- Operations Pillar -->
   <section class="space-y-4">
-    <div class="flex items-center gap-2 pb-2 border-b" style="border-color: var(--border-secondary);">
-      <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: var(--color-brand-50);">
-        <i data-lucide="briefcase" class="w-4 h-4" style="color: var(--color-brand-600);"></i>
-      </div>
-      <h2 class="text-lg font-semibold" style="color: var(--fg-primary);">Operations</h2>
-    </div>
-
-    <div class="space-y-4">
-      {{OPERATIONS_CONTENT}}
-    </div>
+    <h2 class="text-xs font-semibold uppercase tracking-wider" style="color: var(--fg-tertiary);">Operations</h2>
+    {{OPERATIONS_CONTENT}}
   </section>
   {{/OPS_ENABLED}}
 
   {{#DESIGN_ENABLED}}
   <!-- Design Pillar -->
   <section class="space-y-4">
-    <div class="flex items-center gap-2 pb-2 border-b" style="border-color: var(--border-secondary);">
-      <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: var(--color-brand-50);">
-        <i data-lucide="palette" class="w-4 h-4" style="color: var(--color-brand-600);"></i>
-      </div>
-      <h2 class="text-lg font-semibold" style="color: var(--fg-primary);">Design</h2>
-    </div>
-
-    <div class="space-y-4">
-      {{DESIGN_CONTENT}}
-    </div>
+    <h2 class="text-xs font-semibold uppercase tracking-wider" style="color: var(--fg-tertiary);">Design</h2>
+    {{DESIGN_CONTENT}}
   </section>
   {{/DESIGN_ENABLED}}
 
   {{#ANALYTICS_ENABLED}}
   <!-- Analytics Pillar -->
   <section class="space-y-4">
-    <div class="flex items-center gap-2 pb-2 border-b" style="border-color: var(--border-secondary);">
-      <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: var(--color-brand-50);">
-        <i data-lucide="bar-chart-3" class="w-4 h-4" style="color: var(--color-brand-600);"></i>
-      </div>
-      <h2 class="text-lg font-semibold" style="color: var(--fg-primary);">Analytics</h2>
-    </div>
-
-    <div class="space-y-4">
-      {{ANALYTICS_CONTENT}}
-    </div>
+    <h2 class="text-xs font-semibold uppercase tracking-wider" style="color: var(--fg-tertiary);">Analytics</h2>
+    {{ANALYTICS_CONTENT}}
   </section>
   {{/ANALYTICS_ENABLED}}
 
 </div>
 
-<!-- Insights Section (optional) - Elevated Treatment -->
+<!-- Insights Section -->
 {{#HAS_INSIGHTS}}
-<div class="mt-8 rounded-2xl border-2 p-8 insights-card" style="border-color: var(--border-brand);">
-  <!-- Header with gradient accent -->
-  <div class="flex items-center gap-3 mb-6">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color: var(--color-brand-50);">
-      <i data-lucide="lightbulb" class="w-5 h-5" style="color: var(--color-aperol);"></i>
+<div class="mt-10">
+  <div class="flex items-center justify-between mb-5">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, var(--color-brand-50) 0%, var(--color-brand-100) 100%);">
+        <i data-lucide="lightbulb" class="w-4 h-4" style="color: var(--color-aperol);"></i>
+      </div>
+      <h2 class="text-sm font-semibold" style="color: var(--fg-primary);">Insights</h2>
     </div>
-    <div>
-      <h3 class="text-lg font-semibold" style="color: var(--fg-primary);">Insights</h3>
-      <p class="text-xs" style="color: var(--fg-tertiary);">AI-generated observations from your data</p>
-    </div>
+    <span class="text-xs px-2 py-1 rounded-full" style="background-color: var(--bg-tertiary); color: var(--fg-quaternary);">AI-generated</span>
   </div>
 
-  <!-- Insights list with enhanced styling -->
-  <ul class="space-y-4">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     {{#INSIGHTS}}
-    <li class="flex items-start gap-3 p-3 rounded-lg" style="background-color: var(--bg-secondary);">
-      <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: var(--color-aperol);"></span>
-      <span class="text-sm leading-relaxed" style="color: var(--fg-primary);">{{INSIGHT_TEXT}}</span>
-    </li>
+    <div class="rounded-2xl border p-5 card-interactive group" style="background-color: var(--bg-secondary); border-color: var(--border-secondary);">
+      <div class="flex items-start gap-4">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-110" style="background-color: {{INSIGHT_BG_COLOR}};">
+          <i data-lucide="{{INSIGHT_ICON}}" class="w-5 h-5" style="color: {{INSIGHT_ICON_COLOR}};"></i>
+        </div>
+        <div>
+          <p class="text-sm font-medium mb-1" style="color: var(--fg-primary);">{{INSIGHT_TITLE}}</p>
+          <p class="text-xs leading-relaxed" style="color: var(--fg-tertiary);">{{INSIGHT_TEXT}}</p>
+        </div>
+      </div>
+    </div>
     {{/INSIGHTS}}
-  </ul>
+  </div>
 </div>
 {{/HAS_INSIGHTS}}

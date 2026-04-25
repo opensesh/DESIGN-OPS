@@ -1,17 +1,27 @@
 <!--
   Single Pillar Layout
 
-  Full-width layout for displaying a single pillar with expanded detail.
+  Full-width layout for displaying a single pillar with expanded detail and collapsible sections.
 
   Variables:
     {{PILLAR_NAME}}     - Pillar display name ("Operations", "Design", "Analytics")
     {{PILLAR_ICON}}     - Lucide icon name for the pillar
-    {{PILLAR_CONTENT}}  - Component content for the pillar
+    {{PILLAR_DESCRIPTION}} - Brief description of the pillar
+    {{PILLAR_CONTENT}}  - Collapsible section content for the pillar
     {{PILLAR_ID}}       - Pillar identifier (ops, design, analytics)
+    {{HAS_SUMMARY_STATS}} - Boolean: show summary stats row
+    {{SUMMARY_STATS}}   - Summary stat cards
+    {{HAS_DETAILED_CONTENT}} - Boolean: show full-width detailed content
+    {{DETAILED_CONTENT}} - Detailed tables/lists
+    {{HAS_INSIGHTS}}    - Boolean: show insights section
+    {{INSIGHTS}}        - Array of insight items
 
   Layout:
-    - Summary stats in a row at the top
-    - Detailed content in a 2-column grid below
+    - Pillar header with icon
+    - Summary stats in a row at the top (optional)
+    - Collapsible sections in a 2-column grid
+    - Detailed tables/lists full width (optional)
+    - Insights section
 -->
 
 <div class="space-y-6">
@@ -34,7 +44,7 @@
   </div>
   {{/HAS_SUMMARY_STATS}}
 
-  <!-- Main Content Grid -->
+  <!-- Main Content Grid (Collapsible Sections) -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     {{PILLAR_CONTENT}}
   </div>
@@ -48,10 +58,9 @@
 
 </div>
 
-<!-- Pillar-specific Insights - Elevated Treatment -->
+<!-- Pillar-specific Insights -->
 {{#HAS_INSIGHTS}}
 <div class="mt-8 rounded-2xl border-2 p-8 insights-card" style="border-color: var(--border-brand);">
-  <!-- Header with gradient accent -->
   <div class="flex items-center gap-3 mb-6">
     <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color: var(--color-brand-50);">
       <i data-lucide="lightbulb" class="w-5 h-5" style="color: var(--color-aperol);"></i>
@@ -62,7 +71,6 @@
     </div>
   </div>
 
-  <!-- Insights list with enhanced styling -->
   <ul class="space-y-4">
     {{#INSIGHTS}}
     <li class="flex items-start gap-3 p-3 rounded-lg" style="background-color: var(--bg-secondary);">
