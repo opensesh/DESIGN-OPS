@@ -169,6 +169,368 @@ chmod -R 755 ~/.claude/plugins/design-ops
 
 ---
 
+## Tool-Specific Fix Runbooks
+
+Each tool has specific issues and fixes. Use these runbooks when `/design-ops:validate` shows a tool as failed.
+
+### Notion — API Key Invalid or Missing
+
+**Symptoms:**
+- Dashboard shows "Notion — ⚠ API Key Invalid"
+- Error: "NOTION_API_KEY not set" or "Invalid API key"
+
+**Fix Steps:**
+
+1. **Go to Notion Integrations:**
+   ```
+   https://www.notion.so/my-integrations
+   ```
+
+2. **Check if integration exists:**
+   - Look for an integration named "DESIGN-OPS"
+   - If missing, click "New integration"
+
+3. **Create/regenerate the token:**
+   - Name: `DESIGN-OPS`
+   - Associated workspace: Select your workspace
+   - Capabilities: Read content ✓, Read user information ✓
+   - Click "Submit" then copy the "Internal Integration Secret"
+
+4. **Store the token:**
+
+   **With 1Password:**
+   ```bash
+   op item create \
+     --category="API Credential" \
+     --title="Notion API" \
+     --vault="DESIGN-OPS" \
+     'credential=secret_YOUR_TOKEN_HERE'
+   ```
+
+   **Without 1Password:**
+   Add to `~/.zshrc`:
+   ```bash
+   export NOTION_API_KEY="secret_YOUR_TOKEN_HERE"
+   ```
+
+5. **Reload shell:**
+   ```bash
+   source ~/.zshrc
+   ```
+
+6. **Verify:**
+   ```
+   /design-ops:validate
+   ```
+
+**Common pitfalls:**
+- Token starts with `secret_` — include the prefix
+- Integration must be added to pages/databases you want to access
+
+---
+
+### Google Workspace — OAuth Required
+
+**Symptoms:**
+- Dashboard shows "Google Workspace — ⚠ OAuth Required"
+- Commands fail with "Not authenticated"
+
+**Fix Steps:**
+
+1. **Trigger OAuth flow:**
+   Run any Google command:
+   ```
+   show my calendar for today
+   ```
+
+2. **Complete browser authorization:**
+   - A browser window opens
+   - Log in to your Google account
+   - Click "Allow" to grant DESIGN-OPS access
+
+3. **Return to Claude:**
+   - The OAuth token is stored automatically
+   - Future commands work without re-auth
+
+4. **Verify:**
+   ```
+   /design-ops:validate
+   ```
+
+**Common pitfalls:**
+- Pop-up blocker may prevent the browser from opening
+- If OAuth fails, restart Claude and try again
+
+---
+
+### Supabase — OAuth Required
+
+**Symptoms:**
+- Dashboard shows "Supabase — ⚠ OAuth Required"
+- Commands fail with authentication errors
+
+**Fix Steps:**
+
+1. **Trigger OAuth flow:**
+   Run any Supabase command:
+   ```
+   show my Supabase tables
+   ```
+
+2. **Complete browser authorization:**
+   - A browser window opens
+   - Log in to Supabase
+   - Authorize the connection
+
+3. **Return to Claude:**
+   - OAuth token is stored automatically
+
+4. **Verify:**
+   ```
+   /design-ops:validate
+   ```
+
+---
+
+### Figma — OAuth Required
+
+**Symptoms:**
+- Dashboard shows "Figma — ⚠ OAuth Required"
+- Figma commands fail
+
+**Fix Steps:**
+
+1. **Trigger OAuth flow:**
+   Paste any Figma URL or run:
+   ```
+   show my Figma files
+   ```
+
+2. **Complete browser authorization:**
+   - A browser window opens
+   - Log in to Figma
+   - Click "Allow" to grant access
+
+3. **Return to Claude:**
+   - OAuth token is stored automatically
+
+4. **Verify:**
+   ```
+   /design-ops:validate
+   ```
+
+---
+
+### Vercel — 403 Forbidden (Token Scope Issue)
+
+**Symptoms:**
+- Dashboard shows "Vercel — ⚠ Access Denied"
+- Error: "403 Forbidden"
+
+**Fix Steps:**
+
+1. **Go to Vercel tokens:**
+   ```
+   https://vercel.com/account/tokens
+   ```
+
+2. **Create a new token with correct scopes:**
+   - Click "Create Token"
+   - Name: `DESIGN-OPS`
+   - Scope: Full Account (or at minimum: `deployment:read`, `project:read`)
+   - Expiration: Choose based on your preference
+
+3. **Update MCP config:**
+   Edit `~/.claude/settings.json` and update the Vercel token.
+
+4. **Restart Claude:**
+   ```bash
+   exit
+   claude
+   ```
+
+5. **Verify:**
+   ```
+   /design-ops:validate
+   ```
+
+**Common pitfalls:**
+- Token scope must include read access to deployments and projects
+- Team-scoped tokens may not have access to personal projects
+
+---
+
+### Google Analytics — Not Configured
+
+**Symptoms:**
+- Dashboard shows "Google Analytics — ⚠ Not Configured"
+- Error: "GA4_PROPERTY_ID not configured"
+
+**Fix Steps:**
+
+1. **Get your GA4 Property ID:**
+   - Go to: https://analytics.google.com
+   - Click Admin (gear icon)
+   - Under "Property", click "Property Details"
+   - Copy the Property ID (just the number, e.g., `123456789`)
+
+2. **Store the Property ID:**
+
+   **With 1Password:**
+   ```bash
+   op item create \
+     --category="API Credential" \
+     --title="Google Analytics" \
+     --vault="DESIGN-OPS" \
+     'property_id=123456789'
+   ```
+
+   **Without 1Password:**
+   Add to `~/.zshrc`:
+   ```bash
+   export GA4_PROPERTY_ID="123456789"
+   ```
+
+3. **Reload shell:**
+   ```bash
+   source ~/.zshrc
+   ```
+
+4. **Verify:**
+   ```
+   /design-ops:validate
+   ```
+
+**Note:** You also need Google Workspace OAuth completed for GA4 to work.
+
+---
+
+### GitHub — 401 Unauthorized
+
+**Symptoms:**
+- Dashboard shows "GitHub — ⚠ Unauthorized"
+- Error: "401 Unauthorized" or "Bad credentials"
+
+**Fix Steps:**
+
+1. **Go to GitHub tokens:**
+   ```
+   https://github.com/settings/tokens
+   ```
+
+2. **Generate new token (classic):**
+   - Click "Generate new token" → "Generate new token (classic)"
+   - Note: `DESIGN-OPS`
+   - Expiration: Choose based on your preference
+   - Scopes: `repo` (full control of private repositories)
+   - Click "Generate token"
+   - Copy the token immediately (you won't see it again)
+
+3. **Store the token:**
+
+   **With 1Password:**
+   ```bash
+   op item create \
+     --category="API Credential" \
+     --title="GitHub Token" \
+     --vault="DESIGN-OPS" \
+     'credential=ghp_YOUR_TOKEN_HERE'
+   ```
+
+   **Without 1Password:**
+   Add to `~/.zshrc`:
+   ```bash
+   export GITHUB_TOKEN="ghp_YOUR_TOKEN_HERE"
+   ```
+
+4. **Reload shell:**
+   ```bash
+   source ~/.zshrc
+   ```
+
+5. **Verify:**
+   ```
+   /design-ops:validate
+   ```
+
+**Common pitfalls:**
+- Token expired — GitHub tokens can have expiration dates
+- Token revoked — Check if it appears in your token list
+- Wrong scope — Needs `repo` scope for private repos
+
+---
+
+### Dub.co — List Endpoint Not Available
+
+**Symptoms:**
+- Dashboard shows "Dub.co — ⚠ Limited"
+- Can create/update links but can't list them
+
+**Explanation:**
+This is an MCP limitation, not a bug. The Dub.co MCP supports creating, updating, and deleting links but may not support listing all links.
+
+**Workaround:**
+- Dashboard shows "limited" status for Dub.co
+- Link creation and updates still work
+- For full analytics, use the Dub.co web dashboard
+
+**No fix required** — this is expected behavior.
+
+---
+
+### General MCP Not Responding
+
+**Symptoms:**
+- Any tool shows "MCP not responding"
+- Timeout errors
+
+**Fix Steps:**
+
+1. **Check MCP is installed:**
+   ```bash
+   claude mcp list
+   ```
+
+2. **Restart Claude:**
+   ```bash
+   exit
+   claude
+   ```
+
+3. **If still failing, remove and re-add:**
+   ```bash
+   claude mcp remove {tool_name}
+   claude mcp add {tool_name} -- npx -y @{package}
+   ```
+
+4. **Check network:**
+   - Some MCPs require internet connectivity
+   - VPN or firewall may block connections
+
+5. **Verify:**
+   ```
+   /design-ops:validate
+   ```
+
+---
+
+### Running Validation After Fixes
+
+After applying any fix, always verify:
+
+```
+/design-ops:validate
+```
+
+If the tool shows ✓ Ready, the fix worked.
+
+If still failing, try:
+1. `/design-ops:validate --fix` for guided troubleshooting
+2. Check the specific error message for clues
+3. Open an issue if you're stuck
+
+---
+
 ## Still stuck?
 
 1. **Check the [GitHub Issues](https://github.com/opensesh/DESIGN-OPS/issues)** — your problem might already be solved
@@ -177,4 +539,5 @@ chmod -R 755 ~/.claude/plugins/design-ops
    - What happened
    - Your OS (Mac, Windows, Linux)
    - How you installed (Terminal or Claude Code)
+   - Output from `/design-ops:validate`
 3. **Email:** [hello@opensession.co](mailto:hello@opensession.co)
